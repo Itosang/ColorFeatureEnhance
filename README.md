@@ -4,30 +4,12 @@
 
 > ⚠️ 本应用 **需要 Root 权限** 才能正常读写系统配置文件，请确保目标设备已 Root。
 
-## ✨ 主要功能
+## App数据
 
-### 🎯 核心特性
-- **双模式编辑**：一键在 *App-Features* 与 *Oplus-Features* 模式之间切换
-- **智能配置管理**：支持模块化配置文件管理，兼容 OTA 更新，采用基线+补丁架构
-- **实时可视化**：按照「描述 → 分组 → 开关」层级展现所有特性，所见即所得
-- **搜索 & 高亮**：支持按名称/描述高速模糊搜索并自动高亮匹配关键字
-- **分组折叠**：同一描述的特性自动归为同组，可展开/折叠查看
-- **补丁状态显示**：直观显示特性的修改状态（新增/修改/删除）
+- 1.**持久化本地数据**
+- 2.**支持Magisk、KernelSu模块**
 
-### 🛠️ 编辑功能
-- **快速增删改**：长按列表项可删除，悬浮按钮（FAB）可新增，开关即改值
-- **复杂特性支持**：支持带参数和子节点的复杂特性配置
-- **文本编辑模式**：内置纯文本编辑器，可直接查看/编辑原始 XML
-- **配置合并**：智能合并系统基线配置与用户自定义补丁
-- **统一日志系统**：内置 CLog 日志管理，支持日志导出和调试
-
-### 🌐 用户体验
-- **国际化**：内置简体中文、英语双语支持
-- **数据持久化**：用户自定义描述映射持久保存
-- **模块集成**：内置 Magisk 模块，支持系统级配置应用
-- **示例配置**：仓库 `exampleConfig/` 提供参考 XML 和模块文件
-
-## 📂 项目架构
+## 项目架构
 
 ```text
 com.itosfish.colorfeatureenhance/
@@ -58,7 +40,7 @@ com.itosfish.colorfeatureenhance/
 └── MainActivity.kt            # 应用入口
 ```
 
-## 🏗️ 技术架构
+## 技术架构
 
 ### 分层架构
 | Layer | 关键职责 | 代表文件/目录 |
@@ -87,7 +69,7 @@ com.itosfish.colorfeatureenhance/
 - **多级回退**：支持系统基线 → 直接系统路径的多级配置源回退
 - **日志追踪**：完整的配置管理操作日志，便于问题排查
 
-## 🚀 编译与运行
+## 编译与运行
 
 ### 环境要求
 - **系统**: 支持任何基于 ColorOS 14/15 的系统，**需要 Root 权限**
@@ -120,7 +102,7 @@ com.itosfish.colorfeatureenhance/
 - **示例配置**：使用 `exampleConfig/` 中的示例文件快速体验
 - **手动导入**：将配置文件放置到应用的外部存储目录
 
-## 🛠️ 技术栈
+## 技术栈
 
 ### 核心技术
 - **开发语言**: Kotlin 2.0.21 (100% Kotlin)
@@ -149,7 +131,7 @@ com.itosfish.colorfeatureenhance/
 - **代码混淆**: ProGuard + R8 优化
 - **多架构支持**: ARM64-v8a
 
-## 🔧 使用说明
+## 使用说明
 
 ### 基本操作
 1. **切换模式**：点击顶部标签在 App-Features 和 Oplus-Features 模式间切换
@@ -164,7 +146,7 @@ com.itosfish.colorfeatureenhance/
 - **批量操作**：支持批量启用/禁用相关功能
 - **配置备份**：用户修改以补丁形式保存，便于恢复
 
-## 🤝 贡献指南
+## 贡献指南
 
 欢迎提交 Issue、Pull Request 或功能建议！
 
@@ -179,11 +161,9 @@ com.itosfish.colorfeatureenhance/
 - 确保有已 Root 的且搭载基于 ColorOS 14/15 的系统的设备用于测试
 - 熟悉 Magisk 模块开发（如需修改模块部分）
 
-## 🙏 致谢
+## 致谢
 
 - [Shizuku](https://github.com/RikkaApps/Shizuku) - 提供 关于弹窗 布局文件
-
-
 
 ## Activity
 ![Alt](https://repobeats.axiom.co/api/embed/5c0a87c2274bce91d5b9840f6a3c2bb791fb5ae9.svg "Repobeats analytics image")
