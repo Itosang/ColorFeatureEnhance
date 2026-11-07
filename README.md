@@ -7,7 +7,7 @@
 ## App数据
 
 - 1.**持久化本地数据**
-- 2.**支持Magisk、KernelSu模块**
+- 2.**支持Magisk、KernelSU模块**
 
 ## 项目架构
 
