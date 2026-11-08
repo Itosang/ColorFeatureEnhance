@@ -308,4 +308,16 @@
     <string name="disclaimer_exit">Exit App</string>
     <string name="disclaimer_scroll_hint">Please scroll to read the complete content</string>
     <string name="update_modules">force_update_modules</string>
+
+    <!-- OPLUS WiFi / fan / preload feature descriptions -->
+    <string name="oplus_feature_wlan_wifi6">[Soft] WiFi 6 support</string>
+    <string name="oplus_feature_wlan_game_chip">[Soft] WLAN gaming chip acceleration</string>
+    <string name="oplus_feature_wlan_dual_sta">[Soft] Dual Wi-Fi (Dual STA)</string>
+    <string name="oplus_feature_wlan_assistant">[Soft] WLAN assistant</string>
+    <string name="oplus_feature_wlan_dbs">[Soft] Dual-band simultaneous (DBS)</string>
+    <string name="oplus_feature_super_volume_4x">[Soft] Super volume (4x)</string>
+    <string name="oplus_feature_vip_preload">[Soft] VIP app preload</string>
+    <string name="oplus_feature_misc_fan_support">Cooling fan basic support</string>
+    <string name="oplus_feature_misc_fan_extra_v3_support">Fan v3 (Red Magic lighting UI)</string>
+    <string name="oplus_feature_misc_fan_fanservice_v2_support">Fan service v2</string>
 </resources>
