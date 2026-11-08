@@ -1,0 +1,381 @@
+# ColorFeatureEnhance — LLM 编写规则
+
+本文件约束所有参与本项目的 LLM / 自动化代码修改。规则优先级高于模型习惯、高于"项目里以前就是这么写的"。
+
+---
+
+## 1. 项目事实（写代码前必须先读）
+
+### 1.1 技术栈
+
+- Kotlin 2.0.21 + Jetpack Compose + Material 3
+- AGP 8.10.1，Gradle 8.11.1
+- 最低 Android 14（API 34），仅 arm64-v8a
+- Root 工具：Magisk / KernelSU / APatch
+- 包名：`com.itosfish.colorfeatureenhance`
+
+### 1.2 当前架构（不要再改回旧架构）
+
+配置**不再**经过补丁、基线、合并流程。
+
+```
+/data/adb/modules/ColorOSFeaturesEnhance/
+├── my_product/etc/extension/com.oplus.app-features.xml
+├── my_product/etc/extension/com.oplus.oplus-feature.xml
+├── my_region/etc/extension/com.oplus.oplus-feature.xml
+├── post-fs-data.sh          # 递归 bind mount
+├── customize.sh
+├── service.sh
+├── system.prop
+└── module.prop
+```
+
+- App 通过 root 直接读写模块目录中的 XML。
+- 新增/删除/修改特性 = 直接修改 XML。
+- `post-fs-data.sh` 把模块内的文件逐个 bind mount 到系统同路径。
+- 三份配置对应三种模式：
+
+| 模式 | 目标文件 |
+|---|---|
+| `FeatureMode.APP` | `my_product/etc/extension/com.oplus.app-features.xml` |
+| `FeatureMode.OPLUS` | `my_product/etc/extension/com.oplus.oplus-feature.xml` |
+| `FeatureMode.REGION` | `my_region/etc/extension/com.oplus.oplus-feature.xml` |
+
+### 1.3 严禁恢复的旧逻辑
+
+以下名称/目录/文件已经删除，禁止以任何理由重新引入：
+
+- `ConfigMergeManager`
+- `PatchColors`
+- `system_baseline/`
+- `user_patches/`
+- `merged_output/`
+- `copy.sh`
+- `temp_configs/`
+- `anymount/`
+- `*.patch.json`
+- "先复制系统配置到 App 目录，再合并，再同步"的流程
+
+如果任务看起来必须用到它们，先停下来向用户确认，不要自行恢复。
+
+### 1.4 关键文件职责
+
+| 文件 | 职责 |
+|---|---|
+| `utils/ModuleConfig.kt` | 模块路径、root 读写 XML、原始特性名快照 |
+| `utils/ConfigUtils.kt` | 模块安装、模块版本 |
+| `data/repository/XmlFeatureRepository.kt` | app-features XML 解析/写入 |
+| `data/repository/XmlOplusFeatureRepository.kt` | oplus XML 解析/写入 |
+| `ui/FeatureConfigScreen.kt` | 主界面、分区、增删改 |
+| `utils/DialogUtil.kt` | 添加/编辑对话框 |
+| `exampleConfig/mod/` | 模块模板，必须与 `assets/mod.zip` 同步 |
+
+---
+
+## 2. Kotlin / Compose 编码规范
+
+### 2.1 结构
+
+- 单个函数不超过约 40 行；超过就按职责拆分。
+- 逻辑嵌套最多 2 层；第 3 层必须提取函数或改守卫语句。
+- 优先早返回：
+
+```kotlin
+if (!file.exists()) return emptyList()
+```
+
+- 禁止嵌套三元表达式。
+- 禁止只有一个实现的接口、工厂、注册表、DI 容器；YAGNI 优先。
+
+### 2.2 命名
+
+- 函数：动词 + 名词，如 `loadFeatures`、`writeModuleConfig`。
+- 布尔值：`is` / `has` / `can` / `should` 前缀，如 `isInstalled`。
+- 禁止 `temp`、`tmp`、`data`、`result`、`value`、`item`、`obj`、`res` 作为最终变量名。
+- 循环下标除外，禁止单字母命名。
+- 不要写"只为立刻返回"的变量：
+
+```kotlin
+// 禁止
+val x = foo()
+return x
+
+// 正确
+return foo()
+```
+
+### 2.3 注释
+
+- 只写"为什么"，不写"做了什么"。
+- 禁止 `// 增加计数` 这种复述代码的注释。
+- 禁止 `// ---- helpers ----` 之类分节注释。
+- 禁止注释掉的死代码，直接删除。
+- 禁止保留 `TODO` 占位；要么实现，要么不写。
+
+### 2.4 错误处理
+
+- 禁止空 `catch`。
+- 禁止 `catch (e: Exception) { Log.e(...) }` 之后继续执行而不处理。
+- 错误必须在正确层级处理：
+  - UI 层：提示用户。
+  - Repository / 工具层：返回失败或抛出，由调用方决定。
+- 不允许在工具函数里 `exitProcess` 或静默吞异常。
+
+### 2.5 Compose
+
+- 不在组合过程中写状态；状态写入放在事件回调或 `LaunchedEffect`。
+- 不为强制重组写 `features = emptyList(); features = updated`。
+- 大列表使用 `LazyColumn`，不要把所有条目塞进一个 `Column`。
+- 可展开内容保留懒加载；不要为了动画一次性组合全部条目。
+- 字符串必须走 `strings.xml`，中英文都要补。
+- 不要硬编码中文到 UI。
+
+### 2.6 资源与文案
+
+- 新增 UI 文案必须同时修改：
+  - `app/src/main/res/values/strings.xml`
+  - `app/src/main/res/values-en/strings.xml`
+- 资源名使用小写下划线，例如 `feature_builtin_tag`。
+- 不要重复定义同名资源。
+
+---
+
+## 3. 防止"拉屎代码"和死代码
+
+### 3.1 判定标准
+
+以下任一情况视为不合格：
+
+- 声明了但没有任何调用方的类、函数、属性。
+- 只被另一段死代码调用的函数。
+- 功能删除后残留的字符串、资源、import、注释。
+- 同一段逻辑复制两份以上，只改了变量名。
+- 为一个需求新增整层抽象，但只有一个实现。
+- 为了"以后可能用到"而保留的代码。
+
+### 3.2 提交前必须检查
+
+```bash
+# 查找已废弃的旧架构符号
+rg -n "ConfigMergeManager|PatchColors|system_baseline|user_patches|merged_output|copy\\.sh|temp_configs|anymount" app/src/main
+
+# 查找未使用的 import（IDE 或 ktlint 均可）
+# 检查同名资源是否重复
+rg -n 'name="资源名"' app/src/main/res
+
+# 检查空白错误
+git diff --check
+```
+
+- 删除功能时，必须同时删除：实现、调用点、资源、字符串、import、测试、文档。
+- 不确定是否死代码时，用 `rg` 搜索整个 `app/src/main`，不要只搜当前文件。
+- 不允许把死代码留在注释里。
+
+### 3.3 本项目历史上的反面例子
+
+不要再出现：
+
+- 同一个"保存后重新加载"流程复制 5 遍。
+- `currentMode == APP` 的 if/else 在十几个地方重复；能收敛就收敛。
+- 空 `mapOf()` 加 `TODO` 占位。
+- `getBorderColor()`、`filterFeatures()`、`resetVersionInfo()` 这类无人调用的函数。
+- 注释掉的 `unzip()`、旧 UI 代码块。
+- 硬编码中文 Toast / 菜单项。
+
+---
+
+## 4. 项目专项规则
+
+### 4.1 配置读写
+
+- 所有配置读写必须走 `ModuleConfig`，不要在别处拼接模块路径。
+- App 进程没有直接写 `/data/adb/modules/...` 的权限，写入必须通过 `ModuleConfig.writeText` / `writePath`（内部使用 root）。
+- 读取通过 root `cat`，不要假设 App 能直接 `File.readText()` 模块文件。
+- 不要新增临时文件、备份目录、working 目录来"中转"配置。
+
+### 4.2 模块模板与 zip
+
+- 模块模板在 `exampleConfig/mod/`。
+- App 安装用的 zip 在 `app/src/main/assets/mod.zip`。
+- 修改模块脚本或配置后，必须重新生成 `mod.zip`，保持两者一致。
+- 生成 zip 时：
+  - `.sh` 和 `update-binary` 用 0755，其他文件 0644。
+  - 文本文件统一 LF，不要 CRLF。
+- `module.prop` 的 `id` 必须保持 `ColorOSFeaturesEnhance`。
+
+### 4.3 版本联动
+
+发布前必须同时更新：
+
+1. `app/build.gradle.kts` 的 `versionName`、`versionCode`
+2. `exampleConfig/mod/module.prop` 的 `version`、`versionCode`
+3. `utils/ConfigUtils.kt` 的 `LATEST_MODULE_VERSION`
+
+三者不一致视为未完成。
+
+### 4.4 模块更新策略
+
+- 模块已安装且版本不落后时，**不要**因为 App 版本变化重新安装模块。
+- 重新安装模块会用模块内置 XML 覆盖用户配置，属于破坏性操作。
+- 只有以下情况允许安装/更新模块：
+  - 模块未安装
+  - 已安装模块版本低于 `LATEST_MODULE_VERSION`
+  - 用户手动点击"更新模块"
+
+### 4.5 三模式与 my_region
+
+- `FeatureMode.REGION` 不是 `OPLUS` 的别名，两者目标文件不同。
+- 判断"是否为 App 模式"用 `currentMode == FeatureMode.APP`；其余模式按 OPLUS 语义处理时明确写条件。
+- `my_region` 在部分机型不存在，空列表是正常状态，不要报错弹窗。
+
+### 4.6 特性描述映射
+
+- 映射表在 `AppFeatureMappings.kt` 与 `OplusFeatureMappings.kt`。
+- 新增映射必须确认资源存在，并同时补中英文。
+- 不要凭猜测写特性名；必须来自真实 XML 或用户提供的清单。
+
+---
+
+## 5. 修改流程
+
+1. **先读代码**：读取目标文件全文，不要只看片段。
+2. **声明现状**：说明涉及哪些文件、函数、数据流。
+3. **最小 diff**：只改必要位置，不做顺手重构。
+4. **检查调用方**：改函数签名前搜索所有调用点。
+5. **构建验证**：能构建时必须构建；不能构建时在回复里明确说明原因与未验证项。
+6. **提交**：每完成一个可独立回滚的改动立即 commit，不要积攒混合改动。
+
+构建命令（需要 JDK 21）：
+
+```bash
+./gradlew :app:assembleDebug
+```
+
+如果本机只有 Java 8/25，使用 Android Studio 的 JBR 或 CI，不要声称"已编译通过"。
+
+---
+
+## 6. Commit 规范
+
+### 6.1 必须遵守
+
+- 每次修改都要 commit。
+- 一个 commit 只做一件事。
+- commit message 必须清楚描述"改了什么"，禁止 `fix`、`update`、`修改`、`优化` 这类模糊描述。
+- 中文描述，与仓库现有风格一致。
+- 不提交构建产物、密钥、`local.properties`、`signing.properties`、日志。
+
+### 6.2 推荐格式
+
+```text
+<动作> <对象>，<结果/原因>
+
+示例：
+为 OPLUS WiFi 6、超级音量 4x、VIP 预加载与散热风扇特性补充描述映射及中英文翻译
+修复 my_region 配置未写入模块目录的问题
+将特性列表拆分为系统自带与应用新增两个可折叠分区
+模块改为 my_product 与 my_region 递归 bind mount
+```
+
+### 6.3 禁止
+
+- 一次提交同时改 UI、模块、版本号、文档四件不相关的事。
+- 提交死代码后再用下一个 commit 删除。
+- `git add .` 前不检查 `git status`。
+- 提交用户的未完成改动。
+
+---
+
+## 7. Release 规范
+
+### 7.1 发布前检查
+
+- [ ] `versionName` / `versionCode` 已更新
+- [ ] `module.prop` 版本与 `LATEST_MODULE_VERSION` 已同步
+- [ ] `exampleConfig/mod` 与 `assets/mod.zip` 一致
+- [ ] 已构建 release APK，且不是 debug 签名
+- [ ] `git status` 干净，commits 已 push
+- [ ] README / 架构说明没有过期
+- [ ] 旧的补丁/合并符号已全部删除
+
+### 7.2 构建与签名
+
+- Release APK 必须使用正式签名，不能用 debug key。
+- debug APK 不能作为正式 Release 附件；签名不同，用户无法覆盖安装。
+- 没有正式 APK 时，只能发布说明或将 Release 标记为 Pre-release，并在正文写明"暂未附加 APK"。
+
+### 7.3 Tag 与发布命令
+
+```bash
+git push origin master
+gh release create vX.Y.Z \
+  --title "ColorOS 特性补全 vX.Y.Z" \
+  --notes-file release_notes.md \
+  --target master \
+  path/to/ColorFeatureEnhance-vX.Y.Z-release.apk
+```
+
+- Tag 格式：`v主版本.次版本.修订号`，例如 `v1.0.0`。
+- 正式版本不加 `--prerelease`；测试版必须加。
+
+### 7.4 Release Notes 必含章节
+
+1. 主要更新
+2. 界面
+3. 特性 / 映射
+4. 模块
+5. 修复
+6. 升级说明（重要）
+7. 贡献者
+
+升级说明必须写清楚：
+
+- 是否需要安装模块、是否需要重启
+- 旧配置/旧补丁是否迁移
+- 重新安装模块是否会覆盖配置
+- 是否附加 APK
+
+### 7.5 贡献者
+
+- 发布时必须列出贡献者。
+- 只写有效的 GitHub 用户名，格式 `@username`。
+- 写之前验证账号存在：
+
+```bash
+gh api users/<username> --jq .login
+```
+
+- 非 GitHub 用户（例如酷安用户）用纯文本标注，不要伪造 `@`。
+- 当前应列出的贡献者：
+  - `@Itosang`
+  - `@ItosEO`
+  - `@yangFenTuoZi`
+  - `@boxiaolanya2008`
+  - 酷安用户「盯干长安夜」（纯文本）
+
+### 7.6 禁止
+
+- 发布 debug 签名 APK。
+- Release 没有更新日志。
+- 更新日志只写 "fix bugs"。
+- 版本号只改一处。
+- 在 Release 中遗漏贡献者。
+- 未经确认把测试版标成正式版。
+
+---
+
+## 8. 最终自检
+
+提交或发布前逐条确认：
+
+- [ ] 没有恢复已删除的旧架构
+- [ ] 没有新增死代码
+- [ ] 没有复制粘贴整段重复逻辑
+- [ ] 没有硬编码 UI 文案
+- [ ] 中英文资源都补齐
+- [ ] 函数嵌套不超过 2 层
+- [ ] 错误没有被静默吞掉
+- [ ] 版本号三处一致
+- [ ] 模块模板与 zip 一致
+- [ ] commit message 能说明具体改动
+- [ ] Release 包含更新日志与贡献者
