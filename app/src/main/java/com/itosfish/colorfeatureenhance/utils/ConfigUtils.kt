@@ -360,12 +360,11 @@ object ConfigUtils {
             }
 
             val regionSource = File(configPaths.regionMergedOutputDir, configPaths.oplusFeaturesFile)
-            val regionBaseline = File(configPaths.regionBaselineDir, configPaths.oplusFeaturesFile)
-            if (regionBaseline.exists() && regionSource.exists()) {
+            if (regionSource.exists()) {
                 shellCmd.append(" && cp \"${regionSource.absolutePath}\" \"$regionDir/\"")
                 hasFilesToCopy = true
             } else {
-                CLog.w(TAG, "设备无 my_region 基线或区域配置未生成，跳过复制")
+                CLog.w(TAG, "区域配置不存在: ${regionSource.absolutePath}")
             }
 
             if (!hasFilesToCopy) {
