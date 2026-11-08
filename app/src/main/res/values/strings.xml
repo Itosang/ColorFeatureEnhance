@@ -379,4 +379,9 @@
     <string name="oplus_feature_misc_fan_support">散热风扇基础支持</string>
     <string name="oplus_feature_misc_fan_extra_v3_support">风扇 v3（红魔灯效 UI）</string>
     <string name="oplus_feature_misc_fan_fanservice_v2_support">风扇服务 v2</string>
+
+    <!-- 特性分区 -->
+    <string name="section_system_features">系统自带</string>
+    <string name="section_app_added_features">应用新增</string>
+    <string name="section_feature_count">%1$d 项</string>
 </resources>

@@ -320,4 +320,9 @@
     <string name="oplus_feature_misc_fan_support">Cooling fan basic support</string>
     <string name="oplus_feature_misc_fan_extra_v3_support">Fan v3 (Red Magic lighting UI)</string>
     <string name="oplus_feature_misc_fan_fanservice_v2_support">Fan service v2</string>
+
+    <!-- Feature sections -->
+    <string name="section_system_features">System built-in</string>
+    <string name="section_app_added_features">App-added</string>
+    <string name="section_feature_count">%1$d items</string>
 </resources>

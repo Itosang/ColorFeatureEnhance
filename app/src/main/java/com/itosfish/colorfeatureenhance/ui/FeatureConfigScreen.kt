@@ -3,6 +3,7 @@ package com.itosfish.colorfeatureenhance.ui
 import android.util.Log
 import androidx.activity.compose.BackHandler
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,8 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.KeyboardArrowDown
+import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -66,6 +69,13 @@ import com.itosfish.colorfeatureenhance.ui.theme.PatchColors
 import com.itosfish.colorfeatureenhance.utils.AddFeatureDialog
 import com.itosfish.colorfeatureenhance.utils.EditFeatureDialog
 import kotlinx.coroutines.launch
+
+private enum class FeatureSection { SYSTEM, APP_ADDED }
+
+private sealed interface FeatureListEntry {
+    data class Header(val section: FeatureSection, val count: Int) : FeatureListEntry
+    data class Group(val group: FeatureGroup) : FeatureListEntry
+}
 
 @Composable
 fun FeatureConfigScreen(
@@ -139,6 +149,10 @@ fun FeatureConfigScreen(
     // 搜索相关状态
     var isSearchActive by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
+
+    // 分区展开状态，默认收起
+    var isSystemSectionExpanded by remember { mutableStateOf(false) }
+    var isAppSectionExpanded by remember { mutableStateOf(false) }
     
     // 当搜索栏展开时拦截系统返回键，先关闭搜索栏而非退出界面
     BackHandler(enabled = isSearchActive) {
@@ -152,6 +166,56 @@ fun FeatureConfigScreen(
             featureGroups
         } else {
             SearchLogic.filterFeatureGroups(featureGroups, searchQuery, context, currentMode)
+        }
+    }
+
+    val isSearching = searchQuery.isNotBlank()
+
+    // 补丁动作为 ADD 的特性归入“应用新增”分区
+    val appAddedFeatureNames = remember(patchActions) {
+        patchActions.filterValues { it == ConfigMergeManager.PatchAction.ADD }.keys
+    }
+
+    val (appAddedGroups, systemGroups) = remember(displayedFeatureGroups, appAddedFeatureNames) {
+        displayedFeatureGroups.partition { group ->
+            group.features.all { it.name in appAddedFeatureNames }
+        }
+    }
+
+    fun featureGroupKey(group: FeatureGroup): String {
+        val firstFeature = group.features.first()
+        val description = if (currentMode == FeatureMode.APP) {
+            AppFeatureMappings.getLocalizedDescription(context, firstFeature.name)
+        } else {
+            OplusFeatureMappings.getLocalizedDescription(context, firstFeature.name)
+        }
+
+        return if (group.nameResId == R.string.feature_unknown && description == firstFeature.name) {
+            "unknown_${firstFeature.name}_$refreshTrigger"
+        } else {
+            "desc_${description}_$refreshTrigger"
+        }
+    }
+
+    val listEntries: List<FeatureListEntry> = remember(
+        systemGroups,
+        appAddedGroups,
+        isSystemSectionExpanded,
+        isAppSectionExpanded,
+        isSearching
+    ) {
+        buildList {
+            if (systemGroups.isEmpty() && appAddedGroups.isEmpty()) return@buildList
+
+            add(FeatureListEntry.Header(FeatureSection.SYSTEM, systemGroups.size))
+            if (isSystemSectionExpanded || isSearching) {
+                systemGroups.forEach { add(FeatureListEntry.Group(it)) }
+            }
+
+            add(FeatureListEntry.Header(FeatureSection.APP_ADDED, appAddedGroups.size))
+            if (isAppSectionExpanded || isSearching) {
+                appAddedGroups.forEach { add(FeatureListEntry.Group(it)) }
+            }
         }
     }
 
@@ -232,131 +296,146 @@ fun FeatureConfigScreen(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp)
         ) {
-            items(displayedFeatureGroups, key = {
-                // 使用与分组相同的逻辑生成key
-                val firstFeature = it.features.first()
-                val description = if (currentMode == FeatureMode.APP) {
-                    AppFeatureMappings.getLocalizedDescription(context, firstFeature.name)
-                } else {
-                    OplusFeatureMappings.getLocalizedDescription(context, firstFeature.name)
+            items(listEntries, key = { entry ->
+                when (entry) {
+                    is FeatureListEntry.Header -> "section_${entry.section.name}"
+                    is FeatureListEntry.Group -> featureGroupKey(entry.group)
                 }
-                
-                if (it.nameResId == R.string.feature_unknown && 
-                    description == firstFeature.name) {
-                    "unknown_${firstFeature.name}_$refreshTrigger"
-                } else {
-                    "desc_${description}_$refreshTrigger"
-                }
-            }) { group ->
-                FeatureGroupItem(
-                    currentMode = currentMode,
-                    group = group,
-                    searchQuery = searchQuery,
-                    patchAction = patchActions[group.features.first().name],
-                    onToggle = { updatedGroup ->
-                        // 更新组内所有特性的状态
-                        val updatedFeatures = features.map { feature ->
-                            val shouldUpdate = updatedGroup.features.any { it.name == feature.name }
-                            if (shouldUpdate) feature.copy(enabled = updatedGroup.isEnabled) else feature
-                        }
-                        // 强制触发重组，确保UI立即更新
-                        features = emptyList()
-                        features = updatedFeatures
-
-                        // 异步保存并重新加载
-                        scope.launch {
-                            repository.saveFeatures(configPath, updatedFeatures)
-
-                            // 重新加载配置文件以获取最新的合并结果
-                            val reloadedFeatures = repository.loadFeatures(configPath)
-                            features = reloadedFeatures
-
-                            // 更新补丁状态
-                            if (reloadedFeatures.isNotEmpty()) {
-                                val featureNames = reloadedFeatures.map { it.name }
-                                patchActions = ConfigMergeManager.getFeaturesPatchActions(
-                                    featureNames,
-                                    currentMode == FeatureMode.APP
-                                )
+            }) { entry ->
+                when (entry) {
+                    is FeatureListEntry.Header -> FeatureSectionHeader(
+                        title = stringResource(
+                            id = when (entry.section) {
+                                FeatureSection.SYSTEM -> R.string.section_system_features
+                                FeatureSection.APP_ADDED -> R.string.section_app_added_features
                             }
-
-                            // 触发UI刷新
-                            refreshTrigger++
-                        }
-                    },
-                    onLongPress = {
-                        // 仅允许删除用户新增的特性
-                        val firstName = group.features.first().name
-                        val action = patchActions[firstName]
-                        Log.d("FeatureDelete", "LongPress: name=$firstName, mode=$currentMode, action=$action")
-
-                        if (currentMode == FeatureMode.OPLUS) {
-                            // OPLUS 模式下仍维持原有逻辑
-                            if (action == ConfigMergeManager.PatchAction.ADD) {
-                                groupToDelete = group
+                        ),
+                        count = entry.count,
+                        isExpanded = when (entry.section) {
+                            FeatureSection.SYSTEM -> isSystemSectionExpanded || isSearching
+                            FeatureSection.APP_ADDED -> isAppSectionExpanded || isSearching
+                        },
+                        onToggle = {
+                            when (entry.section) {
+                                FeatureSection.SYSTEM -> isSystemSectionExpanded = !isSystemSectionExpanded
+                                FeatureSection.APP_ADDED -> isAppSectionExpanded = !isAppSectionExpanded
                             }
-                        } else {
-                            // APP 模式
-                            when (action) {
-                                ConfigMergeManager.PatchAction.REMOVE -> {
-                                    // 已删除状态 -> 恢复（移除补丁）
-                                    scope.launch {
-                                        // 1. 读取系统基线，找到原始特性
-                                        val configPaths = com.itosfish.colorfeatureenhance.utils.ConfigUtils.getConfigPaths()
-                                        val baselineFile = java.io.File(configPaths.systemBaselineDir, configPaths.appFeaturesFile)
-                                        val baselineList = if (baselineFile.exists()) {
-                                            XmlFeatureRepository().loadFeatures(baselineFile.absolutePath)
-                                        } else emptyList()
+                        }
+                    )
 
-                                        // 2. 生成恢复后的列表
-                                        val restoredFeatures = features.map { ft ->
-                                            if (group.features.any { it.name == ft.name }) {
-                                                baselineList.find { it.name == ft.name } ?: ft.copy(enabled = true)
-                                            } else ft
+                    is FeatureListEntry.Group -> {
+                        val group = entry.group
+                        FeatureGroupItem(
+                            currentMode = currentMode,
+                            group = group,
+                            searchQuery = searchQuery,
+                            patchAction = patchActions[group.features.first().name],
+                            onToggle = { updatedGroup ->
+                                // 更新组内所有特性的状态
+                                val updatedFeatures = features.map { feature ->
+                                    val shouldUpdate = updatedGroup.features.any { it.name == feature.name }
+                                    if (shouldUpdate) feature.copy(enabled = updatedGroup.isEnabled) else feature
+                                }
+                                // 强制触发重组，确保UI立即更新
+                                features = emptyList()
+                                features = updatedFeatures
+
+                                // 异步保存并重新加载
+                                scope.launch {
+                                    repository.saveFeatures(configPath, updatedFeatures)
+
+                                    // 重新加载配置文件以获取最新的合并结果
+                                    val reloadedFeatures = repository.loadFeatures(configPath)
+                                    features = reloadedFeatures
+
+                                    // 更新补丁状态
+                                    if (reloadedFeatures.isNotEmpty()) {
+                                        val featureNames = reloadedFeatures.map { it.name }
+                                        patchActions = ConfigMergeManager.getFeaturesPatchActions(
+                                            featureNames,
+                                            currentMode == FeatureMode.APP
+                                        )
+                                    }
+
+                                    // 触发UI刷新
+                                    refreshTrigger++
+                                }
+                            },
+                            onLongPress = {
+                                // 仅允许删除用户新增的特性
+                                val firstName = group.features.first().name
+                                val action = patchActions[firstName]
+                                Log.d("FeatureDelete", "LongPress: name=$firstName, mode=$currentMode, action=$action")
+
+                                if (currentMode == FeatureMode.OPLUS) {
+                                    // OPLUS 模式下仍维持原有逻辑
+                                    if (action == ConfigMergeManager.PatchAction.ADD) {
+                                        groupToDelete = group
+                                    }
+                                } else {
+                                    // APP 模式
+                                    when (action) {
+                                        ConfigMergeManager.PatchAction.REMOVE -> {
+                                            // 已删除状态 -> 恢复（移除补丁）
+                                            scope.launch {
+                                                // 1. 读取系统基线，找到原始特性
+                                                val configPaths = com.itosfish.colorfeatureenhance.utils.ConfigUtils.getConfigPaths()
+                                                val baselineFile = java.io.File(configPaths.systemBaselineDir, configPaths.appFeaturesFile)
+                                                val baselineList = if (baselineFile.exists()) {
+                                                    XmlFeatureRepository().loadFeatures(baselineFile.absolutePath)
+                                                } else emptyList()
+
+                                                // 2. 生成恢复后的列表
+                                                val restoredFeatures = features.map { ft ->
+                                                    if (group.features.any { it.name == ft.name }) {
+                                                        baselineList.find { it.name == ft.name } ?: ft.copy(enabled = true)
+                                                    } else ft
+                                                }
+
+                                                // 3. 更新 UI
+                                                features = emptyList()
+                                                features = restoredFeatures
+
+                                                // 4. 保存补丁并重新合并
+                                                repository.saveFeatures(configPath, restoredFeatures)
+
+                                                // 5. 重新加载最终配置
+                                                val reloaded = repository.loadFeatures(configPath)
+                                                features = reloaded
+
+                                                if (reloaded.isNotEmpty()) {
+                                                    val names = reloaded.map { it.name }
+                                                    patchActions = ConfigMergeManager.getFeaturesPatchActions(
+                                                        names,
+                                                        true
+                                                    )
+                                                }
+                                                refreshTrigger++
+                                            }
                                         }
-
-                                        // 3. 更新 UI
-                                        features = emptyList()
-                                        features = restoredFeatures
-
-                                        // 4. 保存补丁并重新合并
-                                        repository.saveFeatures(configPath, restoredFeatures)
-
-                                        // 5. 重新加载最终配置
-                                        val reloaded = repository.loadFeatures(configPath)
-                                        features = reloaded
-
-                                        if (reloaded.isNotEmpty()) {
-                                            val names = reloaded.map { it.name }
-                                            patchActions = ConfigMergeManager.getFeaturesPatchActions(
-                                                names,
-                                                true
-                                            )
+                                        else -> {
+                                            // 其余情况仍弹出删除确认
+                                            groupToDelete = group
                                         }
-                                        refreshTrigger++
                                     }
                                 }
-                                else -> {
-                                    // 其余情况仍弹出删除确认
-                                    groupToDelete = group
+                            },
+                            onClick = {
+                                if (group.features.size == 1) {
+                                    // 检查是否为复杂特性
+                                    val feature = group.features.first()
+                                    featureToEdit = feature to if (currentMode == FeatureMode.APP) {
+                                        AppFeatureMappings.getLocalizedDescription(context, feature.name)
+                                    } else {
+                                        OplusFeatureMappings.getLocalizedDescription(context, feature.name)
+                                    }
+                                } else {
+                                    chooseFromGroup = group
                                 }
                             }
-                        }
-                    },
-                    onClick = {
-                        if (group.features.size == 1) {
-                            // 检查是否为复杂特性
-                            val feature = group.features.first()
-                            featureToEdit = feature to if (currentMode == FeatureMode.APP) {
-                                AppFeatureMappings.getLocalizedDescription(context, feature.name)
-                            } else {
-                                OplusFeatureMappings.getLocalizedDescription(context, feature.name)
-                            }
-                        } else {
-                            chooseFromGroup = group
-                        }
+                        )
                     }
-                )
+                }
             }
             // 显示空结果提示
             if (displayedFeatureGroups.isEmpty()) {
@@ -396,6 +475,9 @@ fun FeatureConfigScreen(
                     // 强制触发重组，确保UI立即更新
                     features = emptyList()
                     features = newList
+
+                    // 新增特性归入“应用新增”分区，展开以便立即看到
+                    isAppSectionExpanded = true
 
                     // 保存到文件并重新加载
                     scope.launch {
@@ -579,6 +661,57 @@ fun FeatureConfigScreen(
                     }
                 }
             )
+        }
+    }
+}
+
+@Composable
+private fun FeatureSectionHeader(
+    title: String,
+    count: Int,
+    isExpanded: Boolean,
+    onToggle: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onToggle),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant
+        ),
+        shape = RoundedCornerShape(20.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp, vertical = 15.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Text(
+                    text = stringResource(R.string.section_feature_count, count),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
+                )
+                Icon(
+                    imageVector = if (isExpanded) {
+                        Icons.Filled.KeyboardArrowUp
+                    } else {
+                        Icons.Filled.KeyboardArrowDown
+                    },
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(start = 8.dp)
+                )
+            }
         }
     }
 }
