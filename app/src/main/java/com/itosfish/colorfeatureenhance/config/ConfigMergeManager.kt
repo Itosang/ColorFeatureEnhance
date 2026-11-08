@@ -48,19 +48,29 @@ object ConfigMergeManager {
             }
 
             // 合并 app-features.xml
-            mergeAppFeatures()
+            val isAppMerged = runMerge("app-features.xml") { mergeAppFeatures() }
 
             // 合并 my_product 的 oplus-feature.xml
-            mergeOplusFeatures()
+            val isOplusMerged = runMerge("my_product oplus-feature.xml") { mergeOplusFeatures() }
 
             // 合并 my_region 的 oplus-feature.xml
-            mergeRegionFeatures()
+            val isRegionMerged = runMerge("my_region oplus-feature.xml") { mergeRegionFeatures() }
 
-            CLog.i(TAG, "所有配置文件合并完成")
-            return@withContext true
+            CLog.i(TAG, "配置合并结果: app=$isAppMerged, product=$isOplusMerged, region=$isRegionMerged")
+            return@withContext isAppMerged && isOplusMerged && isRegionMerged
         } catch (e: Exception) {
             CLog.e(TAG, "配置合并失败", e)
             return@withContext false
+        }
+    }
+
+    private fun runMerge(name: String, merge: () -> Unit): Boolean {
+        return try {
+            merge()
+            true
+        } catch (e: Exception) {
+            CLog.e(TAG, "$name 合并失败", e)
+            false
         }
     }
     

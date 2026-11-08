@@ -119,13 +119,9 @@ class XmlOplusFeatureRepository(private val isRegion: Boolean = false) : Feature
         val mergeSuccess = ConfigMergeManager.performConfigMerge()
         Log.i("XmlOplusFeatureRepository", "配置合并结果: $mergeSuccess")
 
-        // 如果合并成功，复制到模块目录
-        if (mergeSuccess) {
-            val copySuccess = ConfigUtils.copyMergedConfigToModule()
-            Log.i("XmlOplusFeatureRepository", "复制到模块目录结果: $copySuccess")
-        } else {
-            Log.e("XmlOplusFeatureRepository", "配置合并失败，跳过复制到模块目录")
-        }
+        // 合并结果中已有的文件都同步到模块目录，避免单个文件失败导致其他文件不同步
+        val copySuccess = ConfigUtils.copyMergedConfigToModule()
+        Log.i("XmlOplusFeatureRepository", "复制到模块目录结果: $copySuccess")
     }
 
     /**
