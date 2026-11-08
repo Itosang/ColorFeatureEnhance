@@ -9,11 +9,26 @@ import com.itosfish.colorfeatureenhance.R
 class AppFeatureMappings private constructor() {
 
     /**
-     * Map of feature name to Chinese description.
-     * 表数据已全量清空，等待新数据全量重写
+     * App feature name -> string resId
      */
     val NAME_TO_RES_ID: Map<String, Int> = mapOf(
-        // TODO: 待填入新的 feature 表数据
+        // WLAN / WiFi
+        "oplus.software.wlan.wifi6" to R.string.oplus_feature_wlan_wifi6,
+        "oplus.software.wlan.game_chip" to R.string.oplus_feature_wlan_game_chip,
+        "oplus.software.wlan.dual_sta" to R.string.oplus_feature_wlan_dual_sta,
+        "oplus.software.wlan.assistant" to R.string.oplus_feature_wlan_assistant,
+        "oplus.software.wlan.dbs" to R.string.oplus_feature_wlan_dbs,
+
+        // 音频
+        "oplus.software.audio.super_volume_4x" to R.string.oplus_feature_super_volume_4x,
+
+        // 预加载
+        "oplus.software.vip_preload" to R.string.oplus_feature_vip_preload,
+
+        // 散热风扇
+        "oplus.misc.fan.support" to R.string.oplus_feature_misc_fan_support,
+        "oplus.misc.fan.extra_v3.support" to R.string.oplus_feature_misc_fan_extra_v3_support,
+        "oplus.misc.fan.fanservice_v2.support" to R.string.oplus_feature_misc_fan_fanservice_v2_support
     )
 
     /**
