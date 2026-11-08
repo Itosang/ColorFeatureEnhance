@@ -100,6 +100,7 @@ class XmlOplusFeatureRepository(private val isRegion: Boolean = false) : Feature
         }
 
         Log.i("XmlOplusFeatureRepository", "开始保存 oplus 特性配置（region=$isRegion），原始特性数量: ${originalOplusFeatures.size}, 修改后特性数量: ${features.size}")
+        Log.i("XmlOplusFeatureRepository", "补丁文件: ${getPatchFileName(configPaths)}")
 
         // 将AppFeature转换为OplusFeature
         // oplus开关控制删除：enabled=true保留特性，enabled=false删除特性

@@ -37,9 +37,9 @@
     <string name="preset_mapping_match_message">This feature already has a preset description. The system preset will be used instead of custom description.</string>
     <string name="edit_feature">Edit Feature</string>
     <string name="select_feature_to_edit">Select feature to edit</string>
-    <string name="mode_app">App Features</string>
-    <string name="mode_oplus">Oplus Features</string>
-    <string name="mode_region">Region Features</string>
+    <string name="mode_app">App · app-features</string>
+    <string name="mode_oplus">Oplus · my_product</string>
+    <string name="mode_region">Oplus · my_region</string>
 
     <!-- Cloud configuration related strings -->
     <string name="cloud_config_update_success">Cloud configuration updated successfully</string>
