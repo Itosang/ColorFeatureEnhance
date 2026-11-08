@@ -1,23 +1,22 @@
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="108dp"
     android:height="108dp"
-    android:viewportWidth="1024"
-    android:viewportHeight="1024">
-  <group android:scaleX="0.63306123"
-      android:scaleY="0.63306123"
-      android:translateX="187.87265"
-      android:translateY="187.87265">
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- 上排开关轨道 -->
     <path
-        android:pathData="M486.6,973.8L102.4,754.3v-469L512,51.2l409.6,234v336.9h-102.4V344.7l-307.2,-175.6 -307.2,175.6v350.1l332.6,190.1 -50.8,88.9z"
-        android:fillColor="#2c2c2c"/>
+        android:fillColor="#33FFFFFF"
+        android:pathData="M38,36h32a8,8 0 0 1 0,16h-32a8,8 0 0 1 0,-16z" />
+    <!-- 上排开关滑块 -->
     <path
-        android:pathData="M855,256l51.2,88.7 -372.5,215 -1.9,3.3L153.6,344.7 204.8,256l325.1,187.6L855,256z"
-        android:fillColor="#2c2c2c"/>
+        android:fillColor="#FFFFFF"
+        android:pathData="M66,38a6,6 0 1 0 0,12a6,6 0 1 0 0,-12z" />
+    <!-- 下排开关轨道 -->
     <path
-        android:pathData="M476.2,665.6l102.4,51.2v-204.8h-102.4v153.6z"
-        android:fillColor="#2c2c2c"/>
+        android:fillColor="#33FFFFFF"
+        android:pathData="M38,56h32a8,8 0 0 1 0,16h-32a8,8 0 0 1 0,-16z" />
+    <!-- 下排开关滑块 -->
     <path
-        android:pathData="M849.8,691.2l76.8,133 -76.8,133h-153.6l-76.8,-133 76.8,-133h153.6z"
-        android:fillColor="#3578FF"/>
-  </group>
+        android:fillColor="#FFFFFF"
+        android:pathData="M42,58a6,6 0 1 0 0,12a6,6 0 1 0 0,-12z" />
 </vector>
