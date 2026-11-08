@@ -374,6 +374,7 @@ object ConfigUtils {
 
             CSU.runWithSu(shellCmd.toString())
             setModulePermissions(moduleBase)
+            syncMergedConfigToSystem(configPaths)
 
             val isProductCopied = CSU.fileExists("$productDir/${configPaths.appFeaturesFile}") ||
                 CSU.fileExists("$productDir/${configPaths.oplusFeaturesFile}")
@@ -385,6 +386,31 @@ object ConfigUtils {
             CLog.e(TAG, "复制配置到模块目录时发生异常", e)
             false
         }
+    }
+
+    /**
+     * 同时直接写入系统路径，避免未挂载时看不到新配置
+     */
+    private fun syncMergedConfigToSystem(configPaths: ConfigPaths) {
+        val copies = listOf(
+            File(configPaths.mergedOutputDir, configPaths.appFeaturesFile) to
+                "/my_product/etc/extension/${configPaths.appFeaturesFile}",
+            File(configPaths.mergedOutputDir, configPaths.oplusFeaturesFile) to
+                "/my_product/etc/extension/${configPaths.oplusFeaturesFile}",
+            File(configPaths.regionMergedOutputDir, configPaths.oplusFeaturesFile) to
+                "/my_region/etc/extension/${configPaths.oplusFeaturesFile}"
+        ).filter { (source, _) -> source.exists() }
+
+        if (copies.isEmpty()) {
+            CLog.w(TAG, "没有可写入系统路径的合并配置")
+            return
+        }
+
+        val command = copies.joinToString(" ; ") { (source, target) ->
+            "cp \"${source.absolutePath}\" \"$target\" 2>&1 ; chmod 644 \"$target\" 2>/dev/null"
+        }
+        val result = CSU.runWithSu(command)
+        CLog.i(TAG, "直接写入系统路径: exit=${result.exitCode}, output=${result.output}")
     }
 
     /**
