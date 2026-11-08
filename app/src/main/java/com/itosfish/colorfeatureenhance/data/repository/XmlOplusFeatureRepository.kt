@@ -5,6 +5,7 @@ import android.util.Xml
 import com.itosfish.colorfeatureenhance.config.ConfigMergeManager
 import com.itosfish.colorfeatureenhance.data.model.AppFeature
 import com.itosfish.colorfeatureenhance.data.model.FeatureSubNode
+import com.itosfish.colorfeatureenhance.data.model.OplusFeatureMappings
 import com.itosfish.colorfeatureenhance.domain.FeatureRepository
 import com.itosfish.colorfeatureenhance.utils.CLog
 import com.itosfish.colorfeatureenhance.utils.ConfigUtils
@@ -74,6 +75,15 @@ class XmlOplusFeatureRepository(private val isRegion: Boolean = false) : Feature
                 }
                 finalFeatures.add(appFeature)
             }
+        }
+
+        // App 内置但当前配置中不存在的特性，也展示到“应用新增”里，默认关闭
+        if (systemBaselineFile.exists()) {
+            val existingNames = finalFeatures.mapTo(mutableSetOf()) { it.name }
+            OplusFeatureMappings.getInstance().getBuiltInNames()
+                .filterNot { it in existingNames }
+                .sorted()
+                .forEach { name -> finalFeatures.add(AppFeature(name, enabled = false)) }
         }
 
         finalFeatures
