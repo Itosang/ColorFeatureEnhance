@@ -89,6 +89,12 @@ object ModuleAutoUpdater {
      * 只要应用版本发生变化（更新、降级、首次启动），就更新模块
      */
     private fun shouldUpdateModuleBasedOnAppVersion(versionInfo: AppVersionManager.VersionInfo): Boolean {
+        val installedVersion = ConfigUtils.moduleVersion
+        if (installedVersion < ConfigUtils.LATEST_MODULE_VERSION) {
+            CLog.i(TAG, "模块版本 $installedVersion 低于 ${ConfigUtils.LATEST_MODULE_VERSION}，需要更新")
+            return true
+        }
+
         return when (versionInfo.changeType) {
             AppVersionManager.VersionChangeType.FIRST_LAUNCH -> {
                 CLog.i(TAG, "首次启动，需要安装模块")
