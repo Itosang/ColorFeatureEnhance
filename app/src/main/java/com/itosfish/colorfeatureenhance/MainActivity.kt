@@ -29,6 +29,7 @@ import com.itosfish.colorfeatureenhance.utils.ModuleAutoUpdater
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -143,6 +144,10 @@ class MainActivity : ComponentActivity() {
                     val mergeSuccess = ConfigMergeManager.performConfigMerge()
                     if (mergeSuccess) {
                         CLog.i("MainActivity", "配置合并完成")
+                        val isSynced = withContext(Dispatchers.IO) {
+                            ConfigUtils.copyMergedConfigToModule()
+                        }
+                        CLog.i("MainActivity", "配置同步到模块目录: $isSynced")
                     } else {
                         CLog.w("MainActivity", "配置合并失败")
                     }
