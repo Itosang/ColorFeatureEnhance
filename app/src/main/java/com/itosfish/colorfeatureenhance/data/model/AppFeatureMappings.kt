@@ -105,6 +105,11 @@ class AppFeatureMappings private constructor() {
     fun getResId(featureName: String): Int = NAME_TO_RES_ID[featureName] ?: R.string.feature_unknown
 
     /**
+     * 是否为应用内置映射中的特性。
+     */
+    fun isBuiltInFeature(featureName: String): Boolean = NAME_TO_RES_ID.containsKey(featureName)
+
+    /**
      * 保存用户自定义映射
      */
     fun saveUserMapping(context: Context, name: String, description: String) {

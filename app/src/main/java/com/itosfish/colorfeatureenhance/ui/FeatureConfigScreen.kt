@@ -3,8 +3,11 @@ package com.itosfish.colorfeatureenhance.ui
 import android.util.Log
 import androidx.activity.compose.BackHandler
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -23,7 +26,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -45,6 +47,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -171,9 +174,21 @@ fun FeatureConfigScreen(
 
     val isSearching = searchQuery.isNotBlank()
 
-    // 补丁动作为 ADD 的特性归入“应用新增”分区
-    val appAddedFeatureNames = remember(patchActions) {
-        patchActions.filterValues { it == ConfigMergeManager.PatchAction.ADD }.keys
+    // “应用新增”包含用户手动添加的特性，以及 App 内置映射表中的特性
+    val appAddedFeatureNames = remember(features, patchActions, currentMode) {
+        val userAddedNames = patchActions
+            .filterValues { it == ConfigMergeManager.PatchAction.ADD }
+            .keys
+        val builtInNames = features
+            .map { it.name }
+            .filterTo(mutableSetOf()) { name ->
+                if (currentMode == FeatureMode.APP) {
+                    AppFeatureMappings.getInstance().isBuiltInFeature(name)
+                } else {
+                    OplusFeatureMappings.getInstance().isBuiltInFeature(name)
+                }
+            }
+        userAddedNames + builtInNames
     }
 
     val (appAddedGroups, systemGroups) = remember(displayedFeatureGroups, appAddedFeatureNames) {
@@ -320,7 +335,8 @@ fun FeatureConfigScreen(
                                 FeatureSection.SYSTEM -> isSystemSectionExpanded = !isSystemSectionExpanded
                                 FeatureSection.APP_ADDED -> isAppSectionExpanded = !isAppSectionExpanded
                             }
-                        }
+                        },
+                        modifier = Modifier.animateItem()
                     )
 
                     is FeatureListEntry.Group -> {
@@ -432,7 +448,8 @@ fun FeatureConfigScreen(
                                 } else {
                                     chooseFromGroup = group
                                 }
-                            }
+                            },
+                            modifier = Modifier.animateItem()
                         )
                     }
                 }
@@ -670,12 +687,32 @@ private fun FeatureSectionHeader(
     title: String,
     count: Int,
     isExpanded: Boolean,
-    onToggle: () -> Unit
+    onToggle: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val scale by animateFloatAsState(
+        targetValue = if (isPressed) 0.97f else 1f,
+        label = "sectionScale"
+    )
+    val arrowRotation by animateFloatAsState(
+        targetValue = if (isExpanded) 180f else 0f,
+        label = "sectionArrowRotation"
+    )
+
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
-            .clickable(onClick = onToggle),
+            .graphicsLayer {
+                scaleX = scale
+                scaleY = scale
+            }
+            .clickable(
+                interactionSource = interactionSource,
+                indication = null,
+                onClick = onToggle
+            ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surfaceVariant
         ),
@@ -702,14 +739,12 @@ private fun FeatureSectionHeader(
                     color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
                 )
                 Icon(
-                    imageVector = if (isExpanded) {
-                        Icons.Filled.KeyboardArrowUp
-                    } else {
-                        Icons.Filled.KeyboardArrowDown
-                    },
+                    imageVector = Icons.Filled.KeyboardArrowDown,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(start = 8.dp)
+                    modifier = Modifier
+                        .padding(start = 8.dp)
+                        .graphicsLayer { rotationZ = arrowRotation }
                 )
             }
         }
@@ -724,10 +759,11 @@ private fun FeatureGroupItem(
     onLongPress: () -> Unit,
     onClick: () -> Unit,
     searchQuery: String = "",
-    patchAction: ConfigMergeManager.PatchAction? = null
+    patchAction: ConfigMergeManager.PatchAction? = null,
+    modifier: Modifier = Modifier
 ) {
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .combinedClickable(
                 onClick = onClick,

@@ -123,4 +123,9 @@ class OplusFeatureMappings private constructor() {
     }
 
     fun getResId(name: String): Int = NAME_TO_RES_ID[name] ?: R.string.feature_unknown
+
+    /**
+     * 是否为应用内置映射中的特性。
+     */
+    fun isBuiltInFeature(name: String): Boolean = NAME_TO_RES_ID.containsKey(name)
 } 
