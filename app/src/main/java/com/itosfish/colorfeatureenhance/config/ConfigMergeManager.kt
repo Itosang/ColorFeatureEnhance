@@ -40,22 +40,21 @@ object ConfigMergeManager {
         try {
             CLog.i(TAG, "开始执行配置合并")
 
-            // 检查并复制缺失的系统配置
-            if (!ConfigUtils.hasSystemBaseline()) {
-                CLog.i(TAG, "system_baseline为空，从系统路径复制配置文件")
-                val copySuccess = copySystemConfigsToBaseline()
-                if (!copySuccess) {
-                    CLog.w(TAG, "系统配置复制失败，继续使用空配置进行合并")
-                }
-            } else {
-                CLog.i(TAG, "system_baseline配置文件已存在，跳过复制")
+            // 复制缺失的系统基线文件（已存在的不会覆盖）
+            CLog.i(TAG, "检查并补齐系统基线配置文件")
+            val copySuccess = copySystemConfigsToBaseline()
+            if (!copySuccess) {
+                CLog.w(TAG, "系统配置复制失败，继续使用已有基线进行合并")
             }
 
             // 合并 app-features.xml
             mergeAppFeatures()
 
-            // 合并 oplus-feature.xml
+            // 合并 my_product 的 oplus-feature.xml
             mergeOplusFeatures()
+
+            // 合并 my_region 的 oplus-feature.xml
+            mergeRegionFeatures()
 
             CLog.i(TAG, "所有配置文件合并完成")
             return@withContext true
@@ -110,31 +109,47 @@ object ConfigMergeManager {
      * 合并 oplus-feature.xml
      */
     private fun mergeOplusFeatures() {
-        val systemFile = File(configPaths.systemBaselineDir, configPaths.oplusFeaturesFile)
-        val patchFile = File(configPaths.userPatchesDir, "oplus-features.patch.json")
-        val outputFile = File(configPaths.mergedOutputDir, configPaths.oplusFeaturesFile)
-        
-        // 读取系统基线配置
+        mergeOplusFile(
+            systemFile = File(configPaths.systemBaselineDir, configPaths.oplusFeaturesFile),
+            patchFile = File(configPaths.userPatchesDir, configPaths.oplusPatchFile),
+            outputFile = File(configPaths.mergedOutputDir, configPaths.oplusFeaturesFile)
+        )
+    }
+
+    /**
+     * 合并 my_region/etc/extension 下的 oplus-feature.xml
+     */
+    private fun mergeRegionFeatures() {
+        mergeOplusFile(
+            systemFile = File(configPaths.regionBaselineDir, configPaths.oplusFeaturesFile),
+            patchFile = File(configPaths.userPatchesDir, configPaths.regionPatchFile),
+            outputFile = File(configPaths.regionMergedOutputDir, configPaths.oplusFeaturesFile)
+        )
+    }
+
+    private fun mergeOplusFile(systemFile: File, patchFile: File, outputFile: File) {
+        if (!systemFile.exists() && !patchFile.exists()) {
+            CLog.i(TAG, "跳过合并，基线与补丁均不存在: ${systemFile.absolutePath}")
+            return
+        }
+
         val systemFeatures = if (systemFile.exists()) {
             parseOplusFeaturesXml(systemFile)
         } else {
             emptyList()
         }
-        
-        // 读取用户补丁
+
         val userPatches = if (patchFile.exists()) {
             loadOplusFeaturePatches(patchFile)
         } else {
             emptyList()
         }
-        
-        // 执行合并（oplus特性合并逻辑简单）
+
         val mergedFeatures = applyOplusFeaturePatches(systemFeatures, userPatches)
-        
-        // 写入合并结果
+
         writeOplusFeaturesXml(outputFile, mergedFeatures)
 
-        CLog.i(TAG, "oplus-feature.xml 合并完成: ${systemFeatures.size} 系统特性 + ${userPatches.size} 用户补丁 = ${mergedFeatures.size} 最终特性")
+        CLog.i(TAG, "${outputFile.name} 合并完成: ${systemFeatures.size} 系统特性 + ${userPatches.size} 用户补丁 = ${mergedFeatures.size} 最终特性")
     }
     
     /**
@@ -152,13 +167,26 @@ object ConfigMergeManager {
     /**
      * 保存用户对 oplus-features 的修改为补丁
      */
-    suspend fun saveOplusFeaturePatches(originalFeatures: List<OplusFeature>, modifiedFeatures: List<OplusFeature>) = withContext(Dispatchers.IO) {
+    suspend fun saveOplusFeaturePatches(originalFeatures: List<OplusFeature>, modifiedFeatures: List<OplusFeature>) =
+        saveOplusFeaturePatches(configPaths.oplusPatchFile, originalFeatures, modifiedFeatures)
+
+    /**
+     * 保存用户对 my_region oplus-features 的修改为补丁
+     */
+    suspend fun saveRegionFeaturePatches(originalFeatures: List<OplusFeature>, modifiedFeatures: List<OplusFeature>) =
+        saveOplusFeaturePatches(configPaths.regionPatchFile, originalFeatures, modifiedFeatures)
+
+    private suspend fun saveOplusFeaturePatches(
+        patchFileName: String,
+        originalFeatures: List<OplusFeature>,
+        modifiedFeatures: List<OplusFeature>
+    ) = withContext(Dispatchers.IO) {
         val patches = generateOplusFeaturePatches(originalFeatures, modifiedFeatures)
-        val patchFile = File(configPaths.userPatchesDir, "oplus-features.patch.json")
+        val patchFile = File(configPaths.userPatchesDir, patchFileName)
 
         patchFile.writeText(json.encodeToString(patches))
 
-        CLog.i(TAG, "保存 oplus-features 补丁: ${patches.size} 个变更")
+        CLog.i(TAG, "保存 $patchFileName: ${patches.size} 个变更")
     }
 
     /**
@@ -213,30 +241,35 @@ object ConfigMergeManager {
      * 检查特性是否存在于系统基线配置中
      * @param featureName 特性名称
      * @param isAppFeature 是否为app-features模式
+     * @param isRegion 是否为 my_region 的 oplus-feature.xml
      * @return true表示存在于系统基线中
      */
-    suspend fun isFeatureInSystemBaseline(featureName: String, isAppFeature: Boolean): Boolean = withContext(Dispatchers.IO) {
-        return@withContext try {
-            if (isAppFeature) {
-                val systemFile = File(configPaths.systemBaselineDir, configPaths.appFeaturesFile)
-                if (systemFile.exists()) {
-                    val systemFeatures = parseAppFeaturesXml(systemFile)
-                    systemFeatures.any { it.name == featureName }
-                } else {
-                    false
-                }
+    suspend fun isFeatureInSystemBaseline(
+        featureName: String,
+        isAppFeature: Boolean,
+        isRegion: Boolean = false
+    ): Boolean = withContext(Dispatchers.IO) {
+        try {
+            val systemFile = getBaselineFile(isAppFeature, isRegion)
+            if (!systemFile.exists()) return@withContext false
+
+            val featureNames = if (isAppFeature) {
+                parseAppFeaturesXml(systemFile).map { it.name }
             } else {
-                val systemFile = File(configPaths.systemBaselineDir, configPaths.oplusFeaturesFile)
-                if (systemFile.exists()) {
-                    val systemFeatures = parseOplusFeaturesXml(systemFile)
-                    systemFeatures.any { it.name == featureName }
-                } else {
-                    false
-                }
+                parseOplusFeaturesXml(systemFile).map { it.name }
             }
+            featureNames.contains(featureName)
         } catch (e: Exception) {
             CLog.e(TAG, "检查系统基线特性失败: $featureName", e)
             false
+        }
+    }
+
+    private fun getBaselineFile(isAppFeature: Boolean, isRegion: Boolean): File {
+        return when {
+            isAppFeature -> File(configPaths.systemBaselineDir, configPaths.appFeaturesFile)
+            isRegion -> File(configPaths.regionBaselineDir, configPaths.oplusFeaturesFile)
+            else -> File(configPaths.systemBaselineDir, configPaths.oplusFeaturesFile)
         }
     }
 
@@ -244,9 +277,14 @@ object ConfigMergeManager {
      * 批量获取多个特性的补丁状态
      * @param featureNames 特性名称列表
      * @param isAppFeature 是否为app-features模式
+     * @param isRegion 是否为 my_region 的 oplus-feature.xml
      * @return 特性名称到补丁动作的映射
      */
-    suspend fun getFeaturesPatchActions(featureNames: List<String>, isAppFeature: Boolean): Map<String, PatchAction> = withContext(Dispatchers.IO) {
+    suspend fun getFeaturesPatchActions(
+        featureNames: List<String>,
+        isAppFeature: Boolean,
+        isRegion: Boolean = false
+    ): Map<String, PatchAction> = withContext(Dispatchers.IO) {
         return@withContext try {
             if (isAppFeature) {
                 val patchFile = File(configPaths.userPatchesDir, "app-features.patch.json")
@@ -264,7 +302,7 @@ object ConfigMergeManager {
                     emptyMap()
                 }
             } else {
-                val patchFile = File(configPaths.userPatchesDir, "oplus-features.patch.json")
+                val patchFile = File(configPaths.userPatchesDir, if (isRegion) configPaths.regionPatchFile else configPaths.oplusPatchFile)
                 if (patchFile.exists()) {
                     val patches = loadOplusFeaturePatches(patchFile)
                     patches.mapNotNull { patch ->
@@ -272,7 +310,7 @@ object ConfigMergeManager {
                             val action = when (patch.action) {
                                 OplusPatchAction.ENABLE -> {
                                     // 检查是否为新增特性：在系统基线中不存在
-                                    if (isFeatureInSystemBaseline(patch.name, false)) {
+                                    if (isFeatureInSystemBaseline(patch.name, false, isRegion)) {
                                         PatchAction.MODIFY // 系统基线中存在，是修改
                                     } else {
                                         PatchAction.ADD // 系统基线中不存在，是新增
@@ -300,76 +338,43 @@ object ConfigMergeManager {
     }
 
     /**
-     * 从系统路径复制配置文件到system_baseline目录
-     * 用于首次启动时初始化配置
+     * 从系统路径复制缺失的配置文件到 system_baseline
+     * 已存在的基线不会被覆盖
      */
     private fun copySystemConfigsToBaseline(): Boolean {
-        try {
-            Log.i(TAG, "开始从系统路径复制配置文件到system_baseline")
+        val pendingCopies = listOf(
+            "/my_product/etc/extension/${configPaths.appFeaturesFile}" to
+                File(configPaths.systemBaselineDir, configPaths.appFeaturesFile),
+            "/my_product/etc/extension/${configPaths.oplusFeaturesFile}" to
+                File(configPaths.systemBaselineDir, configPaths.oplusFeaturesFile),
+            "/my_region/etc/extension/${configPaths.oplusFeaturesFile}" to
+                File(configPaths.regionBaselineDir, configPaths.oplusFeaturesFile)
+        ).filter { (_, target) -> !target.exists() }
 
-            val systemConfigDir = "/my_product/etc/extension"
-            val appFeaturesFile = configPaths.appFeaturesFile
-            val oplusFeaturesFile = configPaths.oplusFeaturesFile
-
-            var successCount = 0
-            var totalFiles = 0
-
-            // 复制 app-features.xml
-            val appFeaturesSystemPath = "$systemConfigDir/$appFeaturesFile"
-            val appFeaturesTargetPath = "${configPaths.systemBaselineDir}/$appFeaturesFile"
-
-            CLog.d(TAG, "检查系统文件: $appFeaturesSystemPath")
-            if (CSU.fileExists(appFeaturesSystemPath)) {
-                CLog.d(TAG, "系统文件存在，开始复制: $appFeaturesFile")
-                val copyCmd = "cp \"$appFeaturesSystemPath\" \"$appFeaturesTargetPath\""
-                val result = CSU.runWithSu(copyCmd).output
-
-                if (CSU.fileExists(appFeaturesTargetPath)) {
-                    CLog.i(TAG, "成功复制系统配置: $appFeaturesFile")
-                    successCount++
-                } else {
-                    CLog.w(TAG, "复制失败: $appFeaturesFile (命令输出: $result)")
-                }
-                totalFiles++
-            } else {
-                CLog.w(TAG, "系统配置文件不存在: $appFeaturesSystemPath")
-            }
-
-            // 复制 oplus-feature.xml
-            val oplusFeaturesSystemPath = "$systemConfigDir/$oplusFeaturesFile"
-            val oplusFeaturesTargetPath = "${configPaths.systemBaselineDir}/$oplusFeaturesFile"
-
-            CLog.d(TAG, "检查系统文件: $oplusFeaturesSystemPath")
-            if (CSU.fileExists(oplusFeaturesSystemPath)) {
-                CLog.d(TAG, "系统文件存在，开始复制: $oplusFeaturesFile")
-                val copyCmd = "cp \"$oplusFeaturesSystemPath\" \"$oplusFeaturesTargetPath\""
-                val result = CSU.runWithSu(copyCmd).output
-
-                if (CSU.fileExists(oplusFeaturesTargetPath)) {
-                    CLog.i(TAG, "成功复制系统配置: $oplusFeaturesFile")
-                    successCount++
-                } else {
-                    CLog.w(TAG, "复制失败: $oplusFeaturesFile (命令输出: $result)")
-                }
-                totalFiles++
-            } else {
-                CLog.w(TAG, "系统配置文件不存在: $oplusFeaturesSystemPath")
-            }
-
-            // 总结复制结果
-            val success = successCount > 0
-            if (success) {
-                CLog.i(TAG, "系统配置复制完成: $successCount/$totalFiles 个文件复制成功")
-            } else {
-                CLog.w(TAG, "系统配置复制失败: 没有成功复制任何文件 (总共检查了 $totalFiles 个文件)")
-            }
-
-            return success
-
-        } catch (e: Exception) {
-            CLog.e(TAG, "复制系统配置时发生异常", e)
-            return false
+        if (pendingCopies.isEmpty()) {
+            CLog.i(TAG, "系统基线配置已存在，跳过复制")
+            return true
         }
+
+        val copiedCount = pendingCopies.count { (source, target) ->
+            if (!CSU.fileExists(source)) {
+                CLog.w(TAG, "系统配置文件不存在: $source")
+                return@count false
+            }
+
+            target.parentFile?.mkdirs()
+            CSU.runWithSu("cp \"$source\" \"${target.absolutePath}\"")
+            val isCopied = target.exists()
+            if (isCopied) {
+                CLog.i(TAG, "成功复制系统配置: ${target.name}")
+            } else {
+                CLog.w(TAG, "复制失败: $source -> ${target.absolutePath}")
+            }
+            isCopied
+        }
+
+        CLog.i(TAG, "系统配置复制完成: $copiedCount/${pendingCopies.size} 个文件")
+        return copiedCount > 0
     }
 
     // ========== 数据模型 ==========

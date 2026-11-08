@@ -5,12 +5,17 @@ package com.itosfish.colorfeatureenhance
  */
 enum class FeatureMode {
     /**
-     * com.oplus.app-features.xml
+     * my_product/etc/extension/com.oplus.app-features.xml
      */
     APP,
 
     /**
-     * com.oplus.oplus-feature.xml
+     * my_product/etc/extension/com.oplus.oplus-feature.xml
      */
-    OPLUS
-} 
+    OPLUS,
+
+    /**
+     * my_region/etc/extension/com.oplus.oplus-feature.xml
+     */
+    REGION
+}

@@ -70,12 +70,18 @@ fun ColorOSTopAppBar(
         actions = {
             // 模式切换按钮
             TextButton(onClick = {
-                val next =
-                    if (currentMode == FeatureMode.APP) FeatureMode.OPLUS else FeatureMode.APP
+                val next = when (currentMode) {
+                    FeatureMode.APP -> FeatureMode.OPLUS
+                    FeatureMode.OPLUS -> FeatureMode.REGION
+                    FeatureMode.REGION -> FeatureMode.APP
+                }
                 onModeChange(next)
             }) {
-                val labelRes =
-                    if (currentMode == FeatureMode.APP) R.string.mode_app else R.string.mode_oplus
+                val labelRes = when (currentMode) {
+                    FeatureMode.APP -> R.string.mode_app
+                    FeatureMode.OPLUS -> R.string.mode_oplus
+                    FeatureMode.REGION -> R.string.mode_region
+                }
                 Text(text = stringResource(id = labelRes))
             }
 

@@ -11,20 +11,24 @@ import java.io.FileOutputStream
  * 负责配置目录初始化、模块安装等基础功能
  */
 object ConfigUtils {
-    const val LATEST_MODULE_VERSION = 20
+    const val LATEST_MODULE_VERSION = 21
 
     private const val TAG = "ConfigUtils"
 
     // 配置文件名常量
     private const val APP_FEATURES_FILE = "com.oplus.app-features.xml"
     private const val OPLUS_FEATURES_FILE = "com.oplus.oplus-feature.xml"
+    private const val OPLUS_PATCH_FILE = "oplus-features.patch.json"
+    private const val REGION_PATCH_FILE = "oplus-region-features.patch.json"
 
     // 配置目录路径
     private val baseDir = app.getExternalFilesDir(null)?.absolutePath!!
     private val configsDir = "$baseDir/configs"
     private val systemBaselineDir = "$configsDir/system_baseline"
+    private val regionBaselineDir = "$systemBaselineDir/my_region"
     private val userPatchesDir = "$configsDir/user_patches"
     private val mergedOutputDir = "$configsDir/merged_output"
+    private val regionMergedOutputDir = "$mergedOutputDir/my_region"
 
 
 
@@ -82,8 +86,10 @@ object ConfigUtils {
         try {
             val directories = listOf(
                 systemBaselineDir to "system_baseline",
+                regionBaselineDir to "system_baseline/my_region",
                 userPatchesDir to "user_patches",
-                mergedOutputDir to "merged_output"
+                mergedOutputDir to "merged_output",
+                regionMergedOutputDir to "merged_output/my_region"
             )
 
             directories.forEach { (path, name) ->
@@ -113,8 +119,10 @@ object ConfigUtils {
     private fun verifyDirectoryStructure(): Boolean {
         val directories = listOf(
             systemBaselineDir to "system_baseline",
+            regionBaselineDir to "system_baseline/my_region",
             userPatchesDir to "user_patches",
-            mergedOutputDir to "merged_output"
+            mergedOutputDir to "merged_output",
+            regionMergedOutputDir to "merged_output/my_region"
         )
 
         var allSuccess = true
@@ -190,42 +198,34 @@ object ConfigUtils {
     }
 
     /**
-     * 检查系统基线配置是否存在
-     */
-    fun hasSystemBaseline(): Boolean {
-        return File(systemBaselineDir, APP_FEATURES_FILE).exists() &&
-                File(systemBaselineDir, OPLUS_FEATURES_FILE).exists()
-    }
-
-    /**
-     * 检查合并输出配置是否存在
-     */
-    fun hasMergedOutput(): Boolean {
-        return File(mergedOutputDir, APP_FEATURES_FILE).exists() &&
-                File(mergedOutputDir, OPLUS_FEATURES_FILE).exists()
-    }
-
-    /**
      * 获取配置目录路径
      */
     fun getConfigPaths(): ConfigPaths {
         return ConfigPaths(
             configsDir = configsDir,
             systemBaselineDir = systemBaselineDir,
+            regionBaselineDir = regionBaselineDir,
             userPatchesDir = userPatchesDir,
             mergedOutputDir = mergedOutputDir,
+            regionMergedOutputDir = regionMergedOutputDir,
             appFeaturesFile = APP_FEATURES_FILE,
-            oplusFeaturesFile = OPLUS_FEATURES_FILE
+            oplusFeaturesFile = OPLUS_FEATURES_FILE,
+            oplusPatchFile = OPLUS_PATCH_FILE,
+            regionPatchFile = REGION_PATCH_FILE
         )
     }
 
     data class ConfigPaths(
         val configsDir: String,
         val systemBaselineDir: String,
+        val regionBaselineDir: String,
         val userPatchesDir: String,
         val mergedOutputDir: String,
+        val regionMergedOutputDir: String,
         val appFeaturesFile: String,
-        val oplusFeaturesFile: String
+        val oplusFeaturesFile: String,
+        val oplusPatchFile: String,
+        val regionPatchFile: String
     )
 
     /**
@@ -338,52 +338,34 @@ object ConfigUtils {
      * 每次保存配置后调用此方法
      */
     fun copyMergedConfigToModule(): Boolean {
-        try {
+        return try {
             CLog.i(TAG, "开始复制合并配置到模块目录")
 
             val configPaths = getConfigPaths()
-            CLog.d(TAG, "配置路径: mergedOutputDir=${configPaths.mergedOutputDir}")
-
             val moduleBase = "/data/adb/cos_feat_e"
-            val moduleDirs = listOf(
-                "$moduleBase/my_product/etc/extension",
-                "$moduleBase/anymount/my_product/etc/extension"
-            )
+            val productDir = "$moduleBase/my_product/etc/extension"
+            val regionDir = "$moduleBase/my_region/etc/extension"
 
-            val shellCmd = StringBuilder()
-
-            // 创建模块目录
-            moduleDirs.forEach { dir ->
-                shellCmd.append("mkdir -p \"$dir\" && ")
-            }
-
+            val shellCmd = StringBuilder("mkdir -p \"$productDir\" \"$regionDir\"")
             var hasFilesToCopy = false
 
-            // 复制app-features.xml
-            val appFeaturesSource = "${configPaths.mergedOutputDir}/${configPaths.appFeaturesFile}"
-            CLog.d(TAG, "检查源文件: $appFeaturesSource")
-            if (File(appFeaturesSource).exists()) {
-                CLog.i(TAG, "源文件存在，准备复制 app-features.xml")
-                moduleDirs.forEach { dir ->
-                    shellCmd.append("cp \"$appFeaturesSource\" \"$dir/\" && ")
+            listOf(configPaths.appFeaturesFile, configPaths.oplusFeaturesFile).forEach { fileName ->
+                val source = File(configPaths.mergedOutputDir, fileName)
+                if (source.exists()) {
+                    shellCmd.append(" && cp \"${source.absolutePath}\" \"$productDir/\"")
+                    hasFilesToCopy = true
+                } else {
+                    CLog.w(TAG, "源文件不存在: ${source.absolutePath}")
                 }
-                hasFilesToCopy = true
-            } else {
-                CLog.w(TAG, "源文件不存在: $appFeaturesSource")
             }
 
-            // 复制oplus-feature.xml
-            val oplusFeaturesSource =
-                "${configPaths.mergedOutputDir}/${configPaths.oplusFeaturesFile}"
-            CLog.d(TAG, "检查源文件: $oplusFeaturesSource")
-            if (File(oplusFeaturesSource).exists()) {
-                CLog.i(TAG, "源文件存在，准备复制 oplus-feature.xml")
-                moduleDirs.forEach { dir ->
-                    shellCmd.append("cp \"$oplusFeaturesSource\" \"$dir/\" && ")
-                }
+            val regionSource = File(configPaths.regionMergedOutputDir, configPaths.oplusFeaturesFile)
+            val regionBaseline = File(configPaths.regionBaselineDir, configPaths.oplusFeaturesFile)
+            if (regionBaseline.exists() && regionSource.exists()) {
+                shellCmd.append(" && cp \"${regionSource.absolutePath}\" \"$regionDir/\"")
                 hasFilesToCopy = true
             } else {
-                CLog.w(TAG, "源文件不存在: $oplusFeaturesSource")
+                CLog.w(TAG, "设备无 my_region 基线或区域配置未生成，跳过复制")
             }
 
             if (!hasFilesToCopy) {
@@ -391,89 +373,40 @@ object ConfigUtils {
                 return false
             }
 
-            // 移除最后的 &&
-            val finalCmd = shellCmd.toString().removeSuffix(" && ")
-            CLog.d(TAG, "执行Shell命令: $finalCmd")
-
-            if (finalCmd.isNotEmpty()) {
-                val result = CSU.runWithSu(finalCmd).output
-                CLog.d(TAG, "Shell命令执行结果: $result")
-            } else {
-                CLog.w(TAG, "没有Shell命令需要执行")
-            }
-
-            // 设置模块目录权限为644
+            CSU.runWithSu(shellCmd.toString())
             setModulePermissions(moduleBase)
 
-            // 验证复制是否成功
-            var successCount = 0
-            moduleDirs.forEach { dir ->
-                val appExists = CSU.fileExists("$dir/${configPaths.appFeaturesFile}")
-                val oplusExists = CSU.fileExists("$dir/${configPaths.oplusFeaturesFile}")
-                CLog.d(
-                    TAG,
-                    "目录 $dir: app-features存在=$appExists, oplus-feature存在=$oplusExists"
-                )
-                if (appExists || oplusExists) {
-                    successCount++
-                }
-            }
-
-            val success = successCount > 0
-            if (success) {
-                CLog.i(TAG, "配置文件复制到模块目录成功 ($successCount/${moduleDirs.size} 个目录)")
-            } else {
-                CLog.e(TAG, "配置文件复制到模块目录失败，所有目录都没有文件")
-            }
-
-            return success
+            val isProductCopied = CSU.fileExists("$productDir/${configPaths.appFeaturesFile}") ||
+                CSU.fileExists("$productDir/${configPaths.oplusFeaturesFile}")
+            val isRegionCopied = CSU.fileExists("$regionDir/${configPaths.oplusFeaturesFile}")
+            CLog.i(TAG, "模块配置复制结果: my_product=$isProductCopied, my_region=$isRegionCopied")
+            isProductCopied || isRegionCopied
 
         } catch (e: Exception) {
             CLog.e(TAG, "复制配置到模块目录时发生异常", e)
-            return false
+            false
         }
     }
 
     /**
-     * 设置模块目录权限为644
-     * 对 /模块路径/anymount/ 和 /模块路径/my_product/ 目录及其子目录、文件设置权限
+     * 目录保持 755 以便系统进程遍历，文件统一 644
      */
     private fun setModulePermissions(moduleBase: String) {
-        try {
-            CLog.i(TAG, "开始设置模块目录权限")
+        val targetDirs = listOf("$moduleBase/my_product", "$moduleBase/my_region")
+            .filter { CSU.dirExists(it) }
 
-            val targetDirs = listOf(
-                "$moduleBase/anymount",
-                "$moduleBase/my_product"
-            )
-
-            val permissionCmd = StringBuilder()
-
-            targetDirs.forEach { dir ->
-                if (CSU.dirExists(dir)) {
-                    CLog.d(TAG, "设置目录权限: $dir")
-                    // 设置目录及其所有子目录和文件的权限为644
-                    permissionCmd.append("chmod -R 644 \"$dir\" && ")
-                } else {
-                    CLog.d(TAG, "目录不存在，跳过权限设置: $dir")
-                }
-            }
-
-            if (permissionCmd.isNotEmpty()) {
-                // 移除最后的 &&
-                val finalPermissionCmd = permissionCmd.toString().removeSuffix(" && ")
-                CLog.d(TAG, "执行权限设置命令: $finalPermissionCmd")
-
-                val result = CSU.runWithSu(finalPermissionCmd).output
-                CLog.d(TAG, "权限设置命令执行结果: $result")
-                CLog.i(TAG, "模块目录权限设置完成")
-            } else {
-                CLog.w(TAG, "没有需要设置权限的目录")
-            }
-
-        } catch (e: Exception) {
-            CLog.e(TAG, "设置模块目录权限时发生异常", e)
+        if (targetDirs.isEmpty()) {
+            CLog.w(TAG, "没有需要设置权限的目录")
+            return
         }
+
+        val permissionCmd = targetDirs.joinToString(" && ") { dir ->
+            "chmod -R 755 \"$dir\" && find \"$dir\" -type f -exec chmod 644 {} +"
+        }
+        CLog.d(TAG, "执行权限设置命令: $permissionCmd")
+        val result = CSU.runWithSu(permissionCmd).output
+        CLog.d(TAG, "权限设置命令执行结果: $result")
+        CLog.i(TAG, "模块目录权限设置完成")
     }
 
     fun copySystemConfig() {

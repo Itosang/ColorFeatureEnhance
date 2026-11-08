@@ -66,6 +66,7 @@ class MainActivity : ComponentActivity() {
                     val configPath = when (currentMode) {
                         FeatureMode.APP -> "${configPaths.mergedOutputDir}/${configPaths.appFeaturesFile}"
                         FeatureMode.OPLUS -> "${configPaths.mergedOutputDir}/${configPaths.oplusFeaturesFile}"
+                        FeatureMode.REGION -> "${configPaths.regionMergedOutputDir}/${configPaths.oplusFeaturesFile}"
                     }
 
                     // 根据模式记忆 repository，切换模式时重建
@@ -73,6 +74,7 @@ class MainActivity : ComponentActivity() {
                         when (currentMode) {
                             FeatureMode.APP -> XmlFeatureRepository()
                             FeatureMode.OPLUS -> XmlOplusFeatureRepository()
+                            FeatureMode.REGION -> XmlOplusFeatureRepository(isRegion = true)
                         }
                     }
 

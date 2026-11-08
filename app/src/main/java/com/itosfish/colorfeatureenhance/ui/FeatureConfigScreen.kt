@@ -248,7 +248,8 @@ fun FeatureConfigScreen(
             val featureNames = features.map { it.name }
             patchActions = ConfigMergeManager.getFeaturesPatchActions(
                 featureNames,
-                currentMode == FeatureMode.APP
+                currentMode == FeatureMode.APP,
+                currentMode == FeatureMode.REGION
             )
         }
     }
@@ -369,7 +370,8 @@ fun FeatureConfigScreen(
                                         val featureNames = reloadedFeatures.map { it.name }
                                         patchActions = ConfigMergeManager.getFeaturesPatchActions(
                                             featureNames,
-                                            currentMode == FeatureMode.APP
+                                            currentMode == FeatureMode.APP,
+                                            currentMode == FeatureMode.REGION
                                         )
                                     }
 
@@ -383,7 +385,7 @@ fun FeatureConfigScreen(
                                 val action = patchActions[firstName]
                                 Log.d("FeatureDelete", "LongPress: name=$firstName, mode=$currentMode, action=$action")
 
-                                if (currentMode == FeatureMode.OPLUS) {
+                                if (currentMode != FeatureMode.APP) {
                                     // OPLUS 模式下仍维持原有逻辑
                                     if (action == ConfigMergeManager.PatchAction.ADD) {
                                         groupToDelete = group
@@ -509,7 +511,8 @@ fun FeatureConfigScreen(
                             val featureNames = reloadedFeatures.map { it.name }
                             patchActions = ConfigMergeManager.getFeaturesPatchActions(
                                 featureNames,
-                                currentMode == FeatureMode.APP
+                                currentMode == FeatureMode.APP,
+                                currentMode == FeatureMode.REGION
                             )
                         }
 
@@ -568,7 +571,8 @@ fun FeatureConfigScreen(
                                 val featureNames = reloadedFeatures.map { it.name }
                                 patchActions = ConfigMergeManager.getFeaturesPatchActions(
                                     featureNames,
-                                    currentMode == FeatureMode.APP
+                                    currentMode == FeatureMode.APP,
+                                    currentMode == FeatureMode.REGION
                                 )
                             }
 
@@ -651,7 +655,8 @@ fun FeatureConfigScreen(
                             val featureNames = reloadedFeatures.map { it.name }
                             patchActions = ConfigMergeManager.getFeaturesPatchActions(
                                 featureNames,
-                                currentMode == FeatureMode.APP
+                                currentMode == FeatureMode.APP,
+                                currentMode == FeatureMode.REGION
                             )
                         }
 
@@ -830,10 +835,10 @@ private fun FeatureGroupItem(
             val feature = group.features.first()
             feature.args?.startsWith("boolean:") == true
             val isComplex = feature.isComplex
-            val isUnavailable = currentMode == FeatureMode.OPLUS && feature.args == "unavailable"
+            val isUnavailable = currentMode != FeatureMode.APP && feature.args == "unavailable"
             val trailingModifier = Modifier.padding(start = 8.dp)
             // 仅当 OPLUS 模式且该特性不是用户新增（PATCH_ACTION != ADD）时显示开关
-            if (currentMode == FeatureMode.OPLUS && patchAction != ConfigMergeManager.PatchAction.ADD) {
+            if (currentMode != FeatureMode.APP && patchAction != ConfigMergeManager.PatchAction.ADD) {
                 Switch(
                     checked = group.isEnabled,
                     onCheckedChange = {

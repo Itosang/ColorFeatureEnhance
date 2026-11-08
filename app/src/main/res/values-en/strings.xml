@@ -39,6 +39,7 @@
     <string name="select_feature_to_edit">Select feature to edit</string>
     <string name="mode_app">App Features</string>
     <string name="mode_oplus">Oplus Features</string>
+    <string name="mode_region">Region Features</string>
 
     <!-- Cloud configuration related strings -->
     <string name="cloud_config_update_success">Cloud configuration updated successfully</string>

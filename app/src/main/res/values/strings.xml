@@ -38,6 +38,7 @@
     <string name="select_feature_to_edit">请选择要编辑的特性</string>
     <string name="mode_app">App Features</string>
     <string name="mode_oplus">Oplus Features</string>
+    <string name="mode_region">区域特性</string>
 
     <!-- Cloud configuration related strings -->
     <string name="cloud_config_update_success">云端配置更新成功</string>

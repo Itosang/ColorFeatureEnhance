@@ -18,12 +18,20 @@ import java.io.StringReader
 /**
  * 针对 <oplus-config> 节点、<oplus-feature> 标签的解析/写入实现
  */
-class XmlOplusFeatureRepository : FeatureRepository {
+class XmlOplusFeatureRepository(private val isRegion: Boolean = false) : FeatureRepository {
+
+    private fun getBaselineDir(configPaths: ConfigUtils.ConfigPaths): String {
+        return if (isRegion) configPaths.regionBaselineDir else configPaths.systemBaselineDir
+    }
+
+    private fun getPatchFileName(configPaths: ConfigUtils.ConfigPaths): String {
+        return if (isRegion) configPaths.regionPatchFile else configPaths.oplusPatchFile
+    }
 
     override suspend fun loadFeatures(configPath: String): List<AppFeature> = withContext(Dispatchers.IO) {
         // 对于oplus特性，我们需要显示所有特性（系统基线+用户新增），并根据补丁状态设置enabled状态
         val configPaths = ConfigUtils.getConfigPaths()
-        val systemBaselineFile = File(configPaths.systemBaselineDir, configPaths.oplusFeaturesFile)
+        val systemBaselineFile = File(getBaselineDir(configPaths), configPaths.oplusFeaturesFile)
 
         // 加载系统基线特性（转换为OplusFeature）
         val systemOplusFeatures = if (systemBaselineFile.exists()) {
@@ -33,7 +41,7 @@ class XmlOplusFeatureRepository : FeatureRepository {
         }
 
         // 加载用户补丁
-        val patchFile = File(configPaths.userPatchesDir, "oplus-features.patch.json")
+        val patchFile = File(configPaths.userPatchesDir, getPatchFileName(configPaths))
         val userPatches = if (patchFile.exists()) {
             ConfigMergeManager.loadOplusFeaturePatches(patchFile)
         } else {
@@ -74,14 +82,14 @@ class XmlOplusFeatureRepository : FeatureRepository {
     override suspend fun saveFeatures(configPath: String, features: List<AppFeature>): Unit = withContext(Dispatchers.IO) {
         // 读取系统基线配置作为原始配置
         val configPaths = ConfigUtils.getConfigPaths()
-        val systemBaselineFile = File(configPaths.systemBaselineDir, configPaths.oplusFeaturesFile)
+        val systemBaselineFile = File(getBaselineDir(configPaths), configPaths.oplusFeaturesFile)
         val originalOplusFeatures = if (systemBaselineFile.exists()) {
             loadOplusFeatures(systemBaselineFile.absolutePath)
         } else {
             emptyList()
         }
 
-        Log.i("XmlOplusFeatureRepository", "开始保存oplus特性配置，原始特性数量: ${originalOplusFeatures.size}, 修改后特性数量: ${features.size}")
+        Log.i("XmlOplusFeatureRepository", "开始保存 oplus 特性配置（region=$isRegion），原始特性数量: ${originalOplusFeatures.size}, 修改后特性数量: ${features.size}")
 
         // 将AppFeature转换为OplusFeature
         // oplus开关控制删除：enabled=true保留特性，enabled=false删除特性
@@ -89,7 +97,11 @@ class XmlOplusFeatureRepository : FeatureRepository {
         Log.i("XmlOplusFeatureRepository", "转换后的oplus特性数量: ${modifiedOplusFeatures.size}")
 
         // 生成并保存用户补丁
-        ConfigMergeManager.saveOplusFeaturePatches(originalOplusFeatures, modifiedOplusFeatures)
+        if (isRegion) {
+            ConfigMergeManager.saveRegionFeaturePatches(originalOplusFeatures, modifiedOplusFeatures)
+        } else {
+            ConfigMergeManager.saveOplusFeaturePatches(originalOplusFeatures, modifiedOplusFeatures)
+        }
         Log.i("XmlOplusFeatureRepository", "用户补丁已保存")
 
         // 重新执行配置合并

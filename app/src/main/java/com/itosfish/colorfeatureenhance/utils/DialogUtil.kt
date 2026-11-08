@@ -265,7 +265,8 @@ fun EditFeatureDialog(
     LaunchedEffect(originalName) {
         isSystemFeature = ConfigMergeManager.isFeatureInSystemBaseline(
             originalName,
-            currentMode == FeatureMode.APP
+            currentMode == FeatureMode.APP,
+            currentMode == FeatureMode.REGION
         )
     }
 
