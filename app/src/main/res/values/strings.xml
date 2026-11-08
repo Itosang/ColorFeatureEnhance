@@ -387,4 +387,18 @@
     <string name="section_system_features">系统自带</string>
     <string name="section_app_added_features">应用新增</string>
     <string name="section_feature_count">%1$d 项</string>
+    <string name="feature_aiwriter_input_entrance">AI 帮写输入法入口</string>
+    <string name="feature_settings_resolution_auto">屏幕分辨率自适应</string>
+    <string name="feature_mediaturbo_transcoding">多媒体硬件转码加速</string>
+    <string name="feature_gallery_collage_livephoto">相册实况照片拼图支持</string>
+    <string name="feature_preload_camera_launcher">桌面预热相机</string>
+    <string name="feature_card_datamining_support">泛在服务卡片数据挖掘</string>
+    <string name="feature_cast_game_mode">无线投屏游戏模式</string>
+    <string name="feature_3d_wallpaper">3D 壁纸支持</string>
+    <string name="feature_game_settings_support">游戏助手专属设置</string>
+    <string name="feature_mediaturbo_window_mode_notify">小窗模式多媒体通知</string>
+    <string name="feature_ai_graphic_gallery_engine">AI 图像画质引擎</string>
+    <string name="feature_fullscreen_aod_enable">全天候全景息屏</string>
+    <string name="feature_ai_intelligent_eye_protect">AI 智能护眼</string>
+    <string name="feature_jianying_optimize">剪映素材加速与优化</string>
 </resources>
