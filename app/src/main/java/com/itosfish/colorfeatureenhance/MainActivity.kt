@@ -13,7 +13,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.itosfish.colorfeatureenhance.config.ConfigMergeManager
 import com.itosfish.colorfeatureenhance.data.remote.RemoteConfigManager
 import com.itosfish.colorfeatureenhance.data.repository.XmlFeatureRepository
 import com.itosfish.colorfeatureenhance.data.repository.XmlOplusFeatureRepository
@@ -23,13 +22,13 @@ import com.itosfish.colorfeatureenhance.ui.FeatureConfigScreen
 import com.itosfish.colorfeatureenhance.ui.theme.ColorFeatureEnhanceTheme
 import com.itosfish.colorfeatureenhance.utils.CLog
 import com.itosfish.colorfeatureenhance.utils.CSU
+import com.itosfish.colorfeatureenhance.utils.ConfigFiles
 import com.itosfish.colorfeatureenhance.utils.ConfigUtils
 import com.itosfish.colorfeatureenhance.utils.DisclaimerManager
 import com.itosfish.colorfeatureenhance.utils.ModuleAutoUpdater
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -62,20 +61,16 @@ class MainActivity : ComponentActivity() {
                     // 显示主界面
                     var currentMode by remember { mutableStateOf(FeatureMode.APP) }
 
-                    // 使用新架构的配置路径（从merged_output读取）
-                    val configPaths = ConfigUtils.getConfigPaths()
-                    val configPath = when (currentMode) {
-                        FeatureMode.APP -> "${configPaths.mergedOutputDir}/${configPaths.appFeaturesFile}"
-                        FeatureMode.OPLUS -> "${configPaths.mergedOutputDir}/${configPaths.oplusFeaturesFile}"
-                        FeatureMode.REGION -> "${configPaths.regionMergedOutputDir}/${configPaths.oplusFeaturesFile}"
-                    }
+                    // working 文件就是用户实际编辑的配置
+                    val configPath = ConfigFiles.workingFile(
+                        ConfigFiles.targetForMode(currentMode)
+                    ).absolutePath
 
                     // 根据模式记忆 repository，切换模式时重建
                     val repository: FeatureRepository = remember(currentMode) {
                         when (currentMode) {
                             FeatureMode.APP -> XmlFeatureRepository()
-                            FeatureMode.OPLUS -> XmlOplusFeatureRepository()
-                            FeatureMode.REGION -> XmlOplusFeatureRepository(isRegion = true)
+                            else -> XmlOplusFeatureRepository(currentMode)
                         }
                     }
 
@@ -129,65 +124,36 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        // 初始化新的配置管理系统
-        val initSuccess = ConfigUtils.initializeConfigSystem()
-        if (initSuccess) {
-            CLog.i("MainActivity", "配置系统初始化成功")
-
-            // 异步执行配置合并和云端配置更新
-            CoroutineScope(Dispatchers.Main).launch {
-                try {
-                    // 1. 复制系统原本配置
-                    ConfigUtils.copySystemConfig()
-
-                    // 2. 执行配置合并
-                    val mergeSuccess = ConfigMergeManager.performConfigMerge()
-                    if (mergeSuccess) {
-                        CLog.i("MainActivity", "配置合并完成")
-                        val isSynced = withContext(Dispatchers.IO) {
-                            ConfigUtils.copyMergedConfigToModule()
-                        }
-                        CLog.i("MainActivity", "配置同步到模块目录: $isSynced")
-                    } else {
-                        CLog.w("MainActivity", "配置合并失败")
-                    }
-
-                    // 3. 异步检查云端配置更新（不阻塞主流程）
-                    launch(Dispatchers.IO) {
-                        try {
-                            val remoteConfigManager =
-                                RemoteConfigManager.getInstance(this@MainActivity)
-                            val updateResult = remoteConfigManager.checkAndUpdateConfig()
-
-                            when (updateResult) {
-                                is RemoteConfigManager.UpdateResult.Success -> {
-                                    CLog.i("MainActivity", "云端配置更新成功")
-                                }
-
-                                is RemoteConfigManager.UpdateResult.NoUpdate -> {
-                                    CLog.d("MainActivity", "云端配置无需更新")
-                                }
-
-                                is RemoteConfigManager.UpdateResult.Error -> {
-                                    CLog.w(
-                                        "MainActivity",
-                                        "云端配置更新失败: ${updateResult.message}"
-                                    )
-                                }
-                            }
-                        } catch (e: Exception) {
-                            CLog.w("MainActivity", "云端配置更新过程中发生异常", e)
-                        }
-                    }
-
-                } catch (e: Exception) {
-                    CLog.e("MainActivity", "配置合并过程中发生异常", e)
-                }
+        // 首次启动备份系统配置，并把 working 文件同步到模块目录
+        lifecycleScope.launch(Dispatchers.IO) {
+            if (ConfigUtils.initializeConfigSystem()) {
+                CLog.i("MainActivity", "配置系统初始化成功")
+            } else {
+                CLog.e("MainActivity", "配置系统初始化失败")
             }
-        } else {
-            CLog.e("MainActivity", "配置系统初始化失败")
         }
 
+        // 云端描述映射更新，不阻塞主流程
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val remoteConfigManager = RemoteConfigManager.getInstance(this@MainActivity)
+                when (val updateResult = remoteConfigManager.checkAndUpdateConfig()) {
+                    is RemoteConfigManager.UpdateResult.Success -> {
+                        CLog.i("MainActivity", "云端配置更新成功")
+                    }
+
+                    is RemoteConfigManager.UpdateResult.NoUpdate -> {
+                        CLog.d("MainActivity", "云端配置无需更新")
+                    }
+
+                    is RemoteConfigManager.UpdateResult.Error -> {
+                        CLog.w("MainActivity", "云端配置更新失败: ${updateResult.message}")
+                    }
+                }
+            } catch (e: Exception) {
+                CLog.w("MainActivity", "云端配置更新过程中发生异常", e)
+            }
+        }
     }
 
     companion object {

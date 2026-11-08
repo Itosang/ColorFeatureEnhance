@@ -75,6 +75,7 @@
     <string name="search_feature">搜索特性</string>
     <string name="search_hint">搜索名称或描述…</string>
     <string name="search_no_results">未找到匹配结果</string>
+    <string name="no_features">暂无特性配置</string>
     <string name="search_clear">清除搜索</string>
     <string name="root_permission_title">需要 Root 权限</string>
     <string name="root_permission_message">该功能需要 Root 权限才能使用。请使用 Magisk 或其他工具获取 Root 权限。</string>

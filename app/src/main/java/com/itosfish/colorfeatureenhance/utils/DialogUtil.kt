@@ -20,7 +20,6 @@ import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -32,7 +31,6 @@ import androidx.compose.ui.unit.dp
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.itosfish.colorfeatureenhance.FeatureMode
 import com.itosfish.colorfeatureenhance.R
-import com.itosfish.colorfeatureenhance.config.ConfigMergeManager
 import com.itosfish.colorfeatureenhance.data.model.AppFeature
 import com.itosfish.colorfeatureenhance.data.model.AppFeatureMappings
 import com.itosfish.colorfeatureenhance.data.model.FeatureSubNode
@@ -259,15 +257,10 @@ fun EditFeatureDialog(
     var featureDescription by remember { mutableStateOf(originalDescription) }
     var featureEnabled by remember { mutableStateOf(originalEnabled) }
     var argValue by remember { mutableStateOf(originalArgs ?: "") }
-    var isSystemFeature by remember { mutableStateOf(false) }
 
-    // 检查是否为系统存在的特性配置
-    LaunchedEffect(originalName) {
-        isSystemFeature = ConfigMergeManager.isFeatureInSystemBaseline(
-            originalName,
-            currentMode == FeatureMode.APP,
-            currentMode == FeatureMode.REGION
-        )
+    // 首次备份里存在的特性视为系统自带，名称只读
+    val isSystemFeature = remember(originalName, currentMode) {
+        ConfigFiles.isInOriginal(ConfigFiles.targetForMode(currentMode), originalName)
     }
 
     // 检查是否为预设描述

@@ -1,7 +1,7 @@
 id=ColorOSFeaturesEnhance
 name=ColorOS特性补全 [程序自动创建]
-version=0.4
-versionCode=21
+version=0.5
+versionCode=22
 author=酷安@ItosEO @yangFenTuoZi @盼干长安月夜 @boxiaolanya2008
 description=程序自动创建，挂载ColorOS特性补全配置
 minMagisk=28100

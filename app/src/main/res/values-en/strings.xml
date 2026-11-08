@@ -76,6 +76,7 @@
     <string name="search_feature">Search Feature</string>
     <string name="search_hint">Search name or description…</string>
     <string name="search_no_results">No matching results</string>
+    <string name="no_features">No features</string>
     <string name="search_clear">Clear Search</string>
     <string name="root_permission_title">Root permission required</string>
     <string name="root_permission_message">This feature requires root permission to work. Please obtain root permission using Magisk or other tools.</string>

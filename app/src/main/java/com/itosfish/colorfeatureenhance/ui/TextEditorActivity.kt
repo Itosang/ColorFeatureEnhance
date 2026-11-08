@@ -33,8 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.itosfish.colorfeatureenhance.R
 import com.itosfish.colorfeatureenhance.ui.theme.ColorFeatureEnhanceTheme
-import com.itosfish.colorfeatureenhance.config.ConfigMergeManager
-import com.itosfish.colorfeatureenhance.utils.ConfigUtils
+import com.itosfish.colorfeatureenhance.utils.ConfigFiles
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -92,30 +91,16 @@ fun TextEditorScreen(filePath: String, onFinish: () -> Unit) {
                         scope.launch(Dispatchers.IO) {
                             kotlin.runCatching {
                                 File(filePath).writeText(content)
-                                // 重新执行配置合并
-                                val mergeSuccess = ConfigMergeManager.performConfigMerge()
-                                // 如果合并成功，复制到模块目录
-                                val copySuccess = if (mergeSuccess) {
-                                    ConfigUtils.copyMergedConfigToModule()
-                                } else {
-                                    false
-                                }
-                                Pair(mergeSuccess, copySuccess)
-                            }.onSuccess { (mergeSuccess: Boolean, copySuccess: Boolean) ->
+                                ConfigFiles.syncToModule()
+                            }.onSuccess { isSynced: Boolean ->
                                 launch(Dispatchers.Main) {
-                                    when {
-                                        mergeSuccess && copySuccess -> {
-                                            Toast.makeText(context, context.getString(R.string.save_and_sync_success), Toast.LENGTH_SHORT).show()
-                                            isModified = false
-                                        }
-                                        mergeSuccess && !copySuccess -> {
-                                            Toast.makeText(context, context.getString(R.string.save_success_sync_failed), Toast.LENGTH_LONG).show()
-                                            isModified = false
-                                        }
-                                        else -> {
-                                            Toast.makeText(context, context.getString(R.string.save_success_merge_failed), Toast.LENGTH_LONG).show()
-                                        }
+                                    val message = if (isSynced) {
+                                        R.string.save_and_sync_success
+                                    } else {
+                                        R.string.save_success_sync_failed
                                     }
+                                    Toast.makeText(context, context.getString(message), Toast.LENGTH_SHORT).show()
+                                    isModified = false
                                 }
                             }.onFailure { exception: Throwable ->
                                 launch(Dispatchers.Main) {
