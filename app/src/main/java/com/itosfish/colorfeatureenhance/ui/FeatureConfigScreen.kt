@@ -65,12 +65,9 @@ import com.itosfish.colorfeatureenhance.ui.components.HighlightedText
 import com.itosfish.colorfeatureenhance.ui.components.SearchBar
 import com.itosfish.colorfeatureenhance.ui.search.SearchLogic
 import com.itosfish.colorfeatureenhance.utils.AddFeatureDialog
-import com.itosfish.colorfeatureenhance.utils.ConfigFiles
-import com.itosfish.colorfeatureenhance.utils.ConfigUtils
 import com.itosfish.colorfeatureenhance.utils.EditFeatureDialog
-import kotlinx.coroutines.Dispatchers
+import com.itosfish.colorfeatureenhance.utils.OriginalNames
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 private enum class FeatureSection { SYSTEM, APP_ADDED }
 
@@ -117,11 +114,8 @@ fun FeatureConfigScreen(
     }
 
     LaunchedEffect(configPath, currentMode) {
-        withContext(Dispatchers.IO) {
-            ConfigUtils.initializeConfigSystem()
-            originalNames = ConfigFiles.loadOriginalNames(ConfigFiles.targetForMode(currentMode))
-        }
         features = repository.loadFeatures(configPath)
+        originalNames = OriginalNames.get(currentMode)
     }
 
     val featureGroups by remember(features, currentMode) {

@@ -260,7 +260,7 @@ fun EditFeatureDialog(
 
     // 首次备份里存在的特性视为系统自带，名称只读
     val isSystemFeature = remember(originalName, currentMode) {
-        ConfigFiles.isInOriginal(ConfigFiles.targetForMode(currentMode), originalName)
+        originalName in OriginalNames.get(currentMode)
     }
 
     // 检查是否为预设描述

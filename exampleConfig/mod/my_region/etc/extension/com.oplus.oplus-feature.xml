@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<oplus-config>
+	<oplus-feature name="oplus.software.startup_strategy_restrict"/>
+	<oplus-feature name="oplus.software.pms_app_frozen"/>
+	<oplus-feature name="oplus.software.usb.adb_ocar"/>
+	<oplus-feature name="oplus.software.notification.envelope_assistant_enable"/>
+	<oplus-feature name="oplus.software.remove_abnormal_syncjob"/>
+	<oplus-feature name="oplus.software.radio.put_card_type_to_db"/>
+	<oplus-feature name="oplus.software.radio.set_pol_entry_complete_with_last_item"/>
+	<oplus-feature name="oplus.software.radio.light_smart5g_enabled"/>
+	<oplus-feature name="oplus.software.radio.enable_oem_log"/>
+	<oplus-feature name="oplus.software.radio.exp_notshow_stk_bootwizard"/>
+	<oplus-feature name="oplus.software.radio.no_band_selections"/>
+	<oplus-feature name="oplus.software.radio.set_pref_rat_no_delay"/>
+	<oplus-feature name="oplus.software.radio.ignore_dcnr_retricted_enable"/>
+	<oplus-feature name="oplus.software.radio.all_client"/>
+	<oplus-feature name="oplus.software.radio.nhs_disabled_restricted"/>
+	<oplus-feature name="oplus.software.radio.data_network_diagnosis"/>
+	<oplus-feature name="oplus.software.disable_grant_calendar_contacts_permissions"/>
+	<oplus-feature name="oplus.software.pms_adb_session_installer_intercept"/>
+	<oplus-feature name="oplus.software.clipboard_notify_enabled"/>
+	<oplus-feature name="oplus.software.get_installed_apps_intercept"/>
+	<oplus-feature name="oplus.software.permission_intercept_enabled"/>
+	<oplus-feature name="oplus.software.defaultapp.color_policy_enabled"/>
+	<oplus-feature name="oplus.software.intercept_lockscreen_service"/>
+	<unavailable-oplus-feature name="oplus.software.radio.mix_sim_name_len_default_ten"/>
+	<unavailable-oplus-feature name="oplus.software.radio.process_change_region"/>
+	<unavailable-oplus-feature name="oplus.software.radio.smart5g_exp_cfg"/>
+	<unavailable-oplus-feature name="oplus.software.radio.fetch_number_country_name"/>
+	<unavailable-oplus-feature name="oplus.software.radio.custom_plmn_for_special_operator"/>
+	<unavailable-oplus-feature name="oplus.software.radio.sim_name_length_default_ten"/>
+	<oplus-feature name="oplus.software.pms_gp_verification_disabled"/>
+	<oplus-feature name="oplus.software.radio.nwpower_linkpower"/>
+	<oplus-feature name="oplus.software.radio.comm_scene_switch_enable"/>
+	<oplus-feature name="oplus.software.speech_assist_for_breeno"/>
+	<oplus-feature name="oplus.software.ringer_toggle_chord_disable"/>
+	<oplus-feature name="oplus.software.connectivity.region_CN"/>
+	<oplus-feature name="oplus.software.bt.help.region_CN"/>
+	<oplus-feature name="oplus.software.forbid_delete_and_clear_familyguard"/>
+	<oplus-feature name="oplus.software.application_exit_info_detect"/>
+	<oplus-feature name="oplus.software.inputmethod.cn"/>
+	<oplus-feature name="oplus.software.radio.sido_screen_on_no_45g_opt"/>
+	<oplus-feature name="oplus.software.radio.sido_screen_on_no_service_opt"/>
+	<oplus-feature name="oplus.software.radio.sa_apm_control"/>
+	<oplus-feature name="oplus.software.radio.sa_tac_control"/>
+	<oplus-feature name="oplus.software.radio.sido_elevator"/>
+	<oplus-feature name="oplus.software.logkit.ocloud.support"/>
+	<oplus-feature name="oplus.software.radio.apmdm_log_pb"/>
+	<oplus-feature name="oplus.software.radio.nwpower_proc_net_control_switch_enable"/>
+	<oplus-feature name="oplus.software.radio.dds_switch"/>
+	<oplus-feature name="oplus.software.radio.cmcc_dm"/>
+	<oplus-feature name="oplus.software.radio.data_limit"/>
+	<oplus-feature name="oplus.software.radio.stream_identify"/>
+	<oplus-feature name="oplus.software.deviceidle_network_optimization"/>
+	<oplus-feature name="oplus.software.power.jobscheduler"/>
+	<oplus-feature name="oplus.software.hans_restriction"/>
+	<oplus-feature name="oplus.software.pms_virtual_app_control_enabled"/>
+	<oplus-feature name="oplus.software.radio.power_save_dual_network_control"/>
+	<oplus-feature name="oplus.software.radio.sa_data_recovery_enabled"/>
+	<oplus-feature name="oplus.software.radio.wifi_data_control"/>
+	<oplus-feature name="oplus.software.radio.data_link_game"/>
+	<oplus-feature name="oplus.software.radio.vice_card_game_mode"/>
+	<oplus-feature name="oplus.software.radio.game_err"/>
+	<oplus-feature name="oplus.software.radio.qr_recovery"/>
+	<oplus-feature name="oplus.software.radio.block_nondds_pck"/>
+	<oplus-feature name="oplus.software.radio.dns_speed_up"/>
+	<oplus-feature name="oplus.software.radio.sido_ims_caused_sa_backoff_opt"/>
+	<oplus-feature name="oplus.software.radio.data_stall_google_disable"/>
+	<oplus-feature name="oplus.software.background_start_activity_permission"/>
+	<oplus-feature name="oplus.software.radio.remote_wifi_fence"/>
+	<oplus-feature name="oplus.software.radio.intent_region_enable"/>
+		<!-- FRC 帧率补偿（插帧）总能力 -->
+	<oplus-feature name="oplus.software.display.frc_support"/>
+	<!-- AI超分 -->
+	<oplus-feature name="oplus.software.display.ai_sr_support"/>
+	<!-- DSR 动态超分 -->
+	<oplus-feature name="oplus.software.display.dsr_support"/>
+	<!-- UPS 升采样/超分 -->
+	<oplus-feature name="oplus.software.display.ups_support"/>
+	<!-- 二级峰值亮度限制 -->
+	<oplus-feature name="oplus.software.display.sec_max_brightness_rm"/>
+	<!-- Pixelworks 多路 MEMC -->
+	<oplus-feature name="oplus.software.display.pixelworks_multi_memc_support" />
+	<!-- Pixelworks X7P 显示芯片 -->
+	<oplus-feature name="oplus.software.display.pixelworks_x7p_enable"/>
+	<!-- X7P 2K 面板能力 -->
+	<oplus-feature name="oplus.software.display.pixelworks_x7p_panel_2k_enable"/>
+	<!-- 游戏助手 3.0 帧率能力 -->
+	<oplus-feature name="oplus.software.display.game.assistant_frame_3.0_enable"/>
+	<!-- DAPR 动态自适应像素渲染（高分辨率） -->
+	<oplus-feature name="oplus.software.display.game.dapr_enable"/>
+	<!-- 游戏 HDR 3.0 -->
+	<oplus-feature name="oplus.software.display.game.hdr3.0_enable"/>
+	<!-- 色彩增强 2.0 -->
+	<oplus-feature name="oplus.software.display.game_color_enhance_2.0"/>
+	<!-- Color Plus v2 -->
+	 <oplus-feature name="oplus.software.display.game_color_plus_v2_support"/>
+	 <!-- 超大音量 4x -->
+	 <oplus-feature name="oplus.software.audio.super_volume_4x"/>
+	 <!-- WLAN 游戏芯片/双 Wi-Fi 能力 -->
+	 <oplus-feature name="oplus.software.wlan.game_chip"/>
+	 <oplus-feature name="oplus.software.wlan.dual_sta"/>
+	 <oplus-feature name="oplus.software.wlan.assistant"/>
+	 <oplus-feature name="oplus.software.wlan.dbs"/>
+	<!-- 双扬声器支持 -->
+	<oplus-feature name="oplus.software.audio.dualspk_support"/>
+	<!-- WiFi 6 支持 -->
+	<oplus-feature name="oplus.software.wlan.wifi6"/>
+	<!-- 游戏网络芯片协同（本文件 L101 已存在，查重后不重复添加） -->
+	<!-- WiFi 直连 6GHz 320MHz -->
+	<oplus-feature name="oplus.software.wlan.6g_320M_p2p"/>
+	<!-- PixelWorks X5 显示芯片 -->
+	<oplus-feature name="oplus.software.display.pixelworks_x5_enable"/>
+	<!-- PixelWorks X7 显示芯片 -->
+	<oplus-feature name="oplus.software.display.pixelworks_x7_enable"/>
+	<!-- PixelWorks X7P 显示芯片（本文件 L85 已存在，查重后不重复添加） -->
+	<!-- PixelWorks X7P + 2K 面板（本文件 L87 已存在，查重后不重复添加） -->
+	<!-- 智能色温 2.0（原彩） -->
+	<oplus-feature name="oplus.software.display.intelligent_color_temperature_2.0_support"/>
+	<!-- VIP 应用预加载 -->
+	<oplus-feature name="oplus.software.vip_preload"/>
+	<!-- 支持 3GPP R16 5G -->
+	<oplus-feature name="oplus.software.radio.support_r16"/>
+	<!-- 5GA 图标 -->
+	<oplus-feature name="oplus.software.radio.icon_nrad_5ga"/>
+	<!-- 5G·5G 图标 -->
+	<oplus-feature name="oplus.software.radio.icon_nrad_5gdot_5g"/>
+	<!-- 5G+ 图标 -->
+	<oplus-feature name="oplus.software.radio.icon_nrad_5gplus"/>
+	<!-- 5G++ 图标 -->
+	<oplus-feature name="oplus.software.radio.icon_nrad_5gplus_plus"/>
+	<!-- 5G UC 图标 -->
+	<oplus-feature name="oplus.software.radio.icon_nrad_5guc"/>
+	<!-- 5G UW 图标 -->
+	<oplus-feature name="oplus.software.radio.icon_nrad_5guw"/>
+	<!-- 极客性能面板 -->
+	<oplus-feature name="oplus.software.game.geek.performance.panel"/>
+	<!-- 散热风扇基础支持 -->
+	<oplus-feature name="oplus.misc.fan.support"/>
+	<!-- 风扇 v3（红魔灯效版 UI） -->
+	<oplus-feature name="oplus.misc.fan.extra_v3.support"/>
+	<!-- 风扇服务 v2 -->
+	<oplus-feature name="oplus.misc.fan.fanservice_v2.support"/>
+</oplus-config>
+<!-- Timestamp 2026-08-05T11:35:06 #1593840 -->

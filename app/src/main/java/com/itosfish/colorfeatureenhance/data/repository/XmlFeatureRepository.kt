@@ -1,32 +1,34 @@
 package com.itosfish.colorfeatureenhance.data.repository
 
 import android.util.Xml
+import com.itosfish.colorfeatureenhance.FeatureMode
 import com.itosfish.colorfeatureenhance.data.model.AppFeature
 import com.itosfish.colorfeatureenhance.data.model.FeatureSubNode
 import com.itosfish.colorfeatureenhance.domain.FeatureRepository
-import com.itosfish.colorfeatureenhance.utils.ConfigFiles
+import com.itosfish.colorfeatureenhance.utils.ModuleConfig
+import com.itosfish.colorfeatureenhance.utils.OriginalNames
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import org.xmlpull.v1.XmlPullParser
-import java.io.File
+import java.io.StringReader
 
 class XmlFeatureRepository : FeatureRepository {
 
     override suspend fun loadFeatures(configPath: String): List<AppFeature> = withContext(Dispatchers.IO) {
-        val file = File(configPath)
-        if (!file.exists()) return@withContext emptyList()
-        parseXmlFeatures(file)
+        val xml = ModuleConfig.readText(FeatureMode.APP)
+        val features = if (xml.isBlank()) emptyList() else parseXmlFeatures(xml)
+        OriginalNames.getOrInit(FeatureMode.APP, features.map { it.name }.toSet())
+        features
     }
 
     override suspend fun saveFeatures(configPath: String, features: List<AppFeature>): Unit =
         withContext(Dispatchers.IO) {
-            ConfigFiles.saveWorking(ConfigFiles.Target.APP, buildXml(features))
+            ModuleConfig.writeText(FeatureMode.APP, buildXml(features))
         }
 
-    private fun parseXmlFeatures(file: File): List<AppFeature> {
-        file.inputStream().use { inputStream ->
-            val parser = Xml.newPullParser()
-            parser.setInput(inputStream, "UTF-8")
+    private fun parseXmlFeatures(xml: String): List<AppFeature> {
+        val parser = Xml.newPullParser()
+        parser.setInput(StringReader(xml))
 
             val features = mutableListOf<AppFeature>()
             var eventType = parser.eventType
@@ -82,7 +84,6 @@ class XmlFeatureRepository : FeatureRepository {
                     )
                 }
         }
-    }
 
     private fun buildXml(features: List<AppFeature>): String = buildString {
         appendLine("<?xml version=\"1.0\" encoding=\"UTF-8\"?>")

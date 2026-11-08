@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<filter-conf>
+    <version>20260202</version>
+    <toggle>1</toggle>
+    <features>
+        <feature name="BindCore" enable="1">
+            <!-- big core index, start from 0 -->
+            <bigcore_id>4</bigcore_id>
+            <bigcore_id>5</bigcore_id>
+            <bigcore_id>6</bigcore_id>
+            <bigcore_id>7</bigcore_id>
+        </feature>
+        <feature enable="1" name="GpuSwFence"> </feature>
+        <feature name="LocalHdr" enable="1">
+            <support10bit>enable</support10bit>
+        </feature>
+
+        <feature name="HdrGeneric" enable="1">
+        </feature>
+
+        <feature name="OplusFeature2Flag" enable="1">
+            <disableDeepcache>0</disableDeepcache>
+            <oplusHwcVds>1</oplusHwcVds>
+            <oplusPowerOffStatsSupport>1</oplusPowerOffStatsSupport>
+            <oplusVDDequeueBufferDelaySkip>1</oplusVDDequeueBufferDelaySkip>
+            <oplusVsyncTooCloseAdjust>1</oplusVsyncTooCloseAdjust>
+            <smartFpsCheckSurfaceView>1</smartFpsCheckSurfaceView>
+        </feature>
+
+        <feature name="curtain" enable="1">
+            <application name="com.tencent.qqlive">
+                <scene type="FuzzyLayer">
+                    <layer>VideoDetailKmmActivityBk</layer>
+                    <action>
+                        <mode>SurfaceView</mode>
+                    </action>
+                </scene>
+                <scene type="FuzzyLayer">
+                    <layer>VideoDetailActivity</layer>
+                    <action>
+                        <mode>SurfaceView</mode>
+                    </action>
+                </scene>
+            </application>
+            <application name="com.youku.phone">
+                <scene type="FuzzyLayer">
+                    <layer>DetailActivity</layer>
+                    <action>
+                        <mode>SurfaceView</mode>
+                    </action>
+                </scene>
+            </application>
+            <application name="tv.danmaku.bili">
+                <scene type="FuzzyLayer">
+                    <layer>VideoDetailsActivity</layer>
+                    <action>
+                        <mode>SurfaceView</mode>
+                    </action>
+                </scene>
+                <scene type="FuzzyLayer">
+                    <layer>LiveRoomActivityV3</layer>
+                    <action>
+                        <mode>SurfaceView</mode>
+                    </action>
+                </scene>
+                <scene type="FuzzyLayer">
+                    <layer>BangumiDetailActivityV3</layer>
+                    <action>
+                        <mode>SurfaceView</mode>
+                    </action>
+                </scene>
+                <scene type="FuzzyLayer">
+                    <layer>StoryVideoActivity</layer>
+                    <action>
+                        <mode>SurfaceView</mode>
+                    </action>
+                </scene>
+                <scene type="FuzzyLayer">
+                    <layer>UnitedBizDetailsActivity</layer>
+                    <action>
+                        <mode>SurfaceView</mode>
+                    </action>
+                </scene>
+                <scene type="FuzzyLayer">
+                    <layer>StoryTransparentActivity</layer>
+                    <action>
+                        <mode>SurfaceView</mode>
+                    </action>
+                </scene>
+            </application>
+
+        <feature name="OplusDEE" enable="1">
+            <DC>enable</DC>
+            <globalLTM>enable</globalLTM>
+            <application name="com.coloros.video">
+                <scene type="Application">
+                    <action>
+                        <mode>AD</mode>
+                    </action>
+                </scene>
+            </application>
+            <application name="com.oplus.camera">
+                <scene type="Application">
+                    <action>
+                        <mode>AD</mode>
+                    </action>
+                </scene>
+            </application>
+            <application name="com.coloros.gallery3d">
+                <scene type="Application">
+                    <action>
+                        <mode>AD</mode>
+                    </action>
+                </scene>
+            </application>
+            <application name="com.oneplus.gallery">
+                <scene type="Application">
+                    <action>
+                        <mode>AD</mode>
+                    </action>
+                </scene>
+            </application>
+            <application name="com.heytap.yoli">
+                <scene type="Application">
+                    <action>
+                        <mode>AD</mode>
+                    </action>
+                </scene>
+            </application>
+        </feature>
+        </feature>
+    </features>
+</filter-conf>

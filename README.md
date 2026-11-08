@@ -29,10 +29,18 @@ com.itosfish.colorfeatureenhance/
 
 ## 配置管理流程
 
-1. 复制系统配置到应用目录（`system_baseline/`）
-2. 根据用户修改生成增量补丁（`user_patches/`）
-3. 合并基线与补丁生成最终配置（`merged_output/`）
-4. 同步到模块目录并设置权限 644
+1. 首次启动安装配套模块，模块内含 `my_product` / `my_region` 配置
+2. App 直接读写模块目录中的 XML，不再生成补丁或合并文件
+3. 新增/删除特性时直接修改 XML
+4. 开机时模块递归 bind mount 到系统同路径
+
+```text
+/data/adb/modules/ColorOSFeaturesEnhance/
+├── my_product/etc/extension/   # com.oplus.app-features.xml / com.oplus.oplus-feature.xml
+├── my_region/etc/extension/    # com.oplus.oplus-feature.xml
+├── post-fs-data.sh             # 递归 bind mount
+└── module.prop
+```
 
 ## 编译与运行
 

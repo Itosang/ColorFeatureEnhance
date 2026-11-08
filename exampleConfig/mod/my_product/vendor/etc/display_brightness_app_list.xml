@@ -1,0 +1,1218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 应用亮度调节配置：按应用名单调整进入应用后的屏幕亮度（foss 降亮度名单 / method 各场景亮度曲线 / 全局与窗口亮度限制） -->
+<root>
+    <!-- 配置版本号 -->
+    <version>20260324</version>
+    <!-- add for foss function -->
+    <!-- foss：进应用降亮度总开关，enable="0" 为关闭；其下 type 按应用分类（2 普通应用 / 1 视频 / 4 特殊） -->
+    <foss enable="0">
+        <!-- type 2：普通应用，进入后按比例降低亮度 -->
+        <type id="2" name="normal app">
+            <!-- 以下对应于进应用降亮度的method id="0" -->
+            <!-- 浏览器 -->
+            <app>com.android.chrome</app>
+            <!-- 智能家居生活 -->
+            <app>com.oppo.ohome</app>
+            <!-- 淘新闻 -->
+            <app>com.coohua.xinwenzhuan</app>
+            <!-- 聊客 -->
+            <app>com.qingshu520.chat</app>
+            <!-- Google 浏览器  -->
+            <app>com.google.android.googlequicksearchbox</app>
+            <!-- 智能助手 -->
+            <app>com.coloros.assistantscreen</app>
+            <!-- 钱包 -->
+            <app>com.finshell.wallet</app>
+            <!-- 美拍 -->
+            <app>com.meitu.meipaimv</app>
+            <!-- 小说阅读 -->
+            <app>com.xiaoshuo.yueluread</app>
+            <!-- YY -->
+            <app>com.duowan.mobile</app>
+            <!-- 唯品会 -->
+            <app>com.achievo.vipshop</app>
+            <!-- 美颜相机 -->
+            <app>com.meitu.meiyancamera</app>
+            <!-- 游戏中心 -->
+            <app>com.nearme.gamecenter</app>
+            <!-- 咪咕阅读 -->
+            <app>com.ophone.reader.ui</app>
+            <!-- QQ空间 -->
+            <app>com.qzone</app>
+            <!-- 漫画台 -->
+            <app>com.comic.manhuatai</app>
+            <!-- 飞卢小说历史版本 -->
+            <app>com.faloo.BookReader4Android</app>
+            <!-- 中国工商银行 -->
+            <app>com.icbc</app>
+            <!-- 携程 -->
+            <app>ctrip.android.view</app>
+            <!-- 笔趣阁 -->
+            <app>com.gudianbiquge.ebook.app</app>
+            <!-- 飞读小说 -->
+            <app>com.yuewen.cooperate.reader.free</app>
+            <!-- 音遇 -->
+            <app>io.liuliu.music</app>
+            <!-- 系统播放器 -->
+            <app>com.heytap.yoli</app>
+            <!-- 珍爱网 -->
+            <app>com.zhenai.android</app>
+            <!-- 咚漫 -->
+            <app>com.naver.linewebtoon.cn</app>
+            <!-- 苏宁易购 -->
+            <app>com.suning.mobile.ebuy</app>
+            <!-- 交管12123 -->
+            <app>com.tmri.app.main</app>
+            <!-- 小书亭小说 -->
+            <app>com.qihoo.haosou.subscribe.vertical.book</app>
+            <!-- 快点阅读 -->
+            <app>com.skyplatanus.crucio</app>
+            <!-- 学习强国 -->
+            <app>cn.xuexi.android</app>
+            <!-- 疯狂小说 -->
+            <app>com.cootek.crazyreader</app>
+            <!-- 云集 -->
+            <app>com.imaginer.yunji</app>
+            <!-- 安卓日历控件 -->
+            <app>com.google.android.calendar</app>
+            <!-- 大众点评 -->
+            <app>com.dianping.v1</app>
+            <!-- QQ音乐 -->
+            <app>com.tencent.qqmusic</app>
+            <!-- 京东 -->
+            <app>com.jingdong.app.mall</app>
+            <!-- 趣头条 -->
+            <app>com.jifen.qukan</app>
+            <!-- 花生日记 -->
+            <app>com.jf.lkrj</app>
+            <!-- 酷我音乐 -->
+            <app>cn.kuwo.player</app>
+            <!-- 米读极速版 -->
+            <app>com.lechuan.mdwz</app>
+            <!-- 软件商店（OPPO自带应用） -->
+            <app>com.oppo.store</app>
+            <!-- 汽车之家 -->
+            <app>com.cubic.autohome</app>
+            <!-- 微鲤 -->
+            <app>cn.weli.story</app>
+            <!-- 美团 -->
+            <app>com.sankuai.meituan</app>
+            <!-- OPPO音乐播放器 -->
+            <app>com.heytap.music</app>
+            <!-- 360手机卫士 -->
+            <app>com.qihoo360.mobilesafe</app>
+            <!-- 饿了么 -->
+            <app>me.ele</app>
+            <!-- 天猫 -->
+            <app>com.tmall.wireless</app>
+            <!-- 快看漫画 -->
+            <app>com.kuaikan.comic</app>
+            <!-- 闲鱼 -->
+            <app>com.taobao.idlefish</app>
+            <!-- LOFTER | 乐乎 -->
+            <app>com.lofter.android</app>
+            <!-- 新浪 -->
+            <app>com.sina.news</app>
+            <!-- 淘宝 -->
+            <app>com.taobao.taobao</app>
+            <!-- Faceu激萌 -->
+            <app>com.lemon.faceu</app>
+            <!-- 主题市场 -->
+            <app>com.heytap.themestore</app>
+            <!-- 神奇手机管家 -->
+            <app>com.mobikeeper.sjgj</app>
+            <!-- 中国移动手机营业厅 -->
+            <app>com.greenpoint.android.mc10086.activity</app>
+            <!-- FACEBOOK -->
+            <app>com.facebook.katana</app>
+            <!-- 知乎 -->
+            <app>com.zhihu.android</app>
+            <!-- 双开助手 -->
+            <app>com.excelliance.dualaid</app>
+            <!-- 应用宝 -->
+            <app>com.tencent.android.qqdownloader</app>
+            <!-- 支付宝 -->
+            <app>com.eg.android.AlipayGphone</app>
+            <!-- 58同城 -->
+            <app>com.wuba</app>
+            <!-- 凤凰新闻 -->
+            <app>com.ifeng.news2</app>
+            <!-- 网易新闻 -->
+            <app>com.netease.newsreader.activity</app>
+            <!-- QQ阅读 -->
+            <app>com.qq.reader</app>
+            <!-- oppo手机主题商店 -->
+            <app>com.nearme.themestore</app>
+            <!-- 阿里巴巴 -->
+            <app>com.alibaba.wireless</app>
+            <!-- 百度阅读 -->
+            <app>com.baidu.yuedu</app>
+            <!-- 派派 -->
+            <app>com.ifreetalk.ftalk</app>
+            <!-- 企鹅FM -->
+            <app>com.tencent.radio</app>
+            <!-- 搜狗阅读 -->
+            <app>com.sogou.novel</app>
+            <!-- 得间免费小说 -->
+            <app>com.chaozh.iReader.dj</app>
+            <!-- 驾校一点通 -->
+            <app>com.jxedt</app>
+            <!-- 惠头条 -->
+            <app>com.cashtoutiao</app>
+            <!-- 网易云音乐 -->
+            <app>com.netease.cloudmusic</app>
+            <!-- 中国银行手机银行 -->
+            <app>com.chinamworld.bocmbci</app>
+            <!-- 章鱼输入法 -->
+            <app>com.komoxo.octopusime</app>
+            <!-- 同花顺手机炒股股票软件 -->
+            <app>com.hexin.plat.android</app>
+            <!-- 一点资讯 -->
+            <app>com.hipu.yidian</app>
+            <!-- 酷狗音乐 -->
+            <app>com.kugou.android</app>
+            <!-- 懂车帝 -->
+            <app>com.ss.android.auto</app>
+            <!-- 熊猫看书 -->
+            <app>com.nd.android.pandareader</app>
+            <!-- OPPO手机搬家 -->
+            <app>com.coloros.backuprestore</app>
+            <!-- 360浏览器 -->
+            <app>com.qihoo.browser</app>
+            <!-- 萌推 -->
+            <app>com.mengtuiapp.mall</app>
+            <!-- 得到 -->
+            <app>com.luojilab.player</app>
+            <!-- 作业帮 -->
+            <app>com.baidu.homework</app>
+            <!-- Snapchat -->
+            <app>com.snapchat.android</app>
+            <!-- 免费追书 -->
+            <app>com.mianfeizs.book</app>
+            <!-- 掌阅 -->
+            <app>com.chaozh.iReaderFree</app>
+            <!-- 全本小说阅读器 -->
+            <app>cc.quanben.novel</app>
+            <!-- 软件商店（OPPO自带应用） -->
+            <app>com.oppo.market</app>
+            <!-- Blued -->
+            <app>com.soft.blued</app>
+            <!-- 连尚读书 -->
+            <app>com.wifi.reader</app>
+            <!-- 看点快报 -->
+            <app>com.tencent.reading</app>
+            <!-- Easy wifi Radar -->
+            <app>com.wifi.reader.free</app>
+            <!-- 爱看书小说阅读 -->
+            <app>com.mianfeia.book</app>
+            <!-- 陌陌 -->
+            <app>com.immomo.momo</app>
+            <!-- 聊呗极速版 -->
+            <app>com.yunzhan.liaobei</app>
+            <!-- 转转 -->
+            <app>com.wuba.zhuanzhuan</app>
+            <!-- Gofun出行 -->
+            <app>com.gvsoft.gofun</app>
+            <!-- 塔读小说 -->
+            <app>com.tadu.read</app>
+            <!-- 阅读 -->
+            <app>com.heytap.reader</app>
+            <!-- OPPO书城 -->
+            <app>com.heytap.book</app>
+            <!-- 货拉拉 -->
+            <app>com.lalamove.huolala.driver</app>
+            <!-- 智能家居生活 -->
+            <app>com.heytap.smarthome</app>
+            <!-- 搜狗地图 -->
+            <app>com.sogou.map.android.maps</app>
+            <!-- 懂球帝 -->
+            <app>com.dongqiudi.news</app>
+            <!-- 百辞斩 -->
+            <app>com.jiongji.andriod.card</app>
+            <!-- 追书全本免费小说 -->
+            <app>com.zsqbmfxs.novel</app>
+            <!-- 儿歌多多 -->
+            <app>com.duoduo.child.story</app>
+            <!-- 美团外卖 -->
+            <app>com.sankuai.meituan.takeoutnew</app>
+            <!-- WIFI万能钥匙 -->
+            <app>com.snda.wifilocating</app>
+            <!-- 拼多多 -->
+            <app>com.xunmeng.pinduoduo</app>
+            <!-- 探探 -->
+            <app>com.p1.mobile.putong</app>
+            <!-- 139邮箱 -->
+            <app>cn.cj.pe</app>
+            <!-- 追书神器 -->
+            <app>com.ushaqi.zhuishushenqi.adfree</app>
+            <!-- 得物 -->
+            <app>com.shizhuang.duapp</app>
+            <!-- 中国建设银行 -->
+            <app>com.chinamworld.main</app>
+            <!-- 宜搜小说 -->
+            <app>com.esbook.reader</app>
+            <!-- TT语音 -->
+            <app>com.yiyou.ga</app>
+            <!-- 大鹏教育 -->
+            <app>com.power.dapengeducation</app>
+            <!-- 追书神器 -->
+            <app>com.ushaqi.zhuishushenqi</app>
+            <!-- 百度网盘 -->
+            <app>com.baidu.netdisk</app>
+            <!-- 微信读书 -->
+            <app>com.tencent.weread</app>
+            <!-- 豆瓣 -->
+            <app>com.douban.frodo</app>
+            <!-- 火狐浏览器 -->
+            <app>org.mozilla.firefox</app>
+            <!-- QQ -->
+            <app>com.tencent.mobileqq</app>
+            <!-- TIM-QQ办公简洁版 -->
+            <app>com.tencent.tim</app>
+            <!-- 迅雷 -->
+            <app>com.xunlei.downloadprovider</app>
+            <!-- 滴滴出行 -->
+            <app>com.sdu.didi.psnger</app>
+            <!-- 喜马拉雅 -->
+            <app>com.ximalaya.ting.android</app>
+            <!-- 米读小说 -->
+            <app>com.lechuan.midunovel</app>
+            <!-- Zalo -->
+            <app>com.zing.zalo</app>
+            <!-- 驾考宝典 -->
+            <app>com.handsgo.jiakao.android</app>
+            <!-- 快应用 -->
+            <app>com.nearme.instant.platform</app>
+            <!-- 企鹅电竞直播助手 -->
+            <app>com.tencent.liveassistant</app>
+            <!-- 坏坏猫 -->
+            <app>com.read.hmm</app>
+            <!-- 农行掌上银行 -->
+            <app>com.android.bankabc</app>
+            <!-- 搜索 -->
+            <app>com.heytap.quicksearchbox</app>
+            <!-- 计算器 -->
+            <app>com.google.android.calculator</app>
+            <!-- 菜鸟裹裹 -->
+            <app>com.cainiao.wireless</app>
+            <!-- 美柚 -->
+            <app>com.lingan.seeyou</app>
+            <!-- 小天才 -->
+            <app>com.xtc.watch</app>
+            <!-- 屏幕录制（OPPO自带应用） -->
+            <app>com.coloros.screenrecorder</app>
+            <!-- 文件管理 -->
+            <app>com.coloros.filemanager</app>
+            <!-- 潮信 -->
+            <app>im.chaoxin</app>
+            <!-- Uki -->
+            <app>cn.neoclub.uki</app>
+            <!-- 多开助手 -->
+            <app>com.xunrui.duokai_box</app>
+            <!-- 铃声多多 -->
+            <app>com.shoujiduoduo.ringtone</app>
+            <!-- 小恩爱 -->
+            <app>com.xiaoenai.app</app>
+            <!-- 百度贴吧 -->
+            <app>com.baidu.tieba</app>
+            <!-- WhatsApp -->
+            <app>com.whatsapp</app>
+            <!-- 语音助手 -->
+            <app>com.heytap.speechassist</app>
+            <!-- 钉钉 -->
+            <app>com.alibaba.android.rimet</app>
+            <!-- 情侣空间app -->
+            <app>com.welove520.qqsweet</app>
+            <!-- 微博极速版 -->
+            <app>com.sina.weibolite</app>
+            <!-- QQ极速版 -->
+            <app>com.tencent.qqlite</app>
+            <!-- 千牛 -->
+            <app>com.taobao.qianniu</app>
+            <!-- Email -->
+            <app>com.android.email</app>
+            <!-- 日历 -->
+            <app>com.coloros.calendar</app>
+            <!-- HeyTap健康 -->
+            <app>com.heytap.health</app>
+            <!-- 贝店 -->
+            <app>com.husor.beidian</app>
+            <!-- 手机管家 -->
+            <app>com.coloros.phonemanager</app>
+            <!-- IMO -->
+            <app>com.imo.android.imoim</app>
+            <!-- Facebook  -->
+            <app>com.facebook.lite</app>
+            <!-- 录音 -->
+            <app>com.coloros.newsoundrecorder</app>
+            <!-- 腾讯新闻极速版 -->
+            <app>com.tencent.news.lite</app>
+            <!-- NearMe笔记-OPPO便签 -->
+            <app>com.coloros.note</app>
+            <!-- 漫读小说 -->
+            <app>com.immomo.mread</app>
+            <!-- 闹钟 -->
+            <app>com.coloros.alarmclock</app>
+            <!-- 短信 -->
+            <app>com.android.mms</app>
+            <!-- Instagram -->
+            <app>com.instagram.android</app>
+            <!-- Sound Recorder -->
+            <app>com.coloros.soundrecorder</app>
+            <!-- 学习通 -->
+            <app>com.chaoxing.mobile</app>
+            <!-- 电话本 -->
+            <app>com.android.contacts</app>
+            <!-- Messenger -->
+            <app>com.facebook.orca</app>
+            <!-- Viber -->
+            <app>com.viber.voip</app>
+            <!-- WPS Office -->
+            <app>cn.wps.moffice_eng</app>
+            <!-- 腾讯会议 -->
+            <app>com.tencent.wemeet.app</app>
+            <!-- 快本全读小说 -->
+            <app>kuaidu.xiaoshuo.yueduqi</app>
+            <!-- 网易邮箱大师 -->
+            <app>com.netease.mail</app>
+            <!-- QQ邮箱 -->
+            <app>com.tencent.androidqqmail</app>
+            <!-- 触宝电话 -->
+            <app>com.cootek.smartdialer</app>
+            <!-- 懒人畅听 -->
+            <app>bubei.tingshu</app>
+            <!-- 蜻蜓FM -->
+            <app>fm.qingting.qtradio</app>
+            <!-- 皮皮搞笑 -->
+            <app>cn.xiaochuankeji.zuiyouLite</app>
+            <!-- 虎扑 -->
+            <app>com.hupu.games</app>
+            <!-- 儿歌点点 -->
+            <app>com.mampod.ergedd</app>
+            <!-- 微博动漫 -->
+            <app>com.weibo.comic</app>
+            <!-- 去哪网 -->
+            <app>com.Qunar</app>
+            <!-- 哈啰出行 -->
+            <app>com.jingyao.easybike</app>
+            <!-- 花小猪打车 -->
+            <app>com.huaxiaozhu.rider</app>
+            <!-- 网易有道词典 -->
+            <app>com.youdao.dict</app>
+            <!-- 招商银行 -->
+            <app>cmb.pb</app>
+            <!-- 京东金融 -->
+            <app>com.jd.jrapp</app>
+            <!-- 平安口袋银行 -->
+            <app>com.pingan.paces.ccms</app>
+            <!-- 平安金管家 -->
+            <app>com.pingan.lifeinsurance</app>
+            <!-- 翼支付 -->
+            <app>com.chinatelecom.bestpayclient</app>
+            <!-- Calculator -->
+            <app>com.coloros.calculator</app>
+            <!-- Personalizations -->
+            <app>com.oplus.uxdesign</app>
+            <!-- Security Centre -->
+            <app>com.oplus.safecenter</app>
+            <!-- Pinterest -->
+            <app>com.pinterest</app>
+            <!-- Twitter -->
+            <app>com.twitter.android</app>
+            <!-- LinkedIn -->
+            <app>com.linkedin.android</app>
+            <!-- Lazada -->
+            <app>com.lazada.android</app>
+            <!-- Shopee（不同地区） -->
+            <app>com.shopee.th</app>
+            <!-- Shopee（不同地区） -->
+            <app>com.shopee.sg</app>
+            <!-- Shopee（不同地区） -->
+            <app>com.shopee.my</app>
+            <!-- Shopee（不同地区） -->
+            <app>com.shopee.id</app>
+            <!-- Shopee（不同地区） -->
+            <app>com.shopee.ph</app>
+            <!-- Shopee（不同地区） -->
+            <app>com.shopee.vn</app>
+            <!-- GCash -->
+            <app>com.globe.gcash.android</app>
+            <!-- Myntra -->
+            <app>com.myntra.android</app>
+            <!-- Meesho -->
+            <app>com.meesho.supply</app>
+            <!-- Flipkart -->
+            <app>com.flipkart.android</app>
+            <!-- Amazon -->
+            <app>in.amazon.mShop.android.shopping</app>
+            <!-- SHEIN -->
+            <app>com.zzkko</app>
+            <!-- K PLUS -->
+            <app>com.kasikorn.retail.mbanking.wap</app>
+            <!-- Teams -->
+            <app>com.microsoft.teams</app>
+            <!-- Swiggy -->
+            <app>in.swiggy.android</app>
+            <!-- Zomato -->
+            <app>com.application.zomato</app>
+            <!-- Grab -->
+            <app>com.grabtaxi.passenger</app>
+            <!-- IRCTC Rail Connect -->
+            <app>cris.org.in.prs.ima</app>
+            <!-- Where is my Train -->
+            <app>com.whereismytrain.android</app>
+            <!-- Uber -->
+            <app>com.ubercab</app>
+            <!-- Gojek -->
+            <app>com.gojek.app</app>
+            <!-- foodpanda -->
+            <app>com.global.foodpanda.android</app>
+            <!-- Dailyhunt -->
+            <app>com.eterno</app>
+            <!-- YONO SBI -->
+            <app>com.sbi.lotusintouch</app>
+            <!-- NEXT -->
+            <app>ktbcs.netbank</app>
+            <!-- SCB EASY -->
+            <app>com.scb.phone</app>
+            <!-- BCA mobile -->
+            <app>com.bca</app>
+            <!-- TrueMoney -->
+            <app>th.co.truemoney.wallet</app>
+            <!-- เป๋าตัง -->
+            <app>com.ktb.customer.qr</app>
+            <!-- AJIO -->
+            <app>com.zerodha.kite3</app>
+            <!-- Drive -->
+            <app>com.google.android.apps.docs</app>
+            <!-- Files by Google -->
+            <app>com.google.android.apps.nbu.files</app>
+            <!-- SHAREit -->
+            <app>com.lenovo.anyshare.gps</app>
+            <!-- Gmail -->
+            <app>com.google.android.gm</app>
+            <!-- Outlook -->
+            <app>com.microsoft.office.outlook</app>
+            <!-- GBWhatsApp -->
+            <app>com.gbwhatsapp</app>
+            <!-- WhatsApp Business -->
+            <app>com.whatsapp.w4b</app>
+            <!-- Telegram -->
+            <app>org.telegram.messenger</app>
+            <!-- ShareChat -->
+            <app>in.mohalla.sharechat</app>
+            <!-- Truecaller -->
+            <app>com.truecaller</app>
+            <!-- LINE -->
+            <app>jp.naver.line.android</app>
+            <!-- Keep Notes -->
+            <app>com.google.android.keep</app>
+            <!-- Google Play Store -->
+            <app>com.android.vending</app>
+            <!-- App Market -->
+            <app>com.heytap.market</app>
+            <!-- Spotify -->
+            <app>com.spotify.music</app>
+            <!-- YouTube Music -->
+            <app>com.google.android.apps.youtube.music</app>
+            <!-- Zing MP3 -->
+            <app>com.zing.mp3</app>
+            <!-- JioSaavn -->
+            <app>com.google.android.inputmethod.latin</app>
+            <!-- 以下对应于进应用降亮度的method id="8" -->
+            <!-- 今日头条 -->
+            <app>com.ss.android.article.news</app>
+            <!-- 百度 -->
+            <app>com.baidu.searchbox</app>
+            <!-- 悟空浏览器 -->
+            <app>com.cat.readall</app>
+            <!-- 今日头条极速版 -->
+            <app>com.ss.android.article.lite</app>
+            <!-- 浏览器 -->
+            <app>com.heytap.browser</app>
+            <!-- 七猫免费小说 -->
+            <app>com.kmxs.reader</app>
+            <!-- 夸克 -->
+            <app>com.quark.browser</app>
+            <!-- QQ浏览器 -->
+            <app>com.tencent.mtt</app>
+            <!-- UC浏览器 -->
+            <app>com.UCMobile</app>
+            <!-- 百度极速版 -->
+            <app>com.baidu.searchbox.lite</app>
+            <!-- 豆包 -->
+            <app>com.larus.nova</app>
+            <!-- 蛋花免费小说 -->
+            <app>com.eggflower.read</app>
+            <!-- 腾讯新闻 -->
+            <app>com.tencent.news</app>
+            <!-- 猫箱 -->
+            <app>com.parallel.odyssey</app>
+            <!-- 常读免费小说 -->
+            <app>com.woodleaves.read</app>
+            <!-- 书旗小说 -->
+            <app>com.shuqi.controller</app>
+            <!-- 晋江小说阅读 -->
+            <app>com.jjwxc.reader</app>
+            <!-- 起点读书 -->
+            <app>com.qidian.QDReader</app>
+            <!-- UC浏览器极速版 -->
+            <app>com.ucmobile.lite</app>
+            <!-- 番茄免费小说 -->
+            <app>com.dragon.read</app>
+            <!-- 以下对应于进应用降亮度的method id="6" -->
+            <!-- 蜂鸟众包 -->
+            <app>me.ele.crowdsource</app>
+            <!-- 蜂鸟跑腿 -->
+            <app>me.ele.shopcenter</app>
+            <!-- 美团骑手 -->
+            <app>com.sankuai.meituan.dispatch.homebrew</app>
+            <!-- 美团众包 -->
+            <app>com.sankuai.meituan.dispatch.crowdsource</app>
+            <!-- 百度地图 -->
+            <app>com.baidu.BaiduMap</app>
+            <!-- 高德地图 -->
+            <app>com.autonavi.minimap</app>
+            <!-- 腾讯地图 -->
+            <app>com.tencent.map</app>
+            <!-- 谷歌地图 -->
+            <app>com.google.android.apps.maps</app>
+            <!-- 位智 -->
+            <app>com.waze</app>
+            <!-- 蜂鸟骑士 -->
+            <app>me.ele.hbdteam</app>
+            <!-- 顺丰同城骑士 -->
+            <app>com.sfexpress.knight</app>
+            <!-- 闪送员 -->
+            <app>com.ishansong</app>
+            <!-- UU跑腿跑男端 -->
+            <app>com.slkj.paotui.worker</app>
+            <!-- 顺丰同城急送 -->
+            <app>com.sfexpress.merchant</app>
+            <!-- 达达秒送 -->
+            <app>com.dada.mobile.shop.android</app>
+            <!-- 爱跑腿骑士版 -->
+            <app>com.wzmt.ipaotuirunner</app>
+            <!-- 京东秒送骑士 -->
+            <app>com.dada.mobile.android</app>
+            <!-- 顺丰小哥 -->
+            <app>com.sgs.next</app>
+            <!-- T3车主 -->
+            <app>com.t3go.driver</app>
+            <!-- 曹操司机 -->
+            <app>cn.caocaokeji.dcdriver</app>
+            <!-- 如祺出行司机端 -->
+            <app>com.ruqi.driver</app>
+            <!-- 车旺大卡 -->
+            <app>com.vehicles.activities</app>
+            <!-- 成丰货运司机端 -->
+            <app>com.kuaiyun.app.driver</app>
+            <!-- 嘀嗒车主 -->
+            <app>com.didapinche.booking.driver</app>
+            <!-- 滴滴车主 -->
+            <app>com.sdu.didi.gsui</app>
+            <!-- 滴滴送货司机 -->
+            <app>com.didiglobal.express.driver</app>
+            <!-- 蜂羽司机 -->
+            <app>com.jumstc.driver</app>
+            <!-- 哈啰车主 -->
+            <app>com.hellobike.majia</app>
+            <!-- 花小猪司机端 -->
+            <app>com.huaxiaozhu.driver</app>
+            <!-- 货车帮货主 -->
+            <app>com.wlqq4consignor</app>
+            <!-- 货车帮司机 -->
+            <app>com.wlqq</app>
+            <!-- 货拉拉专送司机 -->
+            <app>com.lalamove.huolala.cdriver</app>
+            <!-- 及时司机 -->
+            <app>com.jsyc.driver</app>
+            <!-- 解放行司机版 -->
+            <app>com.mapbar.qingqi.driver</app>
+            <!-- 聚的出租 -->
+            <app>com.xinchuzu.driver</app>
+            <!-- 路歌好运宝 -->
+            <app>com.wtyt.goods.driver</app>
+            <!-- 满易运司机 -->
+            <app>com.android.manyi.tms.driver</app>
+            <!-- 千云司机端 -->
+            <app>com.thclouds.driver</app>
+            <!-- 顺风车主 -->
+            <app>com.mxzfly.haluo</app>
+            <!-- 享道出行司机 -->
+            <app>com.saicmobility.driver</app>
+            <!-- 小拉出行司机版 -->
+            <app>com.xiaolachuxing.driver</app>
+            <!-- 阳光车主 -->
+            <app>com.jryg.driver</app>
+            <!-- 运满满货主 -->
+            <app>com.xiwei.logistics.consignor</app>
+            <!-- 运满满司机 -->
+            <app>com.xiwei.logistics</app>
+            <!-- 及时司机极速版 -->
+            <app>com.jishijisuban.driver</app>
+            <!-- 滴滴代驾司机 -->
+            <app>com.kuaidi.daijia.driver</app>
+            <!-- 首汽约车司机端 -->
+            <app>com.ichinait.gbdriver</app>
+            <!-- 风韵出行司机 -->
+            <app>com.fengyuncx.yydriver</app>
+            <!-- 携华出行司机端 -->
+            <app>com.xhchuxing.driver.product</app>
+            <!-- 单聚多代驾司机端 -->
+            <app>com.JUDj.longju.driver</app>
+            <switch>1</switch>
+            <ratio>0.15</ratio>
+        </type>
+        <!-- type 1：视频 / 短视频类应用 -->
+        <type id="1" name="video">
+            <!-- 快手极速版 -->
+            <app>com.kuaishou.nebula</app>
+            <!-- 快手 -->
+            <app>com.smile.gifmaker</app>
+            <!-- 抖音火山版 -->
+            <app>com.ss.android.ugc.live</app>
+            <!-- 抖音极速版 -->
+            <app>com.ss.android.ugc.aweme.lite</app>
+            <!-- Tiktok -->
+            <app>com.ss.android.ugc.trill</app>
+            <!-- 抖音 -->
+            <app>com.ss.android.ugc.aweme</app>
+            <!-- 红果免费短剧 -->
+            <app>com.phoenix.read</app>
+            <!-- 哔哩哔哩 -->
+            <app>tv.danmaku.bili</app>
+            <!-- TikTok -->
+            <app>com.zhiliaoapp.musically</app>
+            <!-- Moj -->
+            <app>in.mohalla.video</app>
+            <!-- Josh -->
+            <app>com.eterno.shortvideos</app>
+            <!-- 西瓜视频 -->
+            <app>com.ss.android.article.video</app>
+            <!-- 抖音精选 -->
+            <app>com.ss.android.yumme.video</app>
+            <!-- 河马剧场 -->
+            <app>com.dz.hmjc</app>
+            <!-- 好看视频 -->
+            <app>com.baidu.haokan</app>
+            <!-- 萤石云视频 -->
+            <app>com.videogo</app>
+            <!-- 喜番免费短剧 -->
+            <app>com.kwai.theater</app>
+            <!-- 央视频 -->
+            <app>com.cctv.yangshipin.app.androidp</app>
+            <!-- 腾讯微视 -->
+            <app>com.tencent.weishi</app>
+            <!-- AI抖音 -->
+            <app>com.ss.android.ugc.aweme.hubble</app>
+            <!-- 皮皮虾 -->
+            <app>com.sup.android.superb</app>
+            <!-- 人人视频 -->
+            <app>com.example.pptv</app>
+            <!-- 皮皮搞笑 -->
+            <app>cn.xiaochuankeji.zuiyouLite</app>
+            <switch>1</switch>
+            <ratio>0.15</ratio>
+        </type>
+        <!-- type 4：特殊应用 -->
+        <type id="4" name="special">
+            <!-- 微信 -->
+            <app>com.tencent.mm</app>
+            <!-- 企业微信 -->
+            <app>com.tencent.wework</app>
+            <!-- 微博 -->
+            <app>com.sina.weibo</app>
+            <!-- 小红书 -->
+            <app>com.xingin.xhs</app>
+            <switch>1</switch>
+            <ratio>0.15</ratio>
+        </type>
+    </foss>
+
+    <!--Expressiveness App Reduction v1.5 with Foss-->
+    <!-- method 内参数：switch 开关；nit 触发亮度档；ratio 亮度降低比例；rate_in / rate_out 进入与退出过渡速率 -->
+    <method id="2">
+        <!-- 腾讯视频 -->
+        <app>com.tencent.qqlive</app>
+        <!-- 爱奇艺 -->
+        <app>com.qiyi.video</app>
+        <!-- 优酷 -->
+        <app>com.youku.phone</app>
+        <!-- 芒果TV -->
+        <app>com.hunantv.imgo.activity</app>
+        <!-- 爱奇艺极速版 -->
+        <app>com.qiyi.video.lite</app>
+        <!-- YouTube -->
+        <app>com.google.android.youtube</app>
+        <!-- Netflix -->
+        <app>com.netflix.mediaclient</app>
+        <!-- Video (player) -->
+        <app>com.coloros.video</app>
+        <!-- Zoom -->
+        <app>us.zoom.videomeetings</app>
+        <!-- CapCut -->
+        <app>com.lemon.lvoverseas</app>
+        <!-- Pure Tuber -->
+        <app>free.tube.premium.advanced.tuber</app>
+        <!-- MX Player -->
+        <app>com.mxtech.videoplayer.ad</app>
+        <!-- Hotstar -->
+        <app>in.startv.hotstar</app>
+        <!-- Prime Video -->
+        <app>com.amazon.avod.thirdpartyclient</app>
+        <!-- PLAYit -->
+        <app>com.playit.videoplayer</app>
+        <!-- JioCinema -->
+        <app>com.jio.media.ondemand</app>
+        <!-- VidMate -->
+        <app>com.video.fun.app</app>
+        <!-- Duo -->
+        <app>com.google.android.apps.tachyon</app>
+        <switch>1</switch>
+        <nit mode="0">600,800,1000,2000</nit>
+        <ratio mode="0">0.0,0.25,0.0,0.5</ratio>
+        <rate_in mode="0">0,10,0,10</rate_in>
+        <rate_out mode="0">0,15,0,15</rate_out>
+        <nit mode="1">1000,2000</nit>
+        <ratio mode="1">0.0,0.5</ratio>
+        <rate_in mode="1">0,10</rate_in>
+        <rate_out mode="1">0,15</rate_out>
+    </method>
+
+    <!-- method id=3：另一组应用亮度曲线，参数含义同上 -->
+    <method id="3">
+        <!-- 快手极速版 -->
+        <app>com.kuaishou.nebula</app>
+        <!-- 快手 -->
+        <app>com.smile.gifmaker</app>
+        <!-- 抖音火山版 -->
+        <app>com.ss.android.ugc.live</app>
+        <!-- 抖音极速版 -->
+        <app>com.ss.android.ugc.aweme.lite</app>
+        <!-- Tiktok -->
+        <app>com.ss.android.ugc.trill</app>
+        <!-- 抖音 -->
+        <app>com.ss.android.ugc.aweme</app>
+        <!-- 红果免费短剧 -->
+        <app>com.phoenix.read</app>
+        <!-- 哔哩哔哩 -->
+        <app>tv.danmaku.bili</app>
+        <!-- TikTok -->
+        <app>com.zhiliaoapp.musically</app>
+        <!-- Moj -->
+        <app>in.mohalla.video</app>
+        <!-- Josh -->
+        <app>com.eterno.shortvideos</app>
+        <!-- 西瓜视频 -->
+        <app>com.ss.android.article.video</app>
+        <!-- 抖音精选 -->
+        <app>com.ss.android.yumme.video</app>
+        <!-- 河马剧场 -->
+        <app>com.dz.hmjc</app>
+        <!-- 好看视频 -->
+        <app>com.baidu.haokan</app>
+        <!-- 萤石云视频 -->
+        <app>com.videogo</app>
+        <!-- 喜番免费短剧 -->
+        <app>com.kwai.theater</app>
+        <!-- 央视频 -->
+        <app>com.cctv.yangshipin.app.androidp</app>
+        <!-- 腾讯微视 -->
+        <app>com.tencent.weishi</app>
+        <!-- AI抖音 -->
+        <app>com.ss.android.ugc.aweme.hubble</app>
+        <!-- 皮皮虾 -->
+        <app>com.sup.android.superb</app>
+        <!-- 人人视频 -->
+        <app>com.example.pptv</app>
+        <!-- 皮皮搞笑 -->
+        <app>cn.xiaochuankeji.zuiyouLite</app>
+        <switch>1</switch>
+        <nit mode="0">500,800,1000,2000</nit>
+        <ratio mode="0">0.0,0.375,0.0,0.5</ratio>
+        <rate_in mode="0">0,10,0,10</rate_in>
+        <rate_out mode="0">0,15,0,15</rate_out>
+        <nit mode="1">600,800,1000,2000</nit>
+        <ratio mode="1">0.0,0.25,0.0,0.5</ratio>
+        <rate_in mode="1">0,10,0,10</rate_in>
+        <rate_out mode="1">0,15,0,15</rate_out>
+    </method>
+
+    <!-- method id=4：另一组应用亮度曲线，参数含义同上 -->
+    <method id="4">
+        <!-- 英雄联盟手游 -->
+        <app>com.tencent.lolm</app>
+        <!-- 英雄联盟-海外服 -->
+        <app>com.riotgames.league.wildrift</app>
+        <!-- 英雄联盟-台湾服 -->
+        <app>com.riotgames.league.wildrifttw</app>
+        <!-- 英雄联盟-越南服 -->
+        <app>com.riotgames.league.wildriftvn</app>
+        <!-- 英雄联盟-测试服 -->
+        <app>com.riotgames.internal.wildrift.test</app>
+        <!-- 王者荣耀 -->
+        <app>com.tencent.tmgp.sgame</app>
+        <!-- 和平精英 -->
+        <app>com.tencent.tmgp.pubgmhd</app>
+        <!-- 原神 -->
+        <app>com.miHoYo.Yuanshen</app>
+        <!-- Candy Crush Saga -->
+        <app>com.king.candycrushsaga</app>
+        <!-- BridgeRunIO -->
+        <app>com.katanlabs.bridgerunio</app>
+        <!-- Block Blast Adventure Master -->
+        <app>com.block.juggle</app>
+        <!-- Genshin Impact -->
+        <app>com.miHoYo.GenshinImpact</app>
+        <!-- Mobile Legends: Bang Bang -->
+        <app>com.mobile.legends</app>
+        <!-- RoV -->
+        <app>com.garena.game.kgth</app>
+        <!-- PUBG MOBILE -->
+        <app>com.tencent.ig</app>
+        <!-- Liên Quân Mobile -->
+        <app>com.garena.game.kgvn</app>
+        <!-- Roblox -->
+        <app>com.roblox.client</app>
+        <!-- Battlegrounds India -->
+        <app>com.pubg.imobile</app>
+        <!-- Free Fire MAX -->
+        <app>com.dts.freefiremax</app>
+        <!-- Ludo King -->
+        <app>com.ludo.king</app>
+        <!-- Free Fire MAX -->
+        <app>com.ril.ajio</app>
+        <!-- 三角洲行动 -->
+        <app>com.tencent.tmgp.dfm</app>
+        <!-- 开心消消乐 -->
+        <app>com.happyelements.AndroidAnimal</app>
+        <!-- 蛋仔派对 -->
+        <app>com.netease.party.nearme.gamecenter</app>
+        <!-- 金铲铲之战 -->
+        <app>com.tencent.jkchess</app>
+        <!-- 超自然行动组 -->
+        <app>com.pi.czrxdfirst</app>
+        <!-- 无畏契约：源能行动 -->
+        <app>com.tencent.tmgp.codev</app>
+        <!-- 暗区突围 -->
+        <app>com.tencent.mf.uam</app>
+        <!-- 崩坏：星穹铁道 -->
+        <app>com.miHoYo.hkrpg</app>
+        <!-- 火影忍者 -->
+        <app>com.tencent.KiHan</app>
+        <!-- 穿越火线-枪战王者 -->
+        <app>com.tencent.tmgp.cf</app>
+        <!-- 地下城与勇士：起源 -->
+        <app>com.tencent.tmgp.dnf</app>
+        <!-- 燕云十六声 -->
+        <app>com.netease.yyslscn</app>
+        <!-- 第五人格 -->
+        <app>com.netease.dwrg.nearme.gamecenter</app>
+        <!-- 天天象棋 -->
+        <app>com.tencent.qqgame.xq</app>
+        <!-- 元梦之星 -->
+        <app>com.tencent.letsgo</app>
+        <!-- 迷你世界 -->
+        <app>com.minitech.miniworld.nearme.gamecenter</app>
+        <!-- 逆水寒 -->
+        <app>com.netease.nshm</app>
+        <!-- 明日方舟 -->
+        <app>com.hypergryph.arknights</app>
+        <!-- 梦幻互通版 -->
+        <app>com.netease.mhxyhtb</app>
+        <!-- 我的世界：移动版 -->
+        <app>com.netease.mc.nearme.gamecenter</app>
+        <!-- 天天爱消除 -->
+        <app>com.tencent.peng</app>
+        <!-- 我的世界 -->
+        <app>com.netease.x19</app>
+        <!-- 部落冲突 -->
+        <app>com.tencent.tmgp.supercell.clashofclans</app>
+        <!-- 第五人格 -->
+        <app>com.netease.dwrg</app>
+        <!-- 使命召唤手游 -->
+        <app>com.tencent.tmgp.cod</app>
+        <!-- 蛋仔派对 -->
+        <app>com.netease.party</app>
+        <!-- QQ飞车 -->
+        <app>com.tencent.tmgp.speedmobile</app>
+        <!-- 永劫无间 -->
+        <app>com.netease.l22</app>
+        <switch>1</switch>
+        <nit mode="0">600,800,2000</nit>
+        <ratio mode="0">0.0,0.25,0.6</ratio>
+        <rate_in mode="0">0,10,10</rate_in>
+        <rate_out mode="0">0,15,15</rate_out>
+        <nit mode="1">600,800,2000</nit>
+        <ratio mode="1">0.0,0.25,0.6</ratio>
+        <rate_in mode="1">0,10,10</rate_in>
+        <rate_out mode="1">0,15,15</rate_out>
+    </method>
+
+    <!-- method id=6：另一组应用亮度曲线，参数含义同上 -->
+    <method id="6">
+        <!-- 蜂鸟众包 -->
+        <app>me.ele.crowdsource</app>
+        <!-- 蜂鸟跑腿 -->
+        <app>me.ele.shopcenter</app>
+        <!-- 达达快送 -->
+        <app>com.dada.mobile.shop.android</app>
+        <!-- 美团骑手 -->
+        <app>com.sankuai.meituan.dispatch.homebrew</app>
+        <!-- 美团众包 -->
+        <app>com.sankuai.meituan.dispatch.crowdsource</app>
+        <!-- 百度地图 -->
+        <app>com.baidu.BaiduMap</app>
+        <!-- 高德地图 -->
+        <app>com.autonavi.minimap</app>
+        <!-- 腾讯地图 -->
+        <app>com.tencent.map</app>
+        <!-- 谷歌地图 -->
+        <app>com.google.android.apps.maps</app>
+        <!-- 位智 -->
+        <app>com.waze</app>
+        <!-- 蜂鸟骑士 -->
+        <app>me.ele.hbdteam</app>
+        <!-- 达达秒送骑士 -->
+        <app>com.dada.mobile.android</app>
+        <!-- 顺丰同城骑士 -->
+        <app>com.sfexpress.knight</app>
+        <!-- 闪送员 -->
+        <app>com.ishansong</app>
+        <!-- UU跑腿跑男端 -->
+        <app>com.slkj.paotui.worker</app>
+        <!-- 顺丰同城急送 -->
+        <app>com.sfexpress.merchant</app>
+        <!-- 爱跑腿骑士版 -->
+        <app>com.wzmt.ipaotuirunner</app>
+        <!-- 顺丰小哥 -->
+        <app>com.sgs.next</app>
+        <!-- T3车主 -->
+        <app>com.t3go.driver</app>
+        <!-- 曹操司机 -->
+        <app>cn.caocaokeji.dcdriver</app>
+        <!-- 如祺出行司机端 -->
+        <app>com.ruqi.driver</app>
+        <!-- 车旺大卡 -->
+        <app>com.vehicles.activities</app>
+        <!-- 成丰货运司机端 -->
+        <app>com.kuaiyun.app.driver</app>
+        <!-- 嘀嗒车主 -->
+        <app>com.didapinche.booking.driver</app>
+        <!-- 滴滴车主 -->
+        <app>com.sdu.didi.gsui</app>
+        <!-- 滴滴送货司机 -->
+        <app>com.didiglobal.express.driver</app>
+        <!-- 风韵出行司机 -->
+        <app>com.fengyuncx.yydriver</app>
+        <!-- 蜂羽司机 -->
+        <app>com.jumstc.driver</app>
+        <!-- 哈啰车主 -->
+        <app>com.hellobike.majia</app>
+        <!-- 花小猪司机端 -->
+        <app>com.huaxiaozhu.driver</app>
+        <!-- 货车帮货主 -->
+        <app>com.wlqq4consignor</app>
+        <!-- 货车帮司机 -->
+        <app>com.wlqq</app>
+        <!-- 货拉拉司机版 -->
+        <app>com.lalamove.huolala.driver</app>
+        <!-- 货拉拉专送司机 -->
+        <app>com.lalamove.huolala.cdriver</app>
+        <!-- 及时司机 -->
+        <app>com.jsyc.driver</app>
+        <!-- 解放行司机版 -->
+        <app>com.mapbar.qingqi.driver</app>
+        <!-- 聚的出租 -->
+        <app>com.xinchuzu.driver</app>
+        <!-- 路歌好运宝 -->
+        <app>com.wtyt.goods.driver</app>
+        <!-- 满易运司机 -->
+        <app>com.android.manyi.tms.driver</app>
+        <!-- 千云司机端 -->
+        <app>com.thclouds.driver</app>
+        <!-- 顺风车主 -->
+        <app>com.mxzfly.haluo</app>
+        <!-- 享道出行司机 -->
+        <app>com.saicmobility.driver</app>
+        <!-- 小拉出行司机版 -->
+        <app>com.xiaolachuxing.driver</app>
+        <!-- 阳光车主 -->
+        <app>com.jryg.driver</app>
+        <!-- 运满满货主 -->
+        <app>com.xiwei.logistics.consignor</app>
+        <!-- 运满满司机 -->
+        <app>com.xiwei.logistics</app>
+        <!-- 及时司机极速版 -->
+        <app>com.jishijisuban.driver</app>
+        <!-- 滴滴代驾司机 -->
+        <app>com.kuaidi.daijia.driver</app>
+        <!-- 首汽约车司机端 -->
+        <app>com.ichinait.gbdriver</app>
+        <!-- 携华出行司机端 -->
+        <app>com.xhchuxing.driver.product</app>
+        <!-- 单聚多代驾司机端 -->
+        <app>com.JUDj.longju.driver</app>
+        <switch>1</switch>
+        <nit mode="0">500,800,2000</nit>
+        <ratio mode="0">0.0,0.375,0.6</ratio>
+        <rate_in mode="0">0,10,10</rate_in>
+        <rate_out mode="0">0,15,15</rate_out>
+        <nit mode="1">600,800,2000</nit>
+        <ratio mode="1">0.0,0.25,0.6</ratio>
+        <rate_in mode="1">0,18,18</rate_in>
+        <rate_out mode="1">0,20,20</rate_out>
+    </method>
+
+    <!-- method id=8：另一组应用亮度曲线，参数含义同上 -->
+    <method id="8">
+        <!-- 今日头条 -->
+        <app>com.ss.android.article.news</app>
+        <!-- 百度 -->
+        <app>com.baidu.searchbox</app>
+        <!-- 悟空浏览器 -->
+        <app>com.cat.readall</app>
+        <!-- 今日头条极速版 -->
+        <app>com.ss.android.article.lite</app>
+        <!-- 浏览器 -->
+        <app>com.heytap.browser</app>
+        <!-- 七猫免费小说 -->
+        <app>com.kmxs.reader</app>
+        <!-- 夸克 -->
+        <app>com.quark.browser</app>
+        <!-- QQ浏览器 -->
+        <app>com.tencent.mtt</app>
+        <!-- UC浏览器 -->
+        <app>com.UCMobile</app>
+        <!-- 百度极速版 -->
+        <app>com.baidu.searchbox.lite</app>
+        <!-- 豆包 -->
+        <app>com.larus.nova</app>
+        <!-- 微博 -->
+        <app>com.sina.weibo</app>
+        <!-- 蛋花免费小说 -->
+        <app>com.eggflower.read</app>
+        <!-- 腾讯新闻 -->
+        <app>com.tencent.news</app>
+        <!-- 猫箱 -->
+        <app>com.parallel.odyssey</app>
+        <!-- 常读免费小说 -->
+        <app>com.woodleaves.read</app>
+        <!-- 书旗小说 -->
+        <app>com.shuqi.controller</app>
+        <!-- 晋江小说阅读 -->
+        <app>com.jjwxc.reader</app>
+        <!-- 起点读书 -->
+        <app>com.qidian.QDReader</app>
+        <!-- UC浏览器极速版 -->
+        <app>com.ucmobile.lite</app>
+        <!-- 番茄免费小说 -->
+        <app>com.dragon.read</app>
+        <switch>1</switch>
+        <nit mode="0">600,800,2000</nit>
+        <ratio mode="0">0.0,0.25,0.6</ratio>
+        <rate_in mode="0">0,10,10</rate_in>
+        <rate_out mode="0">0,15,15</rate_out>
+        <nit mode="1">600,800,2000</nit>
+        <ratio mode="1">0.0,0.25,0.6</ratio>
+        <rate_in mode="1">0,10,10</rate_in>
+        <rate_out mode="1">0,15,15</rate_out>
+    </method>
+
+
+    <!-- add for global brightness limit, others limit to 1200 except below black list-->
+    <global_brightness_limit nit="1600">
+        <app>com.oplus.engineermode</app>
+        <app>tv.danmaku.bili</app>
+        <app>com.qiyi.video</app>
+        <app>com.tencent.qqlive</app>
+        <app>com.youku.phone</app>
+        <app>com.oplus.autotest.mmdisplaytool</app>
+        <app>com.coloros.gallery3d</app>
+        <app>com.oneplus.gallery</app>
+        <app>com.android.launcher</app>
+    </global_brightness_limit>
+
+    <!-- 窗口亮度上限：以下应用进入后窗口亮度限制到 limitnit 指定的 nit -->
+    <window_brightness>
+        <limitnit>800</limitnit>
+        <app>com.infothinker.gzmetro</app>
+        <app>com.unionpay</app>
+        <app>com.szt.pay</app>
+        <app>com.njusoft.LyxBus</app>
+        <app>com.founder.hsdt</app>
+        <app>com.bwton.msx.ccb</app>
+        <app>com.gstb.railserviceplatform</app>
+    </window_brightness>
+
+    <!-- 游戏场景亮度：nit 亮度档位、ratio 亮度比例、rate 过渡速率 -->
+    <game_brightness>
+        <nit>2, 5, 58, 75</nit>
+        <ratio>0, 0.2, 0.2, 0</ratio>
+        <rate>0, 15, 15, 0</rate>
+    </game_brightness>
+
+    <!-- add for game edr enhance -->
+    <game_edr>
+        <origin_nit factor='25'>0,60,60,150,150,600,600,2000</origin_nit>
+        <enhance_nit factor='25'>0,120,138,345,345,600,600,2000</enhance_nit>
+        <origin_nit factor='27'>0,60,60,150,150,600,600,2000</origin_nit>
+        <enhance_nit factor='27'>0,120,150,375,375,600,600,2000</enhance_nit>
+    </game_edr>
+
+    <!-- add for hdr vision enhance -->
+    <hdr_vision>
+        <origin_nit>0,60,60,200,200,800,800,2000</origin_nit>
+        <enhance_nit>0,180,360,1200,1200,1200,1600,1600</enhance_nit>
+    </hdr_vision>
+
+    <!-- add for dolby temperature limit brightness: 0~21 gears -->
+    <dolby_temperature_limit_nit>
+        <nits>9999</nits>
+        <nits>800</nits>
+        <nits>800</nits>
+        <nits>500</nits>
+        <nits>450</nits>
+        <nits>400</nits>
+        <nits>350</nits>
+        <nits>300</nits>
+        <nits>250</nits>
+        <nits>200</nits>
+        <nits>150</nits>
+        <nits>100</nits>
+        <nits>1200</nits>
+        <nits>1200</nits>
+        <nits>1200</nits>
+        <nits>1200</nits>
+        <nits>9999</nits>
+        <nits>9999</nits>
+        <nits>9999</nits>
+        <nits>9999</nits>
+        <nits>9999</nits>
+        <nits>9999</nits>
+    </dolby_temperature_limit_nit>
+
+    <!-- 双斜坡亮度动画优化开关 -->
+    <DualRampAnimatorOpt>1</DualRampAnimatorOpt>
+
+    <!-- 亮度半垂直同步开关 -->
+    <BrightnessHalfVsync>1</BrightnessHalfVsync>
+
+    <!-- add for light sensor always on -->
+    <light_sensor_always_on_support>1</light_sensor_always_on_support>
+
+    <!-- 单脉冲调光支持等级 -->
+    <SinglePulseDimmingSupport>2</SinglePulseDimmingSupport>
+
+    <!-- 背光统计：support 开关、useNit 是否按 nit 统计、luxs 环境光表、appLevels/durLevels 对应亮度等级、maxLux 上限 -->
+    <backlightStat>
+        <support>1</support>
+        <useNit>1</useNit>
+        <luxs>0,2,4,6,8,10,15,20,25,30,40,60,95,100,200,300,400,500,1000,1100,1200,1300,1400,1500,1600,1700,1800,1900,2000,4000,7000,10000,15000,20000,30000,40000,65000,90000,115000,140000,150000,160000,180000</luxs>
+        <appLevels>2.5,7.5,13,18,25,30,38,45,50,55,60,70,79,82,90,98,106,113,152,160,168,177,185,194,203,212,222,232,243,391,500,545,600,650,720,800,900,1000,1100,1200,1400,1600</appLevels>
+        <!-- 300,400,500,600,700,800 nit -->
+        <durLevels>300,400,500,600,700,800,900,1000,1100,1200,1300,1400,1600</durLevels>
+        <maxLux>180000</maxLux>
+    </backlightStat>
+</root>

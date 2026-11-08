@@ -6,7 +6,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 /**
- * 配置初始化与模块安装。配置本身由 ConfigFiles 直接管理。
+ * 配置初始化与模块安装。配置本身由 ModuleConfig 直接读写模块目录。
  */
 object ConfigUtils {
     const val LATEST_MODULE_VERSION = 22
@@ -14,24 +14,16 @@ object ConfigUtils {
     private const val TAG = "ConfigUtils"
 
     /**
-     * 首次启动备份系统配置，并把 working 文件同步到模块目录。
+     * 配置直接读写模块目录，这里只检查模块是否已安装。
      */
     fun initializeConfigSystem(): Boolean {
-        return try {
-            val configsDir = File(app.getExternalFilesDir(null) ?: return false, "configs")
-            configsDir.mkdirs()
-
-            val isReady = ConfigFiles.ensureInitialized()
-            if (isReady) {
-                CLog.i(TAG, "配置初始化完成")
-            } else {
-                CLog.w(TAG, "配置初始化未完全成功，请检查 Root 与系统路径")
-            }
-            isReady
-        } catch (e: Exception) {
-            CLog.e(TAG, "配置初始化失败", e)
-            false
+        val isInstalled = ModuleConfig.isInstalled()
+        if (isInstalled) {
+            CLog.i(TAG, "模块已安装，可直接编辑配置")
+        } else {
+            CLog.w(TAG, "模块未安装，请先安装模块")
         }
+        return isInstalled
     }
 
     /**

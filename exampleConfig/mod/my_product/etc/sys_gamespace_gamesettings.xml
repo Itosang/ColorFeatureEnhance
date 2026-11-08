@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    游戏设置页面功能项配置
+    用于配置各个功能项的包名和标签名称
+    版本号：1.0
+
+    使用说明：https://odocs.myoas.com/docs/rp3OVEGdPGF2GxAm/ 《游戏设置页面功能项配置》 访问密码 tkpyvu
+    - name: 功能项名称（英文标识）
+    - packageName: 目标应用的包名
+    - label: 功能项显示标签（中文名称）
+    - imageRes: 图片资源名称
+    - page_config 下的 pages 列表：需要配置的页面ID列表，参考 Constants.UIMain 和 UISub 中的 ID 常量, level 只用于区分是几级页面
+-->
+<game-settings-config model="PLR110" version="2026071301">
+    <!-- 144/165/185高帧 -->
+    <item name="game_max">
+        <config>
+            <entry packageName="com.tencent.tmgp.pubgmhd" label="和平精英" imageRes="" />
+            <entry packageName="com.tencent.jkchess" label="金铲铲之战" imageRes="" />
+            <entry packageName="com.tencent.KiHan" label="火影忍者" imageRes="" />
+            <entry packageName="com.tencent.tmgp.dfm" label="三角洲行动" imageRes="" />
+            <entry packageName="com.tencent.tmgp.cf" label="穿越火线-枪战王者" imageRes="" />
+            <entry packageName="com.tencent.lolm,com.tencent.gamematrix.lolm" label="英雄联盟手游" imageRes="" />
+            <entry packageName="com.tencent.tmgp.codev" label="无畏契约：源能行动" imageRes="" />
+            <entry packageName="com.tencent.tmgp.cod" label="使命召唤手游" imageRes="" />
+            <entry packageName="com.tencent.tmgp.WePop" label="跑跑卡丁车官方竞速版" imageRes="" />
+            <entry packageName="com.tencent.tmgp.speedmobile" label="QQ飞车" imageRes="" />
+            <entry packageName="com.tencent.mf.uam" label="暗区突围" imageRes="" />
+            <entry packageName="com.netease.x19,com.netease.mc.nearme.gamecenter,com.netease.mc.m4399" label="我的世界：移动版" imageRes="" />
+            <entry packageName="com.tencent.tmgp.supercell.clashofclans,com.supercell.clashofclans,com.supercell.clashofclans.uc" label="部落冲突" imageRes="" />
+            <entry packageName="com.hermes.mk,com.hermes.mk.bilibili" label="初音未来：缤纷舞台" imageRes="" />
+            <entry packageName="com.tencent.game.rhythmmaster" label="节奏大师" imageRes="" />
+            <entry packageName="com.kiloo.subwaysurf,com.kiloo.subwaysurf.gw,com.kiloo.subwaysurf.bz" label="地铁跑酷" imageRes="" />
+            <entry packageName="com.tencent.tmgp.supercell.brawlstars,com.supercell.brawlstars" label="荒野乱斗" imageRes="" />
+            <entry packageName="com.tencent.tmgp.dwrg" label="第五人格" imageRes="" />
+        </config>
+    </item>
+</game-settings-config>

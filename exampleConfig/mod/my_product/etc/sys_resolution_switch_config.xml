@@ -1,0 +1,218 @@
+<!-- resolutionID的值，智能切换为1,低分辨率为2，高分辨率为3 -->
+<!-- idmask = 1 左移 resolutionID值的结果  -->
+<!-- 不支持分辨率切换的机器，只有智能模式生效 -->
+<!-- 固定density的app不能添加到智能分辨率名单中  -->
+<!--Display Compat mode-->
+<sys_resolution_switch_config version="20251225" filemagic="androidS" screenwidth="1272" switchFreezingTime="1000" >
+<!-- 1440 * 0.75 = 1080,640 * 0.75 = 480 -->
+<scaleinfo value="1.333333,0.75,480" />
+<!-- auto or qhd+  force to low resolution example -->
+<item package="com.riotgames.league.wildrift" idmask="1110"   scaleinfo="1.7666,0.566,420" />
+<item package="com.example.force" idmask="1010" />  <!-- xxx -->
+<item package="com.tiandou.gameddsk.nearme.gamecenter" idmask="1010" />  <!-- BUGID: 2658445 模拟山羊 -->
+<item package="com.igame.lcdcg.nearme.gamecenter" idmask="1010" />  <!-- BUGID:2630571 列车大闯关-->
+<item package="com.duoyi.m2csm.nearme.gamecenter" idmask="1010" />  <!-- BUGID:2658494 传送门骑士 -->
+<item package="com.papa.fishing.nearme.gamecenter" idmask="1010" />  <!-- BUGID:2664121 啪啪钓鱼 -->
+<item package="com.hoolai.zcfy2.nearme.gamecenter" idmask="1010" />  <!-- BUGID:2653576 中超风云2 -->
+<item package="com.newanybooks" idmask="1010" />  <!-- BUGID:2735551 AnyBooks -->
+<item package="anybooks.pdf.reader.free.library.books.novels.story.download.p9" idmask="1010" />  <!-- BUGID:2735551 AnyBooks -->
+<item package="com.backstreet.real.robot.ringfight.games" idmask="1010" />  <!-- BUGID:2805027 Robot Ring Fighting -->
+<!-- auto  example -->
+<item package="com.example.test1" idmask="0010"  scaleinfo="1.5,0.6666667,420" />  <!-- xxx -->
+<item package="com.tencent.jkchess" idmask="1110"  scaleinfo="1.766,0.5660377,420" />  <!-- 金铲铲之战 -->
+<item package="com.happyelements.AndroidAnimal" idmask="0010" />  <!-- 开心消消乐 -->
+<item package="com.tencent.af" idmask="0010" />  <!-- 王牌战士 -->
+<item package="com.kiloo.subwaysurf" idmask="0010" />  <!-- 地铁跑酷 -->
+<item package="com.miHoYo.bh3" idmask="0010" />
+<item package="com.tencent.tmgp.bh3" idmask="0010" />
+<item package="com.miHoYo.enterprise.NGHSoD" idmask="0010" />
+<item package="com.bethsoft.blade" idmask="0010" />
+<item package="com.tencent.shihun.android" idmask="0010" />
+<!-- <item package="cn.jj" idmask="0010" />   bugid:3618996 -->
+<item package="com.tencent.tmgp.sskgame" idmask="0010" />
+<item package="com.pkwan.op.nearme.gamecenter" idmask="0010" />
+<item package="com.tencent.pocket" idmask="0010" />
+<item package="com.happyelements.AndroidClover.nearme.gamecenter" idmask="0010" />
+<item package="com.wedobest.xiangqi.nearme.gamecenter" idmask="0010" />
+<item package="com.cmplay.dancingline.nearme.gamecenter" idmask="0010" />
+<item package="com.droidhang.ad.nearme.gamecenter" idmask="0010" />
+<item package="com.yodo1.rodeo.nearme.gamecenter" idmask="0010" />
+<item package="com.tencent.tmgp.ffom" idmask="0010" />
+<item package="com.supercell.clashroyale" idmask="0010" />
+<item package="com.supercell.clashofclans" idmask="0010" />
+<item package="com.ludo.king" idmask="0010" />
+<item package="com.h8games.helixjump" idmask="0010" />
+<item package="com.word.puzzle.game.connect" idmask="0010" />
+<item package="com.mindy.grap1" idmask="0010" />
+<item package="com.nautilus.RealCricket3D" idmask="0010" />
+<item package="com.cmplay.bricksnballs" idmask="0010" />
+<item package="com.nomonkeys.ballblast" idmask="0010" />
+<item package="com.fungames.sniper3d" idmask="0010" />
+<item package="com.firsttouchgames.story" idmask="0010" />
+<item package="com.riseup.game" idmask="0010" />
+<item package="com.NikSanTech.FireDots3D" idmask="0010" />
+<item package="com.brokenreality.planemerger.android" idmask="0010" />
+<item package="com.playrix.gardenscapes" idmask="0010" />
+<item package="com.imangi.templerun2" idmask="0010" />
+<item package="com.physics.sim.game.cat" idmask="0010" />
+<item package="com.bandainamcogames.dbzdokkanww" idmask="0010" />
+<item package="com.my.hc.rpg.kingdom.simulator" idmask="0010" />
+<item package="com.playrix.township" idmask="0010" />
+<item package="com.ea.game.simcitymobile_row" idmask="0010" />
+<item package="com.noodlecake.altosodyssey" idmask="0010" />
+<item package="com.playgendary.tom" idmask="0010" />
+<item package="com.droidhang.ad" idmask="0010" />
+<item package="com.ea.game.starwarscapital_row" idmask="0010" />
+<item package="com.superking.ludo.star" idmask="0010" />
+<item package="com.tencent.raziel" idmask="0010" />
+<item package="com.tencent.tmgp.kaopu.jzpaj" idmask="0010" />
+<item package="com.netease.stzb.netease" idmask="0010" />
+<item package="com.tencent.tmgp.stzb" idmask="0010" />
+<item package="com.netease.stzb.uc" idmask="0010" />
+<item package="com.Sniper3D.Gun.Shooter.Free.Shooting.Games3D" idmask="0010" />
+<item package="com.gameberry.ludo.star2" idmask="0010" />
+<item package="com.netease.l10" idmask="0010" />
+<item package="com.tencent.tmgp.l10" idmask="0010" />
+
+<!-- force stop or kill or do nothing app while resolution switch switchopmask="10" meaning forcestop app,10 kill app -->
+<!-- needkill="true" and switchopmask="10" meaning forcestop app,01 kill app , needkill="false" meaning do nothing -->
+<switchop package="com.example.notkillapk" needkill="false" />  <!-- xxx -->
+<switchop package="com.example.needkill" needkill="true" switchopmask="0001" />  <!-- xxx -->
+<!--kill app while resolution switch-->
+<switchop package="com.android.launcher" needkill="true" switchopmask="0001" />  <!-- xxx -->
+<switchop package="com.tencent.mm" needkill="true" switchopmask="0010" restart="true" />  <!-- forcestop and restart -->
+<switchop package="com.autonavi.minimap" needkill="true" switchopmask="0010"  />  <!-- bug 2477143 -->
+<!--not need force stop app while resolution switch-->
+<switchop package="com.android.systemui" needkill="false" />
+<switchop package="com.oplus.screenrecorder" needkill="false" />
+<switchop package="com.google.android.gsf" needkill="false" />
+<switchop package="com.qualcomm.timeservice" needkill="false" />
+<switchop package="com.oplus.athena" needkill="false" />
+<switchop package="com.oplus.ota" needkill="false" />
+<switchop package="com.coloros.alarmclock" needkill="false" /> <!-- 时钟-->
+<switchop package="com.redteamobile.roaming" needkill="false" />
+<switchop package="com.oplus.cosa" needkill="false" />
+<switchop package="com.google.android.gms" needkill="false" />
+<switchop package="com.google.android.webview" needkill="false" />
+<switchop package="com.android.packageinstaller" needkill="false" />
+<switchop package="com.tencent.tim" needkill="false" />
+<switchop package="com.netease.mobimail" needkill="false" />
+<switchop package="com.tencent.wework" needkill="false" />
+<switchop package="com.feiliao.flipchat.android" needkill="false" />
+<switchop package="com.google.android.configupdater" needkill="false" />
+<switchop package="com.oplus.romupdate" needkill="false" />
+<switchop package="com.heytap.pictorial" needkill="false" />
+<switchop package="com.qualcomm.qti.cne" needkill="false" /> <!-- bugid:104593-->
+<switchop package="com.qualcomm.qti.devicestatisticsservice" needkill="false" /> <!-- bugid:104593-->
+<switchop package="com.qualcomm.wfd.service" needkill="false" /> <!-- bugid:104593-->
+<switchop package="com.qualcomm.location" needkill="false" /> <!-- bugid:104593-->
+<switchop package="com.qualcomm.atfwd" needkill="false" /> <!-- bugid:104593-->
+<switchop package="com.android.providers.media.module" needkill="false" /> <!-- bugid:111961-->
+<switchop package="com.android.dlna.service" needkill="false" /> <!-- 投屏-->
+<switchop package="com.oplus.synergy" needkill="false" /> <!-- 投屏-->
+<switchop package="com.oplus.linker" needkill="false" /> <!--设备互联业务 -->
+<switchop package="com.oplus.onet" needkill="false" /> <!-- 设备互联业务 -->
+<switchop package="com.heytap.accessory" needkill="false" /> <!--设备互联业务 -->
+<switchop package="com.oppo.instant.local.service" needkill="false" />
+<switchop package="com.coloros.weather.service" needkill="false" />
+<switchop package="vendor.qti.hardware.cacert.server" needkill="false" />
+<switchop package="com.dolby.daxservice" needkill="false" />
+<switchop package="com.google.android.syncadapters.contacts" needkill="false" />
+<switchop package="com.android.providers.downloads" needkill="false" />
+<switchop package="com.android.providers.contacts" needkill="false" />
+<switchop package="com.android.smspush" needkill="false" />
+<switchop package="com.android.mtp" needkill="false" />
+<switchop package="com.oplus.sceneservice" needkill="false" />
+<switchop package="com.coloros.sceneservice" needkill="false" />
+<switchop package="com.amap.android.location" needkill="false" />
+<switchop package="com.google.android.ext.services" needkill="false" />
+<switchop package="com.android.externalstorage" needkill="false" />
+<switchop package="com.google.android.providers.media.module" needkill="false" />
+<switchop package="com.qualcomm.qti.qccauthmgr" needkill="false" />
+<switchop package="com.qti.phone" needkill="false" />
+<switchop package="com.qualcomm.qcrilmsgtunnel" needkill="false" />
+<switchop package="com.qti.xdivert" needkill="false" />
+<switchop package="com.qualcomm.qti.telephonyservice" needkill="false" />
+<switchop package="com.qualcomm.qti.services.systemhelper" needkill="false" />
+<switchop package="com.qualcomm.qti.performancemode" needkill="false" />
+<switchop package="com.qualcomm.qti.poweroffalarm" needkill="false" />
+<switchop package="com.qualcomm.qti.workloadclassifier" needkill="false" />
+<switchop package="com.qualcomm.qti.devicestatisticsservice" needkill="false" />
+<switchop package="android.ext.services" needkill="false" />
+<switchop package="org.codeaurora.ims" needkill="false" />  <!-- bugid:213232 -->
+<switchop package="com.coloros.accessibilityassistant" needkill="false" />
+<switchop package="com.coloros.translate.engine" needkill="false" />
+<switchop package="com.android.wallpaper.livepicker" needkill="false" />  <!-- bugid:186923 -->
+<switchop package="com.qualcomm.qti.workloadclassifier" needkill="false" />
+<switchop package="vendor.qti.iwlan" needkill="false" />
+<switchop package="com.heytap.colorfulengine" needkill="false" />  <!-- bugid:688775 -->
+<switchop package="com.heytap.cloud" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.oplus.sos" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.nearme.statistics.rom" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.oplus.statistics.rom" needkill="false" /> <!-- 4998194 -->
+<switchop package="com.heytap.openid" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.heytap.health" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.heytap.mydevices" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.oplus.melody" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.android.providers.blockednumber" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.android.providers.calendar" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.coloros.scenemode" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.oplus.deepthinker" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.oplus.cosa" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.android.traceur" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.oplus.aod" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.opos.ads" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.android.settings.intelligence" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.coloros.childrenspace" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.heytap.speechassist" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.coloros.assistantscreen" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.coloros.floatassistant" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.heytap.speechassist" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.oplus.vip" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.coloros.securepay" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.coloros.smartdrive" needkill="false" /> <!-- 1818661 -->
+<switchop package="com.oplus.sau" needkill="false" /> <!-- 1966166 -->
+<switchop package="com.android.providers.settings" needkill="false" /> <!-- 1966166 -->
+<switchop package="com.android.providers.telephony" needkill="false" /> <!-- 1966166 -->
+<switchop package="com.android.providers.media" needkill="false" /> <!-- 1966166 -->
+<switchop package="com.heytap.cast" needkill="false" /> <!-- 2064395 -->
+<switchop package="com.oplus.cast" needkill="false" /> <!-- 2064395 -->
+<switchop package="com.oneplus.wallpaper" needkill="false" /> <!-- 2281576 -->
+<switchop package="com.tencent.tmgp.sgame" needkill="true" switchopmask="0010" />  <!-- bugid: 2264240 -->
+<switchop package="com.tencent.tmgp.dwrg" needkill="true" switchopmask="0010" />  <!-- bugid: 2264240 -->
+<switchop package="com.oplus.ocar" needkill="false" /> <!-- 2558124 -->
+<switchop package="com.ss.android.ugc.aweme.livewallpaper" needkill="false" /> <!-- 2311267 -->
+<switchop package="com.oplus.engineermode" needkill="false" /> <!-- engineermode bugid: 4855941-->
+<switchop package="com.coloros.ocs.opencapabilityservice" needkill="false" /> <!-- engineermode bugid: 4998194-->
+<switchop package="com.oplus.gesture" needkill="false" /> <!-- engineermode bugid: 4998194-->
+<switchop package="com.oplus.dmp" needkill="false" /> <!-- engineermode bugid: 4998194-->
+<switchop package="com.oplus.omoji" needkill="false" /> <!-- bugid: 6243981-->
+<switchop package="com.google.android.accessibility.switchaccess" needkill="false" /> <!-- bugid: 6243981-->
+<switchop package="com.android.devicelockcontroller" needkill="false" /> <!-- bugid: 6243981-->
+<switchop package="com.android.cellbroadcastreceiver.module" needkill="false" /> <!-- bugid: 6243981-->
+<switchop package="com.android.healthconnect.controller" needkill="false" /> <!-- bugid: 6243981-->
+<switchop package="com.android.permissioncontroller" needkill="false" /> <!-- bugid: 6243981-->
+<switchop package="com.android.managedprovisioning" needkill="false" /> <!-- bugid: 6243981-->
+<switchop package="com.android.statementservice" needkill="false" /> <!-- bugid: 6243981-->
+<switchop package="com.android.cellbroadcastreceiver" needkill="false" /> <!-- bugid: 6243981-->
+<switchop package="com.oplus.account" needkill="false" /> <!-- bugid: 6243981-->
+<switchop package="com.qualcomm.qtil.btdsda" needkill="false" /> <!-- bugid: 6243981-->
+<switchop package="com.oplus.location" needkill="false" /> <!-- bugid: 6243981-->
+<switchop package="com.qti.qcc" needkill="false" /> <!-- bugid: 6243981-->
+<switchop package="com.qualcomm.qtil.btdsda" needkill="false" /> <!-- bugid: 6243981-->
+<switchop package="com.cmccslice.proxyapp" needkill="false" /> <!-- bugid: 6243981-->
+<switchop package="com.nearme.instant.platform" needkill="false" /> <!-- bugid: 6243981-->
+<switchop package="com.coloros.soundrecorder" needkill="false" /> <!-- bugid: 6419049-->
+<switchop package="com.oneplus.soundrecorder" needkill="false" /> <!-- bugid: 6419049-->
+<switchop package="vendor.qti.data.txpwradmin" needkill="false" /> <!-- bugid: 6419049-->
+<switchop package="com.android.systemui.accessibility.accessibilitymenu" needkill="false" /> <!-- bugid: 6409739-->
+<switchop package="com.google.android.marvin.talkback" needkill="false" /> <!-- bugid: 6409739-->
+<switchop package="com.oplus.viewtalk" needkill="false" /> <!-- bugid: 6409739-->
+<switchop package="com.coloros.gallery3d" needkill="true" /> <!-- bugid: 6482142-->
+<switchop package="com.coloros.compass2" needkill="true" /> <!-- bugid: 6482142-->
+<switchop package="com.oplus.play" needkill="true" switchopmask="0010" /> <!-- bugid: 6482142-->
+<switchop package="com.coloros.calculator" needkill="true" /> <!-- bugid: 6482142-->
+
+<!-- 0010表示forceStopPackage来杀掉app,0001表示使用killProcess  -->
+<forcestopall switchopmask="0110" />  <!-- xxx -->
+</sys_resolution_switch_config>

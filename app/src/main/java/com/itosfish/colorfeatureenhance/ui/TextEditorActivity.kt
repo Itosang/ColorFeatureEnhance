@@ -33,7 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.itosfish.colorfeatureenhance.R
 import com.itosfish.colorfeatureenhance.ui.theme.ColorFeatureEnhanceTheme
-import com.itosfish.colorfeatureenhance.utils.ConfigFiles
+import com.itosfish.colorfeatureenhance.utils.ModuleConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.io.File
@@ -90,8 +90,7 @@ fun TextEditorScreen(filePath: String, onFinish: () -> Unit) {
                     IconButton(onClick = {
                         scope.launch(Dispatchers.IO) {
                             kotlin.runCatching {
-                                File(filePath).writeText(content)
-                                ConfigFiles.syncToModule()
+                                ModuleConfig.writePath(filePath, content)
                             }.onSuccess { isSynced: Boolean ->
                                 launch(Dispatchers.Main) {
                                     val message = if (isSynced) {

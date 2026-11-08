@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+/** Copyright (C) 2024-2024, Oplus Holdings Corp Ltd. All rights reserved.
+ ** FileName: multimedia_display_trackpoint_config.xml
+ ** Description: display trackpoint and logcapture config
+ ** Version: 1.0
+ ** Date : 2024.02.22
+ ** Author: ChengLei@MULTIMEDIA.DISPLAY.ARCHITECTURE
+ **/
+-->
+
+<root>
+    <!-- must update it when you commit code -->
+    <version>20240223</version>
+    <enable>false</enable>
+
+    <!-- event represents business module, for example: display driver、 GPU、 sensor -->
+
+    <!-- display driver trackpoint config -->
+    <event id="12002" enable="true">
+
+        <ignore_subevents>
+            <!-- For example: <subevent id="400"/> -->
+        </ignore_subevents>
+
+        <logcapture enable="true">
+            <!-- adb logcat -->
+            <logclass>android</logclass>
+            <!-- adb shell dmesg -->
+            <logclass>kernel</logclass>
+            <!-- systrace -->
+            <logclass>systrace</logclass>
+            <!-- adb shell dumpsys SurfaceFlinger -->
+            <logclass>dumpsf</logclass>
+            <!-- must >= 60 seconds -->
+            <min_time_interval>180</min_time_interval>
+            <!-- must <= 10 -->
+            <max_count_per_day>5</max_count_per_day>
+        </logcapture>
+
+    </event>
+
+    <!-- add new business module config below -->
+    <event id="12006" enable="false">
+    </event>
+
+</root>

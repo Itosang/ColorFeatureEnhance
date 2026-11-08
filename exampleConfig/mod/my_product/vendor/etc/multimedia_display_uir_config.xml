@@ -1,0 +1,45 @@
+<root>
+    <version>20240801</version>
+    <uir_config>
+		<!-- UIR 总开关 -->
+        <uir_enable>0</uir_enable>
+		<!-- UIR 总亮度门限 -->
+        <brightness_nit_limit>1600</brightness_nit_limit>
+		<!-- UIR 总温度门限 -->
+        <temperature_limit>40000</temperature_limit>
+		<!-- UIR 最大提亮倍率 -->
+        <max_ratio>200</max_ratio>
+		<!-- app白名单 -->
+		<app_list>
+			<!-- 相册 -->
+			<app>com.coloros.gallery3d</app>
+			<app>com.oneplus.gallery</app>
+			<!-- 百度地图 -->
+			<app>com.baidu.BaiduMap</app>
+			<!-- 高德地图 -->
+			<app>com.autonavi.minimap</app>
+			<!-- 腾讯地图 -->
+			<app>com.tencent.map</app>
+			<!-- 谷歌地图 -->
+			<app>com.google.android.apps.maps</app>
+			<!-- 微信 -->
+			<app>com.tencent.mm</app>
+			<!-- WhatsApp -->
+			<app>com.whatsapp</app>
+			<!-- 电话 -->
+			<app>com.android.contacts</app>
+			<!-- 短信 -->
+			<app>com.android.mms</app>
+			<!-- QQ -->
+			<app>com.tencent.mobileqq</app>
+			<!-- 外销电话 -->
+			<app>com.google.android.dialer</app>
+			<!-- 外销短信 -->
+			<app>com.google.android.apps.messaging</app>
+			<!-- 外销通讯录 -->
+			<app>com.google.android.contacts</app>
+			<!-- 外销相册 -->
+			<app>com.google.android.apps.photos</app>
+		</app_list>
+    </uir_config>
+</root>

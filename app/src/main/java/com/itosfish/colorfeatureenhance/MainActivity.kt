@@ -22,10 +22,10 @@ import com.itosfish.colorfeatureenhance.ui.FeatureConfigScreen
 import com.itosfish.colorfeatureenhance.ui.theme.ColorFeatureEnhanceTheme
 import com.itosfish.colorfeatureenhance.utils.CLog
 import com.itosfish.colorfeatureenhance.utils.CSU
-import com.itosfish.colorfeatureenhance.utils.ConfigFiles
 import com.itosfish.colorfeatureenhance.utils.ConfigUtils
 import com.itosfish.colorfeatureenhance.utils.DisclaimerManager
 import com.itosfish.colorfeatureenhance.utils.ModuleAutoUpdater
+import com.itosfish.colorfeatureenhance.utils.ModuleConfig
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -61,10 +61,8 @@ class MainActivity : ComponentActivity() {
                     // 显示主界面
                     var currentMode by remember { mutableStateOf(FeatureMode.APP) }
 
-                    // working 文件就是用户实际编辑的配置
-                    val configPath = ConfigFiles.workingFile(
-                        ConfigFiles.targetForMode(currentMode)
-                    ).absolutePath
+                    // 直接使用已安装模块目录中的配置
+                    val configPath = ModuleConfig.file(currentMode)
 
                     // 根据模式记忆 repository，切换模式时重建
                     val repository: FeatureRepository = remember(currentMode) {

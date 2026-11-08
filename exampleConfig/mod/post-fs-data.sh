@@ -1,29 +1,16 @@
 #!/system/bin/sh
-# ColorOS Features Enhance - 开机挂载 working 配置
-# 参考 exoplus：递归遍历目录，逐个文件 bind mount 到系统同路径。
-# 只覆盖系统里真实存在的目标文件，不创建新文件。
+# post-fs-data.sh：开机早期递归 bind mount。
+# 把模块内 my_product/ 和 my_region/etc/extension/ 下的所有文件
+# 挂载到系统同路径（目标必须已存在，不存在则跳过）。
 
-MODULE_BASE="/data/adb/cos_feat_e"
+MODDIR=${0%/*}
 
-log_info() {
-    echo "[ColorFeatureEnhance] $(date '+%Y-%m-%d %H:%M:%S') $1" >> /cache/colorfeature_enhance.log
-}
-
-mount_tree() {
-    SOURCE_DIR="$1"
-    TARGET_DIR="$2"
-    [ -d "$SOURCE_DIR" ] || return 0
-
-    find "$SOURCE_DIR" -type f | while read -r SOURCE_FILE; do
-        RELATIVE_PATH=${SOURCE_FILE#"$SOURCE_DIR/"}
-        TARGET_FILE="$TARGET_DIR/$RELATIVE_PATH"
-        [ -f "$TARGET_FILE" ] || continue
-        mount --bind "$SOURCE_FILE" "$TARGET_FILE"
-        log_info "已挂载: $TARGET_FILE"
+for DIR in my_product my_region/etc/extension; do
+    [ -d "$MODDIR/$DIR" ] || continue
+    find "$MODDIR/$DIR" -type f | while read -r SRC; do
+        REL=${SRC#"$MODDIR/"}
+        [ -f "/$REL" ] && mount --bind "$SRC" "/$REL"
     done
-}
+done
 
-mount_tree "$MODULE_BASE/my_product" "/my_product"
-mount_tree "$MODULE_BASE/my_region" "/my_region"
-
-log_info "=== 配置挂载完成 ==="
+exit 0
