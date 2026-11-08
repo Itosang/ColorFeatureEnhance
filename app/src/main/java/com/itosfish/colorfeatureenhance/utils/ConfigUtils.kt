@@ -411,6 +411,9 @@ object ConfigUtils {
         }
         val result = CSU.runWithSu(command)
         CLog.i(TAG, "直接写入系统路径: exit=${result.exitCode}, output=${result.output}")
+        if (result.output.contains("Read-only", ignoreCase = true)) {
+            CLog.w(TAG, "系统分区只读，直接写入失败，将在重启后通过模块挂载生效")
+        }
     }
 
     /**

@@ -114,6 +114,7 @@
     <string name="patch_status_add">新增</string>
     <string name="patch_status_modify">修改</string>
     <string name="patch_status_remove">删除</string>
+    <string name="feature_builtin_tag">内置</string>
 
     <!-- Oplus 新特性中文描述 -->
     <string name="oplus_feature_finger_flashnotes">[软] 小布记忆</string>

@@ -113,6 +113,7 @@
     <!-- Patch status related -->
     <string name="patch_status_add">Added</string>
     <string name="patch_status_modify">Modified</string>
+    <string name="feature_builtin_tag">Built-in</string>
 
     <!-- Feature mapping internationalization additions -->
     <string name="feature_launcher_packages_to_hide">Launcher Hidden Packages List</string>

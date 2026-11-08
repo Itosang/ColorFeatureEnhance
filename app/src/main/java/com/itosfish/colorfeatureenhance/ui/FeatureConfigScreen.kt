@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.activity.compose.BackHandler
 
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -174,21 +175,19 @@ fun FeatureConfigScreen(
 
     val isSearching = searchQuery.isNotBlank()
 
-    // “应用新增”包含用户手动添加的特性，以及 App 内置映射表中的特性
-    val appAddedFeatureNames = remember(features, patchActions, currentMode) {
-        val userAddedNames = patchActions
-            .filterValues { it == ConfigMergeManager.PatchAction.ADD }
-            .keys
-        val builtInNames = features
-            .map { it.name }
-            .filterTo(mutableSetOf()) { name ->
-                if (currentMode == FeatureMode.APP) {
-                    AppFeatureMappings.getInstance().isBuiltInFeature(name)
-                } else {
-                    OplusFeatureMappings.getInstance().isBuiltInFeature(name)
-                }
+    // 补丁动作为 ADD 的特性，以及 App 内置映射表中的特性，归入“应用新增”
+    val builtInFeatureNames = remember(features, currentMode) {
+        features.map { it.name }.filterTo(mutableSetOf()) { name ->
+            if (currentMode == FeatureMode.APP) {
+                AppFeatureMappings.getInstance().isBuiltInFeature(name)
+            } else {
+                OplusFeatureMappings.getInstance().isBuiltInFeature(name)
             }
-        userAddedNames + builtInNames
+        }
+    }
+
+    val appAddedFeatureNames = remember(patchActions, builtInFeatureNames) {
+        patchActions.filterValues { it == ConfigMergeManager.PatchAction.ADD }.keys + builtInFeatureNames
     }
 
     val (appAddedGroups, systemGroups) = remember(displayedFeatureGroups, appAddedFeatureNames) {
@@ -347,6 +346,7 @@ fun FeatureConfigScreen(
                             group = group,
                             searchQuery = searchQuery,
                             patchAction = patchActions[group.features.first().name],
+                            isBuiltIn = group.features.all { it.name in builtInFeatureNames },
                             onToggle = { updatedGroup ->
                                 // 更新组内所有特性的状态
                                 val updatedFeatures = features.map { feature ->
@@ -757,6 +757,21 @@ private fun FeatureSectionHeader(
 }
 
 @Composable
+private fun FeatureTag(text: String, modifier: Modifier = Modifier) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.labelSmall,
+        color = MaterialTheme.colorScheme.primary,
+        modifier = modifier
+            .background(
+                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                shape = RoundedCornerShape(50)
+            )
+            .padding(horizontal = 8.dp, vertical = 2.dp)
+    )
+}
+
+@Composable
 private fun FeatureGroupItem(
     currentMode: FeatureMode,
     group: FeatureGroup,
@@ -765,8 +780,14 @@ private fun FeatureGroupItem(
     onClick: () -> Unit,
     searchQuery: String = "",
     patchAction: ConfigMergeManager.PatchAction? = null,
+    isBuiltIn: Boolean = false,
     modifier: Modifier = Modifier
 ) {
+    val cardPatchAction = if (isBuiltIn && patchAction == ConfigMergeManager.PatchAction.ADD) {
+        null
+    } else {
+        patchAction
+    }
     Card(
         modifier = modifier
             .fillMaxWidth()
@@ -774,7 +795,7 @@ private fun FeatureGroupItem(
                 onClick = onClick,
                 onLongClick = onLongPress
             ),
-        colors = PatchColors.getCardColors(patchAction),
+        colors = PatchColors.getCardColors(cardPatchAction),
         shape = RoundedCornerShape(20.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
     ) {
@@ -822,23 +843,31 @@ private fun FeatureGroupItem(
                 }
             }
             
-            // 补丁状态指示器
-            patchAction?.let { action ->
-                Text(
-                    text = PatchColors.getPatchActionDescription(action),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = PatchColors.getIndicatorColor(action) ?: MaterialTheme.colorScheme.primary,
+            // 补丁状态指示器；内置特性改用标签展示
+            if (isBuiltIn) {
+                FeatureTag(
+                    text = stringResource(R.string.feature_builtin_tag),
                     modifier = Modifier.padding(start = 8.dp)
                 )
+            } else {
+                patchAction?.let { action ->
+                    Text(
+                        text = PatchColors.getPatchActionDescription(action),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = PatchColors.getIndicatorColor(action) ?: MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
+                }
             }
 
             val feature = group.features.first()
-            feature.args?.startsWith("boolean:") == true
             val isComplex = feature.isComplex
             val isUnavailable = currentMode != FeatureMode.APP && feature.args == "unavailable"
             val trailingModifier = Modifier.padding(start = 8.dp)
-            // 仅当 OPLUS 模式且该特性不是用户新增（PATCH_ACTION != ADD）时显示开关
-            if (currentMode != FeatureMode.APP && patchAction != ConfigMergeManager.PatchAction.ADD) {
+            // 内置特性即使处于 ADD 状态也保留开关，方便随时关闭
+            if (currentMode != FeatureMode.APP &&
+                (patchAction != ConfigMergeManager.PatchAction.ADD || isBuiltIn)
+            ) {
                 Switch(
                     checked = group.isEnabled,
                     onCheckedChange = {
