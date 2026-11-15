@@ -83,6 +83,56 @@ kotlin {
     }
 }
 
+// 模块模板只在 exampleConfig/mod 维护，打包时自动生成 assets/mod.zip
+val moduleTemplateDir = rootProject.layout.projectDirectory.dir("exampleConfig/mod")
+val preparedModuleDir = layout.buildDirectory.dir("moduleTemplate")
+val generatedModuleAssetsDir = layout.buildDirectory.dir("generated/moduleAssets")
+
+val prepareModuleTemplate by tasks.registering {
+    inputs.dir(moduleTemplateDir)
+    outputs.dir(preparedModuleDir)
+
+    doLast {
+        val source = moduleTemplateDir.asFile
+        val output = preparedModuleDir.get().asFile
+        if (output.exists()) output.deleteRecursively()
+
+        copy {
+            from(source)
+            into(output)
+        }
+
+        output.walkTopDown().filter { it.isFile }.forEach { file ->
+            val text = file.readText(Charsets.UTF_8)
+            if (!text.contains('\u0000')) {
+                file.writeText(text.replace("\r\n", "\n"), Charsets.UTF_8)
+            }
+        }
+    }
+}
+
+val generateModuleZip by tasks.registering(org.gradle.api.tasks.bundling.Zip::class) {
+    dependsOn(prepareModuleTemplate)
+    from(preparedModuleDir)
+    archiveFileName.set("mod.zip")
+    destinationDirectory.set(generatedModuleAssetsDir)
+    isPreserveFileTimestamps = false
+    isReproducibleFileOrder = true
+
+    eachFile {
+        val executable = name.endsWith(".sh") || name == "update-binary"
+        permissions { unix(if (executable) "rwxr-xr-x" else "rw-r--r--") }
+    }
+}
+
+android.sourceSets.getByName("main").assets.srcDir(generatedModuleAssetsDir.get().asFile)
+
+tasks.matching {
+    it.name == "preBuild" || (it.name.startsWith("merge") && it.name.endsWith("Assets"))
+}.configureEach {
+    dependsOn(generateModuleZip)
+}
+
 dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

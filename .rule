@@ -205,12 +205,12 @@ git diff --check
 
 ### 4.2 模块模板与 zip
 
-- 模块模板在 `exampleConfig/mod/`。
-- App 安装用的 zip 在 `app/src/main/assets/mod.zip`。
-- 修改模块脚本或配置后，必须重新生成 `mod.zip`，保持两者一致。
-- 生成 zip 时：
+- 模块模板只在 `exampleConfig/mod/` 维护。
+- 构建时由 Gradle 任务 `generateModuleZip` 自动生成 `app/build/generated/moduleAssets/mod.zip`，再打进 APK 的 assets。
+- 不要手动提交 `app/src/main/assets/mod.zip`，也不要手工解压/压缩。
+- `generateModuleZip` 已处理：
+  - 文本文件统一 LF。
   - `.sh` 和 `update-binary` 用 0755，其他文件 0644。
-  - 文本文件统一 LF，不要 CRLF。
 - `module.prop` 的 `id` 必须保持 `ColorOSFeaturesEnhance`。
 
 ### 4.3 版本联动

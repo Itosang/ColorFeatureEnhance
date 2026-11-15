@@ -80,13 +80,5 @@
     <app_feature name="com.oplus.smartmediacontroller.lss_assistant_enable" args="boolean:true"/>
 # 系统桌面小布提示
     <app_feature name="com.android.launcher.INDICATOR_BREENO_ENTRY_ENABLE" args="boolean:true"/>
-	
-	
-	
-	
-	
-	
-	
-	
 # 电池详情隐藏屏幕情况(不建议)
 	<app_feature name="com.oplus.battery.phoneusage.screenon.hide" args="boolean:true"/>
