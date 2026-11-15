@@ -7,25 +7,23 @@
 ## 功能特点
 
 - 可视化编辑特性开关，支持搜索、添加、删除、批量操作
-- 内置文本编辑器，可直接修改 XML
-- 基线 + 补丁配置管理，支持 OTA 更新后自动重新合并
-- 修改自动同步到 Magisk / KernelSU 模块
+- 配置直接存放在模块目录，安装模块后即可编辑
+- 修改直接写入 XML，不需要生成补丁或合并
 - 本地数据持久化，支持中文 / 英文界面
 
 ## 项目结构
 
 ```text
 com.itosfish.colorfeatureenhance/
-├── config/          # 配置合并与补丁管理
 ├── data/            # 数据模型与 XML 读写仓库
 ├── domain/          # 领域层接口
 ├── ui/              # Compose 界面、组件、搜索、主题
-├── utils/           # 配置工具、对话框、Shell 命令
+├── utils/           # 模块配置读写、对话框、Shell 命令
 ├── FeatureMode.kt   # 编辑模式枚举
 └── MainActivity.kt  # 应用入口
 ```
 
-分层架构：UI → Domain → Data / Utils，所有 I/O 通过 `Dispatchers.IO` 异步执行，UI 仅依赖接口。
+UI 只依赖 `FeatureRepository`。配置文件位于模块目录，读取和写入统一走 `ModuleConfig` 的 root 通道。
 
 ## 配置管理流程
 

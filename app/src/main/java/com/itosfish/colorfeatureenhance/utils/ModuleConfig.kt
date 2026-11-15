@@ -5,7 +5,7 @@ import com.itosfish.colorfeatureenhance.FeatureMode
 import com.itosfish.colorfeatureenhance.MainActivity.Companion.app
 
 /**
- * 直接读写已安装模块目录中的配置，不再复制系统文件、不再维护 working/merged 目录。
+ * 读写模块目录里的配置文件。
  */
 object ModuleConfig {
     const val MODULE_ID = "ColorOSFeaturesEnhance"
@@ -51,8 +51,7 @@ object ModuleConfig {
 }
 
 /**
- * 第一次读取模块配置时记录特性名称，之后用于区分“系统自带”和“应用新增”。
- * 只保存名称，不复制配置文件。
+ * 记录模块首次读取时的特性名，用来区分系统配置和后来新增的。
  */
 object OriginalNames {
     private const val PREFS_NAME = "original_feature_names"
@@ -71,9 +70,5 @@ object OriginalNames {
 
         prefs().edit().putStringSet(key(mode), names).apply()
         return names
-    }
-
-    fun clear(mode: FeatureMode) {
-        prefs().edit().remove(key(mode)).apply()
     }
 }

@@ -22,7 +22,6 @@ import com.itosfish.colorfeatureenhance.ui.FeatureConfigScreen
 import com.itosfish.colorfeatureenhance.ui.theme.ColorFeatureEnhanceTheme
 import com.itosfish.colorfeatureenhance.utils.CLog
 import com.itosfish.colorfeatureenhance.utils.CSU
-import com.itosfish.colorfeatureenhance.utils.ConfigUtils
 import com.itosfish.colorfeatureenhance.utils.DisclaimerManager
 import com.itosfish.colorfeatureenhance.utils.ModuleAutoUpdater
 import com.itosfish.colorfeatureenhance.utils.ModuleConfig
@@ -36,7 +35,6 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         app = this
 
-        // 检查是否需要显示免责声明
         val disclaimerManager = DisclaimerManager.getInstance(this)
 
         setContent {
@@ -44,12 +42,10 @@ class MainActivity : ComponentActivity() {
                 var showDisclaimer by remember { mutableStateOf(disclaimerManager.shouldShowDisclaimer()) }
 
                 if (showDisclaimer) {
-                    // 显示免责声明
                     DisclaimerScreen(
                         onAccepted = {
                             showDisclaimer = false
                             CLog.i("MainActivity", "用户已同意免责声明，继续应用启动")
-                            // 用户同意后执行应用初始化
                             initializeApp()
                         },
                         onExit = {
@@ -58,10 +54,8 @@ class MainActivity : ComponentActivity() {
                         }
                     )
                 } else {
-                    // 显示主界面
                     var currentMode by remember { mutableStateOf(FeatureMode.APP) }
 
-                    // 直接使用已安装模块目录中的配置
                     val configPath = ModuleConfig.file(currentMode)
 
                     // 根据模式记忆 repository，切换模式时重建
@@ -82,19 +76,18 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        // 如果用户已经同意过免责声明，直接初始化应用
         if (!disclaimerManager.shouldShowDisclaimer()) {
             initializeApp()
         }
     }
 
     /**
-     * 初始化应用（在用户同意免责声明后执行）
+     * 初始化配置与模块。
      */
     private fun initializeApp() {
         CSU.checkRoot()
 
-        // 使用新的模块自动更新系统
+        // 检查模块更新
         lifecycleScope.launch {
             try {
                 val updateResult = ModuleAutoUpdater.checkAndUpdateModule(showUserNotification = true)
@@ -109,7 +102,6 @@ class MainActivity : ComponentActivity() {
                     is ModuleAutoUpdater.UpdateResult.Failed -> {
                         CLog.e("MainActivity", "模块自动更新失败: ${updateResult.reason}")
 
-                        // 显示失败对话框
                         MaterialAlertDialogBuilder(this@MainActivity)
                             .setTitle(R.string.module_install_fail_title)
                             .setMessage(updateResult.reason)
@@ -122,12 +114,12 @@ class MainActivity : ComponentActivity() {
             }
         }
 
-        // 首次启动备份系统配置，并把 working 文件同步到模块目录
+        // 检查模块是否安装
         lifecycleScope.launch(Dispatchers.IO) {
-            if (ConfigUtils.initializeConfigSystem()) {
-                CLog.i("MainActivity", "配置系统初始化成功")
+            if (ModuleConfig.isInstalled()) {
+                CLog.i("MainActivity", "模块已安装")
             } else {
-                CLog.e("MainActivity", "配置系统初始化失败")
+                CLog.w("MainActivity", "模块未安装，请先安装模块")
             }
         }
 

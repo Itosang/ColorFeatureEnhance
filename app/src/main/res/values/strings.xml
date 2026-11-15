@@ -4,8 +4,6 @@
     <string name="about">关于</string>
     <string name="config">配置</string>
     <string name="app_title">特性补全</string>
-    <string name="feature_config_placeholder">特性补全配置页面（待实现）</string>
-    <string name="about_placeholder">关于页面（待实现）</string>
     <string name="feature_ai_chat_scene">AI聊天场景</string>
     <string name="feature_live_assistant">直播助手</string>
     <string name="feature_tap_to_wake_screen">点击屏幕唤醒息屏</string>
@@ -27,13 +25,13 @@
     <string name="feature_keyboard_nfc_ios_share">键盘NFC分享IOS控制中心界面</string>
     <string name="feature_unknown">待确认</string>
     <string name="delete_confirm_title">删除特性</string>
-    <string name="delete_confirm_message">确定删除 %1$s 及其所有配置吗？</string>
+    <string name="delete_confirm_message">确定删除 %1$s 及其全部配置吗？</string>
     <string name="add_feature">添加特性</string>
     <string name="feature_name">特性名称</string>
     <string name="feature_description">特性描述</string>
     <string name="feature_enabled">启用状态</string>
     <string name="preset_mapping_match_title">预设描述匹配</string>
-    <string name="preset_mapping_match_message">当前特性已有预设描述，将使用系统预设描述而非自定义描述。</string>
+    <string name="preset_mapping_match_message">这个特性已有内置描述，自定义描述不会生效。</string>
     <string name="edit_feature">编辑特性</string>
     <string name="select_feature_to_edit">请选择要编辑的特性</string>
     <string name="mode_app">App · app-features</string>
@@ -41,14 +39,6 @@
     <string name="mode_region">Oplus · my_region</string>
 
     <!-- Cloud configuration related strings -->
-    <string name="cloud_config_update_success">云端配置更新成功</string>
-    <string name="cloud_config_update_failed">云端配置更新失败</string>
-    <string name="cloud_config_no_update">云端配置无需更新</string>
-    <string name="cloud_config_downloading">正在下载云端配置…</string>
-    <string name="cloud_config_parsing">正在解析云端配置…</string>
-    <string name="cloud_config_error_network">网络连接失败</string>
-    <string name="cloud_config_error_parse">配置解析失败</string>
-    <string name="cloud_config_stats">云端配置统计</string>
     <!-- Oplus features preset descriptions -->
     <string name="oplus_feature_compatibility_code">[软] 适配性代码</string>
     <string name="oplus_feature_ai_eye_protect">AI护眼</string>
@@ -82,9 +72,8 @@
     <string name="root_permission_exit">退出</string>
     <string name="root_permission_continue">仍要进入</string>
     <string name="root_permission_warning">请注意，某些功能可能无法正常工作。</string>
-    <string name="module_install_success">附加模块安装成功！</string>
     <string name="module_install_fail_title">附加模块安装失败！</string>
-    <string name="module_install_fail_message">请检查是否有 Root 权限，软件无法正常使用</string>
+    <string name="module_install_fail_message">没有 Root 权限，应用无法正常工作。</string>
 
     <!-- 模块自动更新 -->
     <string name="module_auto_update_first_launch">首次启动，正在安装模块...</string>
@@ -92,12 +81,7 @@
     <string name="module_auto_update_app_downgraded">应用已降级 %1$s → %2$s，正在重新安装模块...</string>
     <string name="module_auto_update_module_outdated">应用版本已变化，正在同步更新模块...</string>
     <string name="module_auto_update_success">模块已同步更新 (应用版本: %1$s)</string>
-    <string name="module_auto_update_failed">模块同步更新失败，请手动重新安装</string>
     <string name="common_ok">确定</string>
-    <string name="ksu_not_supported_title">不支持的 KernelSU 版本</string>
-    <string name="ksu_not_supported_message">检测到设备正在使用原版 KernelSU。当前模块仅支持 Magisk Mount 版本的 KernelSU，请更换后再尝试。</string>
-    <string name="complex_feature_title">复杂配置</string>
-    <string name="complex_feature_message">此特性包含复杂配置，无法在应用内编辑参数值。如需修改参数，请手动编辑配置文件：\n%1$s\n\n等大佬提PR</string>
     <string name="complex_feature_indicator">(复杂配置)</string>
     <string name="unavailable_feature_indicator">(不可用)</string>
 
@@ -107,14 +91,9 @@
     <string name="config_value">配置值</string>
     <string name="complex_feature_edit_restriction">复杂特性无法通过此对话框编辑，请使用外部编辑器修改配置文件</string>
     <string name="save_and_sync_success">已保存并同步到模块</string>
-    <string name="save_success_sync_failed">已保存但同步到模块失败</string>
-    <string name="save_success_merge_failed">保存成功但配置合并失败</string>
-    <string name="refresh">刷新</string>
+    <string name="save_success_sync_failed">已保存，但同步到模块失败</string>
 
     <!-- 补丁状态相关 -->
-    <string name="patch_status_add">新增</string>
-    <string name="patch_status_modify">修改</string>
-    <string name="patch_status_remove">删除</string>
     <string name="feature_builtin_tag">内置</string>
 
     <!-- Oplus 新特性中文描述 -->
@@ -338,10 +317,17 @@
     <!-- 新增的日志导出和更多菜单相关字符串 -->
     <string name="more_menu">更多</string>
     <string name="export_logs">导出日志</string>
-    <string name="export_logs_success">日志导出成功</string>
+    <string name="export_logs_success">日志已导出到 %1$s</string>
     <string name="export_logs_failed">日志导出失败</string>
     <string name="no_logs_to_export">暂无日志可导出</string>
-    <string name="log_export_title">ColorFeatureEnhance 日志</string>
+    <string name="module_updating">正在更新模块…</string>
+    <string name="module_update_success">模块更新成功</string>
+    <string name="module_update_failed">模块更新失败：%1$s</string>
+    <string name="module_update_unknown">模块更新状态未知</string>
+    <string name="module_update_error">模块更新异常：%1$s</string>
+    <string name="feature_args_hint">配置值（留空表示无 args）</string>
+    <string name="save">保存</string>
+    <string name="save_failed_detail">保存失败：%1$s</string>
 
     <!-- 新增 App 特性中文描述 (20250712) -->
     <string name="feature_fullscreen_panoramic_aod">全天候全景息屏</string>
@@ -361,7 +347,6 @@
     <string name="oplus_feature_super_volume_5x">[软] 超级音量（5×）</string>
 
     <!-- Edit feature dialog related strings -->
-    <string name="system_feature_name_readonly_hint">系统存在的特性配置，名称不可编辑</string>
 
     <!-- Disclaimer related strings -->
     <string name="disclaimer_title">免责声明</string>
@@ -370,7 +355,7 @@
     <string name="disclaimer_reading_time">请仔细阅读免责声明</string>
     <string name="disclaimer_exit">退出应用</string>
     <string name="disclaimer_scroll_hint">请滚动阅读完整内容</string>
-    <string name="update_modules">强制更新模块</string>
+    <string name="update_modules">更新模块</string>
 
     <!-- OPLUS WiFi / 风扇 / 预加载特性描述 -->
     <string name="oplus_feature_wlan_wifi6">[软] WiFi 6 支持</string>

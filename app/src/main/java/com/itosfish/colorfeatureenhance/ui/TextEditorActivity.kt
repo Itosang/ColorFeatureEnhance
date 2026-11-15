@@ -103,12 +103,16 @@ fun TextEditorScreen(filePath: String, onFinish: () -> Unit) {
                                 }
                             }.onFailure { exception: Throwable ->
                                 launch(Dispatchers.Main) {
-                                    Toast.makeText(context, "保存失败: ${exception.message}", Toast.LENGTH_LONG).show()
+                                    Toast.makeText(
+                                        context,
+                                        context.getString(R.string.save_failed_detail, exception.message),
+                                        Toast.LENGTH_LONG
+                                    ).show()
                                 }
                             }
                         }
                     }, enabled = isModified) {
-                        Icon(Icons.AutoMirrored.Filled.Send, contentDescription = "保存")
+                        Icon(Icons.AutoMirrored.Filled.Send, contentDescription = stringResource(R.string.save))
                     }
                 }
             )

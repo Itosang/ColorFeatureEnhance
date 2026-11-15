@@ -5,12 +5,10 @@
     <string name="about">About</string>
     <string name="config">Settings</string>
     <string name="app_title">Feature Enhancer</string>
-    <string name="feature_config_placeholder">Feature configuration page (to be implemented)</string>
-    <string name="about_placeholder">About page (to be implemented)</string>
     <string name="feature_ai_chat_scene">AI Chat Scene</string>
     <string name="feature_live_assistant">Live Assistant</string>
-    <string name="feature_tap_to_wake_screen">Tap to Wake Screen</string>
-    <string name="feature_livephoto_lock_screen">Live Photo Lock Screen</string>
+    <string name="feature_tap_to_wake_screen">Tap to wake screen</string>
+    <string name="feature_livephoto_lock_screen">Live Photo lock screen wallpaper</string>
     <string name="feature_global_aod">Global AOD</string>
     <string name="feature_qs_icon_deformable">QS Icon Deformable</string>
     <string name="feature_area_record">Area Screen Recording</string>
@@ -24,17 +22,17 @@
     <string name="feature_game_fan_power_mode">Game Fan Power Mode</string>
     <string name="feature_all_scene_bypass_charging">All Scene Bypass Charging</string>
     <string name="feature_reverse_charging">Reverse Charging</string>
-    <string name="feature_wechat_video_call_enhance">WeChat Video Call Enhance</string>
-    <string name="feature_keyboard_nfc_ios_share">Keyboard NFC iOS Control Center Share</string>
+    <string name="feature_wechat_video_call_enhance">WeChat video call enhancements</string>
+    <string name="feature_keyboard_nfc_ios_share">Keyboard NFC share with iOS Control Center</string>
     <string name="feature_unknown">Unknown</string>
     <string name="delete_confirm_title">Delete Feature</string>
-    <string name="delete_confirm_message">Are you sure to delete %1$s and all its configurations?</string>
+    <string name="delete_confirm_message">Delete %1$s and all of its settings?</string>
     <string name="add_feature">Add Feature</string>
     <string name="feature_name">Feature Name</string>
     <string name="feature_description">Feature Description</string>
     <string name="feature_enabled">Enabled</string>
     <string name="preset_mapping_match_title">Preset Description Match</string>
-    <string name="preset_mapping_match_message">This feature already has a preset description. The system preset will be used instead of custom description.</string>
+    <string name="preset_mapping_match_message">This feature already has a built-in description, so your custom one won't be used.</string>
     <string name="edit_feature">Edit Feature</string>
     <string name="select_feature_to_edit">Select feature to edit</string>
     <string name="mode_app">App · app-features</string>
@@ -42,78 +40,61 @@
     <string name="mode_region">Oplus · my_region</string>
 
     <!-- Cloud configuration related strings -->
-    <string name="cloud_config_update_success">Cloud configuration updated successfully</string>
-    <string name="cloud_config_update_failed">Cloud configuration update failed</string>
-    <string name="cloud_config_no_update">Cloud configuration is up to date</string>
-    <string name="cloud_config_downloading">Downloading cloud configuration…</string>
-    <string name="cloud_config_parsing">Parsing cloud configuration…</string>
-    <string name="cloud_config_error_network">Network connection failed</string>
-    <string name="cloud_config_error_parse">Configuration parsing failed</string>
-    <string name="cloud_config_stats">Cloud Configuration Stats</string>
     <!-- Oplus features preset descriptions -->
-    <string name="oplus_feature_compatibility_code">Compatibility Code</string>
+    <string name="oplus_feature_compatibility_code">Compatibility code</string>
     <string name="oplus_feature_ai_eye_protect">AI Eye Protect</string>
     <string name="oplus_feature_satellite_network">Satellite Network</string>
     <string name="oplus_feature_game_acceleration">Game Acceleration</string>
     <string name="oplus_feature_hyper_engine">Hyper Mode Performance Engine</string>
     <string name="oplus_feature_touch_optimization">Touch Optimization</string>
-    <string name="oplus_feature_game_color_button">Game Assistant Color Button</string>
+    <string name="oplus_feature_game_color_button">Game Assistant color button</string>
     <string name="oplus_feature_eyeprotect_reminder">Eye-protection Reminder</string>
     <string name="oplus_feature_reduce_white_point">Reduce White Point</string>
     <string name="oplus_feature_genshin_shoulder_key">Genshin Shoulder Key</string>
-    <string name="oplus_feature_min_brightness_expand">Min Brightness Expand</string>
-    <string name="oplus_feature_low_brightness_flicker">Low Brightness Flicker</string>
+    <string name="oplus_feature_min_brightness_expand">Minimum brightness extension</string>
+    <string name="oplus_feature_low_brightness_flicker">Low-brightness flicker</string>
     <string name="oplus_feature_game_ifs">Game Assistant IFS</string>
     <string name="oplus_feature_video_volume_enhance">Video Volume Enhancement</string>
     <string name="oplus_feature_sidebar_video_assistant">Sidebar Video Assistant</string>
     <string name="oplus_feature_cooling_fan">Cooling Fan</string>
-    <string name="oplus_feature_pick_color_optimization">Navbar Pick Color Optimization</string>
-    <string name="oplus_feature_live_scene_acceleration">Live Broadcast Acceleration</string>
+    <string name="oplus_feature_pick_color_optimization">Navigation bar color picking optimization</string>
+    <string name="oplus_feature_live_scene_acceleration">Live streaming acceleration</string>
     <string name="oplus_feature_sound_focus_record">Recording Sound Focus</string>
-    <string name="oplus_feature_low_lux_anti_shake">Low Lux Anti-shake</string>
-    <string name="oplus_feature_foreground_preload">Foreground Preload</string>
-    <string name="oplus_feature_gcstring">GCString Support</string>
+    <string name="oplus_feature_low_lux_anti_shake">Low-light anti-shake</string>
+    <string name="oplus_feature_foreground_preload">Foreground preload</string>
+    <string name="oplus_feature_gcstring">GCString support</string>
     <string name="search_feature">Search Feature</string>
     <string name="search_hint">Search name or description…</string>
     <string name="search_no_results">No matching results</string>
     <string name="no_features">No features</string>
     <string name="search_clear">Clear Search</string>
     <string name="root_permission_title">Root permission required</string>
-    <string name="root_permission_message">This feature requires root permission to work. Please obtain root permission using Magisk or other tools.</string>
+    <string name="root_permission_message">This app needs root access. Grant it with Magisk, KernelSU, or APatch.</string>
     <string name="root_permission_exit">Exit</string>
     <string name="root_permission_continue">Continue anyway</string>
     <string name="root_permission_warning">Please note that some features may not work properly.</string>
-    <string name="module_install_success">Module installed successfully!</string>
     <string name="module_install_fail_title">Module installation failed!</string>
-    <string name="module_install_fail_message">Please check if root permission is available, otherwise the app cannot work.</string>
+    <string name="module_install_fail_message">Root access is required, otherwise the app can't work.</string>
 
     <!-- Module Auto Update -->
-    <string name="module_auto_update_first_launch">First launch, installing module...</string>
-    <string name="module_auto_update_app_updated">App updated %1$s → %2$s, syncing module...</string>
+    <string name="module_auto_update_first_launch">First launch: installing module...</string>
+    <string name="module_auto_update_app_updated">App updated %1$s → %2$s, updating module...</string>
     <string name="module_auto_update_app_downgraded">App downgraded %1$s → %2$s, reinstalling module...</string>
-    <string name="module_auto_update_module_outdated">App version changed, syncing module...</string>
-    <string name="module_auto_update_success">Module synced with app version (App version: %1$s)</string>
-    <string name="module_auto_update_failed">Module sync failed, please reinstall manually</string>
+    <string name="module_auto_update_module_outdated">App version changed, updating module...</string>
+    <string name="module_auto_update_success">Module updated for app version %1$s</string>
     <string name="common_ok">OK</string>
-    <string name="ksu_not_supported_title">Unsupported KernelSU version</string>
-    <string name="ksu_not_supported_message">Original KernelSU detected. This module supports only the KernelSU branch with Magisk Mount support. Please switch and try again.</string>
-    <string name="complex_feature_title">Complex Configuration</string>
-    <string name="complex_feature_message">This feature contains complex configuration that cannot be edited in the app. To modify parameters, please manually edit the config file:\n%1$s</string>
     <string name="complex_feature_indicator">(Complex Config)</string>
     <string name="unavailable_feature_indicator">(Unavailable)</string>
 
     <!-- New internationalization strings -->
     <string name="back">Back</string>
-    <string name="config_content">Configuration Content</string>
-    <string name="config_value">Configuration Value</string>
+    <string name="config_content">Config content</string>
+    <string name="config_value">Value</string>
     <string name="complex_feature_edit_restriction">Complex features cannot be edited through this dialog. Please use an external editor to modify the configuration file</string>
-    <string name="save_and_sync_success">Saved and synced to module successfully</string>
-    <string name="save_success_sync_failed">Saved successfully but failed to sync to module</string>
-    <string name="save_success_merge_failed">Saved successfully but configuration merge failed</string>
+    <string name="save_and_sync_success">Saved and synced to the module</string>
+    <string name="save_success_sync_failed">Saved, but syncing to the module failed</string>
 
     <!-- Patch status related -->
-    <string name="patch_status_add">Added</string>
-    <string name="patch_status_modify">Modified</string>
     <string name="feature_builtin_tag">Built-in</string>
 
     <!-- Feature mapping internationalization additions -->
@@ -185,7 +166,7 @@
     <string name="oplus_feature_radio_pull_wifi_cell">Pull WiFi cell info</string>
     <string name="oplus_feature_radio_subway_slow_recovery">Subway weak network fast recovery</string>
     <string name="oplus_feature_radio_virtualmodem_support">Virtual modem support</string>
-    <string name="oplus_feature_radio_ignore_stk_display_text">Block carrier popups for better experience</string>
+    <string name="oplus_feature_radio_ignore_stk_display_text">Block carrier STK popups</string>
     <string name="oplus_feature_radio_air_interface_detect_support">Air interface detection support</string>
     <string name="oplus_feature_radio_sido_airplane_mode_low_power_opt_v2">Airplane mode low power optimization V2</string>
     <string name="oplus_feature_radio_sido_elevator">Elevator scenario optimization</string>
@@ -252,7 +233,7 @@
     <string name="oplus_feature_radio_concert_detect_service">Concert network optimization</string>
     <string name="oplus_feature_radio_qoe_game_cell_suggest">Game scene cell suggestion</string>
     <string name="oplus_feature_hardware_display_no_classic_low_freq_strobe">No low frequency strobe screen</string>
-    <string name="oplus_feature_display_adfr_v32_lp">Adaptive refresh rate v32 low power</string>
+    <string name="oplus_feature_display_adfr_v32_lp">Adaptive refresh rate V32 low-power</string>
     <string name="oplus_feature_radio_enable_ct_network_scan">Enable China Telecom network scan</string>
     <string name="oplus_feature_hardware_pwd_attestation_locksettings">Password attestation security lock</string>
     <string name="oplus_feature_radio_subsystem_camera_service">Camera subsystem network service</string>
@@ -267,30 +248,30 @@
     <!-- Oplus batch mapping auto-generated end -->
 
     <!-- 20241007 New Features -->
-    <string name="oplus_feature_app_resolution_auto">[Software] Auto app resolution switching support</string>
-    <string name="oplus_feature_camera_volume_quick_launch">[Software] Quick launch camera with volume key</string>
-    <string name="oplus_feature_gsa_refresh">[Software] GSA refresh mechanism</string>
-    <string name="oplus_feature_radio_networkless_support">[Software] Networkless communication support</string>
-    <string name="oplus_feature_radio_pcdr_high_speed_move">[Software] High-speed movement network search optimization</string>
-    <string name="oplus_feature_radio_pcdr_lte_fast_return_nr">[Software] 4G to 5G fast return optimization</string>
-    <string name="oplus_feature_radio_pcdr_lte_ping_pong">[Software] Reduce invalid 4G base station switching</string>
-    <string name="oplus_feature_radio_pcdr_nr_ping_pong">[Software] Reduce invalid 5G base station switching</string>
-    <string name="oplus_feature_radio_pcdr_portrait">[Software] PCDR network user profile</string>
-    <string name="oplus_feature_radio_qoe_collaborative_center">[Software] QoE collaborative center</string>
-    <string name="oplus_feature_radio_rf_power_boost">[Software] RF power boost</string>
-    <string name="oplus_feature_radio_ul_priority_foreground">[Software] Foreground app uplink priority policy</string>
-    <string name="oplus_feature_touch_preload">[Software] Touch preload</string>
-    <string name="oplus_feature_view_rgbnormalize">[Software] Screen RGB color consistency optimization</string>
-    <string name="oplus_feature_view_spring_over_scroller">[Software] List spring over-scroller effect</string>
+    <string name="oplus_feature_app_resolution_auto">[Soft] Auto app resolution switching support</string>
+    <string name="oplus_feature_camera_volume_quick_launch">[Soft] Quick launch camera with volume key</string>
+    <string name="oplus_feature_gsa_refresh">[Soft] GSA refresh mechanism</string>
+    <string name="oplus_feature_radio_networkless_support">[Soft] Networkless communication support</string>
+    <string name="oplus_feature_radio_pcdr_high_speed_move">[Soft] High-speed movement network search optimization</string>
+    <string name="oplus_feature_radio_pcdr_lte_fast_return_nr">[Soft] 4G to 5G fast return optimization</string>
+    <string name="oplus_feature_radio_pcdr_lte_ping_pong">[Soft] Reduce invalid 4G base station switching</string>
+    <string name="oplus_feature_radio_pcdr_nr_ping_pong">[Soft] Reduce invalid 5G base station switching</string>
+    <string name="oplus_feature_radio_pcdr_portrait">[Soft] PCDR network user profile</string>
+    <string name="oplus_feature_radio_qoe_collaborative_center">[Soft] QoE collaborative center</string>
+    <string name="oplus_feature_radio_rf_power_boost">[Soft] RF power boost</string>
+    <string name="oplus_feature_radio_ul_priority_foreground">[Soft] Foreground app uplink priority policy</string>
+    <string name="oplus_feature_touch_preload">[Soft] Touch preload</string>
+    <string name="oplus_feature_view_rgbnormalize">[Soft] Screen RGB color consistency optimization</string>
+    <string name="oplus_feature_view_spring_over_scroller">[Soft] List spring over-scroller effect</string>
 
     <!-- New App feature descriptions (20250712) -->
     <string name="feature_fullscreen_panoramic_aod">All-day panoramic AOD</string>
     <string name="feature_gallery_gif_optimization">Gallery GIF optimization</string>
-    <string name="feature_jianying_asset_optimization">Jianying asset optimization</string>
+    <string name="feature_jianying_asset_optimization">CapCut (Jianying) asset optimization</string>
     <string name="feature_douyin_live_beauty">Douyin live beauty</string>
-    <string name="feature_game_assistant_body_sensation">Game assistant body-sensation control</string>
+    <string name="feature_game_assistant_body_sensation">Game Assistant posture control</string>
     <string name="feature_new_tips_page">New tips page</string>
-    <string name="feature_launcher_breeeno_entry_indicator">Breeeno entry indicator in launcher</string>
+    <string name="feature_launcher_breeeno_entry_indicator">Breeno launcher entry hint</string>
     <string name="feature_hide_screenon_battery_stats">Hide screen-on stats in battery details</string>
     <!-- New Oplus feature descriptions (20250712) -->
     <string name="oplus_feature_radio_show_5g_nr_mode">[Soft] 5G NR mode switch</string>
@@ -301,7 +282,6 @@
     <string name="oplus_feature_super_volume_5x">[Soft] Super volume (5×)</string>
 
     <!-- Edit feature dialog related strings -->
-    <string name="system_feature_name_readonly_hint">System feature configuration, name cannot be edited</string>
 
     <!-- Disclaimer related strings -->
     <string name="disclaimer_title">Disclaimer</string>
@@ -310,7 +290,7 @@
     <string name="disclaimer_reading_time">Please read the disclaimer carefully</string>
     <string name="disclaimer_exit">Exit App</string>
     <string name="disclaimer_scroll_hint">Please scroll to read the complete content</string>
-    <string name="update_modules">force_update_modules</string>
+    <string name="update_modules">Update module</string>
 
     <!-- OPLUS WiFi / fan / preload feature descriptions -->
     <string name="oplus_feature_wlan_wifi6">[Soft] WiFi 6 support</string>
@@ -325,7 +305,21 @@
     <string name="oplus_feature_misc_fan_fanservice_v2_support">Fan service v2</string>
 
     <!-- Feature sections -->
-    <string name="section_system_features">System built-in</string>
-    <string name="section_app_added_features">App-added</string>
+    <string name="section_system_features">System defaults</string>
+    <string name="section_app_added_features">Added by app</string>
     <string name="section_feature_count">%1$d items</string>
+
+    <string name="more_menu">More</string>
+    <string name="export_logs">Export logs</string>
+    <string name="export_logs_success">Logs saved to %1$s</string>
+    <string name="export_logs_failed">Failed to export logs</string>
+    <string name="no_logs_to_export">No logs to export</string>
+    <string name="module_updating">Updating module…</string>
+    <string name="module_update_success">Module updated</string>
+    <string name="module_update_failed">Module update failed: %1$s</string>
+    <string name="module_update_unknown">Module update status unknown</string>
+    <string name="module_update_error">Module update error: %1$s</string>
+    <string name="feature_args_hint">Value (leave empty for no args)</string>
+    <string name="save">Save</string>
+    <string name="save_failed_detail">Save failed: %1$s</string>
 </resources>

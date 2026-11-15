@@ -1,6 +1,5 @@
 package com.itosfish.colorfeatureenhance.utils
 
-// Linkify 可能引入歧义，已不再需要
 import android.app.Activity
 import android.content.Context
 import android.text.method.LinkMovementMethod
@@ -44,16 +43,13 @@ fun showAboutDialog(activity: Activity) {
     val inflater = LayoutInflater.from(activity)
     val root = inflater.inflate(R.layout.dialog_about, null, false)
 
-    // 图标
     val iconView = root.findViewById<ImageView>(R.id.icon)
     iconView.setImageDrawable(activity.packageManager.getApplicationIcon(activity.applicationInfo))
 
-    // 版本号
     val versionNameView = root.findViewById<TextView>(R.id.version_name)
     val versionName = activity.packageManager.getPackageInfo(activity.packageName, 0).versionName
     versionNameView.text = "$versionName"
 
-    // 富文本链接
     val sourceCodeView = root.findViewById<TextView>(R.id.source_code)
     sourceCodeView.movementMethod = LinkMovementMethod.getInstance()
     MaterialAlertDialogBuilder(activity)
@@ -79,7 +75,6 @@ fun AddFeatureDialog(
         title = { Text(text = stringResource(id = R.string.add_feature)) },
         text = {
             Column {
-                // 特性描述输入
                 OutlinedTextField(
                     value = featureDescription,
                     onValueChange = { featureDescription = it },
@@ -89,7 +84,6 @@ fun AddFeatureDialog(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                // 特性名称输入
                 OutlinedTextField(
                     value = featureName,
                     onValueChange = { featureName = it },
@@ -104,7 +98,7 @@ fun AddFeatureDialog(
                     OutlinedTextField(
                         value = argValue,
                         onValueChange = { argValue = it },
-                        label = { Text("配置值 (留空表示无 args)") },
+                        label = { Text(stringResource(R.string.feature_args_hint)) },
                         modifier = Modifier.fillMaxWidth()
                     )
 
@@ -134,9 +128,7 @@ fun AddFeatureDialog(
             TextButton(
                 onClick = {
                     if (featureName.isNotEmpty()) {
-                        // 只有当描述不为空时才保存映射
                         if (featureDescription.isNotEmpty()) {
-                            // 检查是否与预设映射匹配
                             val isPresetMatch = if (currentMode == FeatureMode.APP) {
                                 AppFeatureMappings.getInstance().isMatchingPresetDescription(
                                     context, featureName, featureDescription
@@ -149,7 +141,6 @@ fun AddFeatureDialog(
                                 )
                             }
 
-                            // 检查是否存在云端配置
                             val hasCloudConfig = if (currentMode == FeatureMode.APP) {
                                 AppFeatureMappings.getInstance().isMatchingCloudDescription(context, featureName)
                             } else {
@@ -157,10 +148,8 @@ fun AddFeatureDialog(
                             }
 
                             if (isPresetMatch) {
-                                // 显示提示对话框
                                 showPresetMatchDialog = true
                             } else if (hasCloudConfig) {
-                                // 存在云端配置时，不保存用户映射，直接添加特性
                                 onConfirm(
                                     featureName,
                                     featureDescription,
@@ -168,7 +157,6 @@ fun AddFeatureDialog(
                                     if (argValue.isBlank()) null else argValue
                                 )
                             } else {
-                                // 保存用户自定义映射
                                 if (currentMode == FeatureMode.APP) {
                                     AppFeatureMappings.getInstance()
                                         .saveUserMapping(context, featureName, featureDescription)
@@ -179,7 +167,6 @@ fun AddFeatureDialog(
                                         featureDescription
                                     )
                                 }
-                                // 添加特性并关闭对话框
                                 onConfirm(
                                     featureName,
                                     featureDescription,
@@ -189,7 +176,6 @@ fun AddFeatureDialog(
                                 // 不要在这里关闭对话框，因为showPresetMatchDialog=true时需要继续显示
                             }
                         } else {
-                            // 描述为空，直接添加特性并关闭对话框
                             onConfirm(
                                 featureName,
                                 featureDescription,
@@ -211,7 +197,6 @@ fun AddFeatureDialog(
         }
     )
 
-    // 预设映射匹配提示对话框
     if (showPresetMatchDialog) {
         AlertDialog(
             onDismissRequest = { showPresetMatchDialog = false },
@@ -219,7 +204,6 @@ fun AddFeatureDialog(
             text = { Text(text = stringResource(id = R.string.preset_mapping_match_message)) },
             confirmButton = {
                 TextButton(onClick = {
-                    // 关闭提示对话框，添加特性并关闭主对话框
                     showPresetMatchDialog = false
                     onConfirm(
                         featureName,
@@ -263,7 +247,6 @@ fun EditFeatureDialog(
         originalName in OriginalNames.get(currentMode)
     }
 
-    // 检查是否为预设描述
     val isPresetDesc = if (currentMode == FeatureMode.APP) {
         AppFeatureMappings.getInstance()
             .isMatchingPresetDescription(context, originalName, originalDescription)
@@ -271,14 +254,12 @@ fun EditFeatureDialog(
         OplusFeatureMappings.isMatchingPresetDescription(context, originalName, originalDescription)
     }
 
-    // 检查是否存在云端配置描述
     val hasCloudDesc = if (currentMode == FeatureMode.APP) {
         AppFeatureMappings.getInstance().isMatchingCloudDescription(context, originalName)
     } else {
         OplusFeatureMappings.isMatchingCloudDescription(context, originalName)
     }
 
-    // 当存在预设描述或云端配置时，禁用描述输入框
     val isDescriptionDisabled = isPresetDesc || hasCloudDesc
 
     AlertDialog(
@@ -305,17 +286,7 @@ fun EditFeatureDialog(
                     readOnly = isSystemFeature
                 )
 
-//                // 显示系统特性提示
-//                if (isSystemFeature) {
-//                    Text(
-//                        text = stringResource(id = R.string.system_feature_name_readonly_hint),
-//                        style = MaterialTheme.typography.bodySmall,
-//                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f),
-//                        modifier = Modifier.fillMaxWidth()
-//                    )
-//                }
                 Spacer(modifier = Modifier.height(16.dp))
-                // 检查是否为复杂特性
                 val tempFeature = AppFeature(
                     name = originalName,
                     enabled = originalEnabled,
@@ -329,7 +300,6 @@ fun EditFeatureDialog(
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.error
                     )
-                    // 复杂特性不显示参数编辑控件
                     return@Column
                 } else {
                     val hasBoolean = originalArgs?.startsWith("boolean:") == true
@@ -345,7 +315,6 @@ fun EditFeatureDialog(
                                 checked = featureEnabled,
                                 onCheckedChange = {
                                     featureEnabled = it
-                                    // 同步更新argValue以确保boolean参数正确
                                     argValue = if (it) "boolean:true" else "boolean:false"
                                 })
                         }
@@ -365,7 +334,6 @@ fun EditFeatureDialog(
         },
         confirmButton = {
             TextButton(onClick = {
-                // 若描述修改为空，则删除用户映射
                 if (featureDescription.isEmpty()) {
                     if (currentMode == FeatureMode.APP) {
                         AppFeatureMappings.getInstance().removeUserMapping(context, featureName)
@@ -373,7 +341,6 @@ fun EditFeatureDialog(
                         OplusFeatureMappings.removeUserMapping(context, featureName)
                     }
                 } else {
-                    // 检查是否与预设映射匹配
                     val matchPreset = if (currentMode == FeatureMode.APP) {
                         AppFeatureMappings.getInstance()
                             .isMatchingPresetDescription(context, featureName, featureDescription)
@@ -385,14 +352,12 @@ fun EditFeatureDialog(
                         )
                     }
 
-                    // 检查是否存在云端配置
                     val hasCloudConfig = if (currentMode == FeatureMode.APP) {
                         AppFeatureMappings.getInstance().isMatchingCloudDescription(context, featureName)
                     } else {
                         OplusFeatureMappings.isMatchingCloudDescription(context, featureName)
                     }
 
-                    // 只有在不匹配预设描述且不存在云端配置时才保存用户映射
                     if (!matchPreset && !hasCloudConfig) {
                         if (currentMode == FeatureMode.APP) {
                             AppFeatureMappings.getInstance()
@@ -412,8 +377,6 @@ fun EditFeatureDialog(
                     featureEnabled,
                     if (argValue.isBlank()) null else argValue
                 )
-                // force ui update even if feature list unchanged
-                // handled outside
             }) {
                 Text(text = stringResource(id = android.R.string.ok))
             }

@@ -6,7 +6,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 /**
- * 配置初始化与模块安装。配置本身由 ModuleConfig 直接读写模块目录。
+ * 模块安装与版本查询。
  */
 object ConfigUtils {
     const val LATEST_MODULE_VERSION = 22
@@ -14,20 +14,7 @@ object ConfigUtils {
     private const val TAG = "ConfigUtils"
 
     /**
-     * 配置直接读写模块目录，这里只检查模块是否已安装。
-     */
-    fun initializeConfigSystem(): Boolean {
-        val isInstalled = ModuleConfig.isInstalled()
-        if (isInstalled) {
-            CLog.i(TAG, "模块已安装，可直接编辑配置")
-        } else {
-            CLog.w(TAG, "模块未安装，请先安装模块")
-        }
-        return isInstalled
-    }
-
-    /**
-     * 安装模块：从 assets 解压模块 zip 后交给 Magisk / KernelSU / APatch。
+     * 把内置模块交给 Magisk / KernelSU / APatch 安装。
      */
     fun installModule(): Boolean {
         return try {
@@ -72,7 +59,7 @@ object ConfigUtils {
     }
 
     /**
-     * 读取已安装模块的 versionCode。
+     * 已安装模块的 versionCode，未安装返回 -1。
      */
     val moduleVersion: Int
         get() {

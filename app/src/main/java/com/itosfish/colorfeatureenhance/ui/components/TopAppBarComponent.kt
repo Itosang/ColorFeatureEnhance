@@ -101,7 +101,7 @@ fun ColorOSTopAppBar(
                 IconButton(onClick = { showMoreMenu = true }) {
                     Icon(
                         imageVector = Icons.Filled.MoreVert,
-                        contentDescription = "更多"
+                        contentDescription = stringResource(R.string.more_menu)
                     )
                 }
 
@@ -120,7 +120,7 @@ fun ColorOSTopAppBar(
                     DropdownMenuItem(
                         text = {
                             Text(
-                                text = "更新模块",
+                                text = stringResource(R.string.update_modules),
                                 style = MaterialTheme.typography.bodyLarge
                             )
                         },
@@ -134,7 +134,7 @@ fun ColorOSTopAppBar(
                     DropdownMenuItem(
                         text = {
                             Text(
-                                text = "导出日志",
+                                text = stringResource(R.string.export_logs),
                                 style = MaterialTheme.typography.bodyLarge
                             )
                         },
@@ -170,27 +170,33 @@ fun ColorOSTopAppBar(
 private fun forceUpdateModule(activity: Activity) {
     CoroutineScope(Dispatchers.Main).launch {
         try {
-            Toast.makeText(activity, "正在更新模块，请稍候...", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, R.string.module_updating, Toast.LENGTH_SHORT).show()
             CLog.i("TopAppBar", "用户手动触发模块更新")
 
-            val updateResult = ModuleAutoUpdater.forceUpdateModule()
-
-            when (updateResult) {
+            when (val updateResult = ModuleAutoUpdater.forceUpdateModule()) {
                 is ModuleAutoUpdater.UpdateResult.Success -> {
-                    Toast.makeText(activity, "模块更新成功！", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, R.string.module_update_success, Toast.LENGTH_SHORT).show()
                     CLog.i("TopAppBar", "手动模块更新成功")
                 }
                 is ModuleAutoUpdater.UpdateResult.Failed -> {
-                    Toast.makeText(activity, "模块更新失败: ${updateResult.reason}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(
+                        activity,
+                        activity.getString(R.string.module_update_failed, updateResult.reason),
+                        Toast.LENGTH_LONG
+                    ).show()
                     CLog.e("TopAppBar", "手动模块更新失败: ${updateResult.reason}")
                 }
                 else -> {
-                    Toast.makeText(activity, "模块更新状态未知", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, R.string.module_update_unknown, Toast.LENGTH_SHORT).show()
                     CLog.w("TopAppBar", "手动模块更新状态未知")
                 }
             }
         } catch (e: Exception) {
-            Toast.makeText(activity, "模块更新异常: ${e.message}", Toast.LENGTH_LONG).show()
+            Toast.makeText(
+                activity,
+                activity.getString(R.string.module_update_error, e.message),
+                Toast.LENGTH_LONG
+            ).show()
             CLog.e("TopAppBar", "手动模块更新异常", e)
         }
     }
@@ -203,44 +209,36 @@ private fun exportLogs(activity: Activity) {
     try {
         val logs = CLog.getFormattedLogs()
 
-        if (logs == "暂无日志记录") {
-            Toast.makeText(activity, "暂无日志可导出", Toast.LENGTH_SHORT).show()
+        if (CLog.getAllLogs().isEmpty()) {
+            Toast.makeText(activity, R.string.no_logs_to_export, Toast.LENGTH_SHORT).show()
             return
         }
 
-        // 生成文件名
         val dateFormat = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault())
         val timestamp = dateFormat.format(Date())
         val fileName = "ColorFeatureEnhance_logs_$timestamp.txt"
         val filePath = "/sdcard/$fileName"
 
-        // 创建临时文件
         val tempFile = java.io.File(activity.cacheDir, fileName)
         tempFile.writeText(logs)
 
-        // 使用shell命令复制到/sdcard/
-        val copyCommand = "cp \"${tempFile.absolutePath}\" \"$filePath\""
-        val result = CSU.runWithSu(copyCommand)
+        val result = CSU.runWithSu("cp \"${tempFile.absolutePath}\" \"$filePath\"")
 
-        if (result.exitCode == 0) {
-            // 验证文件是否成功创建
-            if (CSU.fileExists(filePath)) {
-                Toast.makeText(activity, "日志已导出到: $filePath", Toast.LENGTH_LONG).show()
-                CLog.i("TopAppBar", "日志导出成功: $filePath")
-            } else {
-                Toast.makeText(activity, "日志导出失败: 文件未创建", Toast.LENGTH_SHORT).show()
-                CLog.e("TopAppBar", "日志导出失败: 文件未创建")
-            }
+        if (result.exitCode == 0 && CSU.fileExists(filePath)) {
+            Toast.makeText(
+                activity,
+                activity.getString(R.string.export_logs_success, filePath),
+                Toast.LENGTH_LONG
+            ).show()
+            CLog.i("TopAppBar", "日志导出成功: $filePath")
         } else {
-            Toast.makeText(activity, "日志导出失败: Shell命令执行失败", Toast.LENGTH_SHORT).show()
-            CLog.e("TopAppBar", "日志导出失败: Shell命令执行失败, 退出码: ${result.exitCode}")
+            Toast.makeText(activity, R.string.export_logs_failed, Toast.LENGTH_SHORT).show()
+            CLog.e("TopAppBar", "日志导出失败, 退出码: ${result.exitCode}")
         }
 
-        // 清理临时文件
         tempFile.delete()
-
     } catch (e: Exception) {
-        Toast.makeText(activity, "日志导出失败: ${e.message}", Toast.LENGTH_SHORT).show()
+        Toast.makeText(activity, R.string.export_logs_failed, Toast.LENGTH_SHORT).show()
         CLog.e("TopAppBar", "日志导出失败", e)
     }
 }
