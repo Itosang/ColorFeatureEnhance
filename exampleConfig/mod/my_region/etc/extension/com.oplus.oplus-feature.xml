@@ -121,18 +121,6 @@
 	<oplus-feature name="oplus.software.vip_preload"/>
 	<!-- 支持 3GPP R16 5G -->
 	<oplus-feature name="oplus.software.radio.support_r16"/>
-	<!-- 5GA 图标 -->
-	<oplus-feature name="oplus.software.radio.icon_nrad_5ga"/>
-	<!-- 5G·5G 图标 -->
-	<oplus-feature name="oplus.software.radio.icon_nrad_5gdot_5g"/>
-	<!-- 5G+ 图标 -->
-	<oplus-feature name="oplus.software.radio.icon_nrad_5gplus"/>
-	<!-- 5G++ 图标 -->
-	<oplus-feature name="oplus.software.radio.icon_nrad_5gplus_plus"/>
-	<!-- 5G UC 图标 -->
-	<oplus-feature name="oplus.software.radio.icon_nrad_5guc"/>
-	<!-- 5G UW 图标 -->
-	<oplus-feature name="oplus.software.radio.icon_nrad_5guw"/>
 	<!-- 极客性能面板 -->
 	<oplus-feature name="oplus.software.game.geek.performance.panel"/>
 	<!-- 散热风扇基础支持 -->

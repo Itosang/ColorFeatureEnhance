@@ -288,8 +288,6 @@
 	<oplus-feature name="oplus.software.display.intelligent_color_temperature_2.0_support"/>
 	<!-- VIP 应用预加载 -->
 	<oplus-feature name="oplus.software.vip_preload"/>
-	<!-- 5GA 图标 -->
-	<oplus-feature name="oplus.software.radio.icon_nrad_5ga"/>
 	<!-- 极客性能面板 -->
 	<oplus-feature name="oplus.software.game.geek.performance.panel"/>
 	<!-- 散热风扇基础支持 -->
