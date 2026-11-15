@@ -1,10 +1,11 @@
+@file:OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
+
 package com.itosfish.colorfeatureenhance.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
@@ -21,17 +22,18 @@ import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.ListItemDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SegmentedListItem
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -257,8 +259,8 @@ fun FeatureConfigScreen(
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier.padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(12.dp),
-            contentPadding = PaddingValues(horizontal = 20.dp, vertical = 16.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
         ) {
             items(listEntries, key = { entry ->
                 when (entry) {
@@ -454,16 +456,19 @@ private fun FeatureSectionHeader(
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isPressed by interactionSource.collectIsPressedAsState()
+    val motion = MaterialTheme.motionScheme
     val scale by animateFloatAsState(
         targetValue = if (isPressed) 0.97f else 1f,
+        animationSpec = motion.fastSpatialSpec(),
         label = "sectionScale"
     )
     val arrowRotation by animateFloatAsState(
         targetValue = if (isExpanded) 180f else 0f,
+        animationSpec = motion.fastEffectsSpec(),
         label = "sectionArrowRotation"
     )
 
-    Card(
+    Surface(
         modifier = modifier
             .fillMaxWidth()
             .graphicsLayer {
@@ -475,23 +480,20 @@ private fun FeatureSectionHeader(
                 indication = null,
                 onClick = onToggle
             ),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
-        ),
-        shape = RoundedCornerShape(20.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+        color = MaterialTheme.colorScheme.surfaceContainerHigh,
+        shape = MaterialTheme.shapes.extraLargeIncreased
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 15.dp),
+                .padding(horizontal = 16.dp, vertical = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                style = MaterialTheme.typography.titleMediumEmphasized,
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -522,7 +524,7 @@ private fun FeatureTag(text: String, modifier: Modifier = Modifier) {
         modifier = modifier
             .background(
                 color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
-                shape = RoundedCornerShape(50)
+                shape = CircleShape
             )
             .padding(horizontal = 8.dp, vertical = 2.dp)
     )
@@ -539,80 +541,62 @@ private fun FeatureGroupItem(
     isBuiltIn: Boolean = false,
     modifier: Modifier = Modifier
 ) {
-    Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .combinedClickable(
-                onClick = onClick,
-                onLongClick = onLongPress
-            ),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainer
-        ),
-        shape = RoundedCornerShape(20.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp, vertical = 15.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            val description = if (currentMode == FeatureMode.APP) {
-                AppFeatureMappings.getLocalizedDescription(app, group.features.first().name)
-            } else {
-                OplusFeatureMappings.getLocalizedDescription(app, group.features.first().name)
-            }
-            val displayText = if (group.features.size > 1) {
-                "$description (${group.features.size})"
-            } else {
-                description
-            }
+    val feature = group.features.first()
+    val description = if (currentMode == FeatureMode.APP) {
+        AppFeatureMappings.getLocalizedDescription(app, feature.name)
+    } else {
+        OplusFeatureMappings.getLocalizedDescription(app, feature.name)
+    }
+    val displayText = if (group.features.size > 1) {
+        "$description (${group.features.size})"
+    } else {
+        description
+    }
 
-            Column(modifier = Modifier.weight(1f)) {
-                HighlightedText(
-                    text = displayText,
-                    query = searchQuery,
-                    style = MaterialTheme.typography.bodyLarge
+    SegmentedListItem(
+        onClick = onClick,
+        shapes = ListItemDefaults.shapes(shape = MaterialTheme.shapes.largeIncreased),
+        modifier = modifier.fillMaxWidth(),
+        onLongClick = onLongPress,
+        supportingContent = {
+            if (group.features.size == 1) {
+                Text(
+                    text = feature.name,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
+            }
+        },
+        trailingContent = {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                if (isBuiltIn) {
+                    FeatureTag(text = stringResource(R.string.feature_builtin_tag))
+                }
 
-                if (group.features.size == 1) {
+                if (currentMode != FeatureMode.APP) {
+                    Switch(
+                        checked = group.isEnabled,
+                        onCheckedChange = { onToggle(group.withEnabled(it)) },
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
+                } else if (feature.isComplex) {
                     Text(
-                        text = group.features.first().name,
+                        text = stringResource(id = R.string.complex_feature_indicator),
                         style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.6f)
+                        color = MaterialTheme.colorScheme.tertiary,
+                        modifier = Modifier.padding(start = 8.dp)
                     )
                 }
             }
-
-            if (isBuiltIn) {
-                FeatureTag(
-                    text = stringResource(R.string.feature_builtin_tag),
-                    modifier = Modifier.padding(start = 8.dp)
-                )
-            }
-
-            val feature = group.features.first()
-            val isComplex = feature.isComplex
-            val trailingModifier = Modifier.padding(start = 8.dp)
-
-            if (currentMode != FeatureMode.APP) {
-                Switch(
-                    checked = group.isEnabled,
-                    onCheckedChange = { onToggle(group.withEnabled(it)) },
-                    modifier = trailingModifier
-                )
-            } else if (isComplex) {
-                Text(
-                    text = stringResource(id = R.string.complex_feature_indicator),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.tertiary,
-                    modifier = trailingModifier
-                )
-            }
+        },
+        content = {
+            HighlightedText(
+                text = displayText,
+                query = searchQuery,
+                style = MaterialTheme.typography.bodyLarge
+            )
         }
-    }
+    )
 }
 
 @Preview(showBackground = true)

@@ -8,11 +8,21 @@
 
 ### 1.1 技术栈
 
-- Kotlin 2.0.21 + Jetpack Compose + Material 3
-- AGP 8.10.1，Gradle 8.11.1
+- Kotlin 2.4.21 + Jetpack Compose + Material 3 Expressive
+- AGP 9.1.0，Gradle 9.3.1，compileSdk / targetSdk 37
+- Compose BOM 2026.08.00，material3 1.5.0-beta02
 - 最低 Android 14（API 34），仅 arm64-v8a
 - Root 工具：Magisk / KernelSU / APatch
 - 包名：`com.itosfish.colorfeatureenhance`
+
+#### M3E UI 约束
+
+- 主题入口只允许 `MaterialExpressiveTheme` + `MotionScheme.expressive()`。
+- 页面禁止 `TopAppBar` / `CenterAlignedTopAppBar`，改用 `MediumFlexibleTopAppBar`。
+- 加载态禁止 `CircularProgressIndicator`，改用 `LoadingIndicator`。
+- 列表项使用 `SegmentedListItem`，不要用裸 `ListItem` 平铺或自绘卡片行。
+- 形状、颜色、动效参数从 `MaterialTheme` 读取；页面禁止硬编码圆角、hex 色值、`spring(...)`。
+- `ExperimentalMaterial3ExpressiveApi` 的 opt-in 写在文件顶部，不要散落在调用点。
 
 ### 1.2 当前架构（不要再改回旧架构）
 
@@ -245,7 +255,7 @@ git diff --check
 5. **构建验证**：能构建时必须构建；不能构建时在回复里明确说明原因与未验证项。
 6. **提交**：每完成一个可独立回滚的改动立即 commit，不要积攒混合改动。
 
-构建命令（需要 JDK 21）：
+构建命令（Gradle 9.3.1，JDK 17+，推荐 JDK 25）：
 
 ```bash
 ./gradlew :app:assembleDebug

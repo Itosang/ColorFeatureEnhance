@@ -32,7 +32,7 @@
     <string name="feature_description">Feature Description</string>
     <string name="feature_enabled">Enabled</string>
     <string name="preset_mapping_match_title">Preset Description Match</string>
-    <string name="preset_mapping_match_message">This feature already has a built-in description, so your custom one won't be used.</string>
+    <string name="preset_mapping_match_message">This feature already has a built-in description, so your custom description will not be used.</string>
     <string name="edit_feature">Edit Feature</string>
     <string name="select_feature_to_edit">Select feature to edit</string>
     <string name="mode_app">App · app-features</string>
@@ -74,7 +74,7 @@
     <string name="root_permission_continue">Continue anyway</string>
     <string name="root_permission_warning">Please note that some features may not work properly.</string>
     <string name="module_install_fail_title">Module installation failed!</string>
-    <string name="module_install_fail_message">Root access is required, otherwise the app can't work.</string>
+    <string name="module_install_fail_message">Root access is required, otherwise the app cannot work.</string>
 
     <!-- Module Auto Update -->
     <string name="module_auto_update_first_launch">First launch: installing module...</string>

@@ -51,15 +51,16 @@ cd ColorFeatureEnhance
 
 用 Android Studio 打开项目，连接已 Root 并启用 USB 调试的设备，点击 Run 编译安装。首次运行会自动安装配套模块，重启设备后生效。
 
-配置文件来源：自动从系统路径复制、使用 `exampleConfig/` 示例文件，或手动放入外部存储目录。
+配置文件来源：配套模块内置 `my_product` / `my_region` 配置，安装后直接编辑模块目录。
 
 ## 技术栈
 
-- Kotlin 2.0.21，Jetpack Compose + Material 3 Expressive
+- Kotlin 2.4.21，Jetpack Compose + Material 3 Expressive
+- Compose BOM 2026.08.00，material3 1.5.0-beta02
 - 架构：Repository Pattern + 分层架构
 - 序列化：Kotlinx Serialization；日志：CLog
-- 最低 SDK 34，目标 SDK 36
-- 构建：AGP 8.10.1，ProGuard + R8，ARM64-v8a
+- 最低 SDK 34，编译 / 目标 SDK 37
+- 构建：AGP 9.1.0，Gradle 9.3.1，ProGuard + R8，ARM64-v8a
 
 ## 使用说明
 

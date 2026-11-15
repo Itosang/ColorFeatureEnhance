@@ -66,7 +66,7 @@ class XmlFeatureRepository : FeatureRepository {
 
                     XmlPullParser.END_TAG -> {
                         if (parser.name == "app_feature" && currentFeature != null) {
-                            features.add(currentFeature!!.copy(subNodes = currentSubNodes.toList()))
+                            features.add(currentFeature.copy(subNodes = currentSubNodes.toList()))
                             currentFeature = null
                         }
                     }

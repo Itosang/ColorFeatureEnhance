@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
+
 package com.itosfish.colorfeatureenhance.ui.components
 
 import android.app.Activity
@@ -14,6 +16,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
@@ -65,8 +68,15 @@ fun ColorOSTopAppBar(
         }
     }
 
-    TopAppBar(
+    val modeLabelRes = when (currentMode) {
+        FeatureMode.APP -> R.string.mode_app
+        FeatureMode.OPLUS -> R.string.mode_oplus
+        FeatureMode.REGION -> R.string.mode_region
+    }
+
+    MediumFlexibleTopAppBar(
         title = { Text(title) },
+        subtitle = { Text(stringResource(id = modeLabelRes)) },
         actions = {
             // 模式切换按钮
             TextButton(onClick = {
@@ -77,12 +87,7 @@ fun ColorOSTopAppBar(
                 }
                 onModeChange(next)
             }) {
-                val labelRes = when (currentMode) {
-                    FeatureMode.APP -> R.string.mode_app
-                    FeatureMode.OPLUS -> R.string.mode_oplus
-                    FeatureMode.REGION -> R.string.mode_region
-                }
-                Text(text = stringResource(id = labelRes))
+                Text(text = stringResource(id = modeLabelRes))
             }
 
             // 搜索按钮（可选）

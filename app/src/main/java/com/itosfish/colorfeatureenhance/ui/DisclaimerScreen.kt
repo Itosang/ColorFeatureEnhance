@@ -1,3 +1,5 @@
+@file:OptIn(androidx.compose.material3.ExperimentalMaterial3ExpressiveApi::class)
+
 package com.itosfish.colorfeatureenhance.ui
 
 import androidx.compose.foundation.layout.Arrangement
@@ -12,15 +14,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.LoadingIndicator
+import androidx.compose.material3.MediumFlexibleTopAppBar
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,7 +33,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -45,7 +44,6 @@ import kotlinx.coroutines.delay
  * 免责声明屏幕
  * 显示免责声明内容，强制用户阅读5秒钟后才能同意
  */
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DisclaimerScreen(
     onAccepted: () -> Unit,
@@ -80,11 +78,10 @@ fun DisclaimerScreen(
     
     Scaffold(
         topBar = {
-            TopAppBar(
+            MediumFlexibleTopAppBar(
                 title = {
                     Text(
-                        text = stringResource(R.string.disclaimer_title),
-                        fontWeight = FontWeight.Bold
+                        text = stringResource(R.string.disclaimer_title)
                     )
                 },
                 colors = TopAppBarDefaults.topAppBarColors(
@@ -101,15 +98,12 @@ fun DisclaimerScreen(
                 .padding(16.dp),
             verticalArrangement = Arrangement.SpaceBetween
         ) {
-            // 免责声明内容区域
-            Card(
+            Surface(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxWidth(),
-                elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.surfaceVariant
-                )
+                shape = MaterialTheme.shapes.extraLarge,
+                color = MaterialTheme.colorScheme.surfaceContainerLow
             ) {
                 Column(
                     modifier = Modifier
@@ -122,7 +116,7 @@ fun DisclaimerScreen(
                             modifier = Modifier.fillMaxSize(),
                             contentAlignment = Alignment.Center
                         ) {
-                            CircularProgressIndicator()
+                            LoadingIndicator()
                         }
                     } else {
                         // 滚动提示

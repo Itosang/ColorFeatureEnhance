@@ -1,11 +1,12 @@
 import java.io.FileInputStream
 import java.util.Properties
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    kotlin("plugin.serialization") version "1.9.10"
+    kotlin("plugin.serialization") version "2.4.21"
 }
 
 val ksFile = rootProject.file("signing.properties")
@@ -29,12 +30,12 @@ if (ksFile.canRead()) {
 
 android {
     namespace = "com.itosfish.colorfeatureenhance"
-    compileSdk = 36
+    compileSdk = 37
 
     defaultConfig {
         applicationId = "com.itosfish.colorfeatureenhance"
         minSdk = 34
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 20261108
         versionName = "1.0.0"
 
@@ -67,37 +68,18 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
-    }
-    kotlinOptions {
-        jvmTarget = "11"
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         compose = true
         buildConfig = true
     }
-    applicationVariants.all {
-        outputs.all {
-            (this as com.android.build.gradle.internal.api.BaseVariantOutputImpl).outputFileName = "ColorFeatureEnhance-v${versionName}-${name}.apk"
-            assembleProvider.get().doLast {
-                val outDir = File(rootDir, "out")
-                val mappingDir = File(outDir, "mapping").absolutePath
-                val apkDir = File(outDir, "apk").absolutePath
+}
 
-                if (buildType.isMinifyEnabled) {
-                    copy {
-                        from(mappingFileProvider.get())
-                        into(mappingDir)
-                        rename { _ -> "mapping-${versionName}.txt" }
-                    }
-                    copy {
-                        from(outputFile)
-                        into(apkDir)
-                    }
-                }
-            }
-        }
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_17)
     }
 }
 
@@ -110,6 +92,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.material.icons.core)
     implementation(libs.material)
     implementation(libs.kotlinx.serialization.json)
 
