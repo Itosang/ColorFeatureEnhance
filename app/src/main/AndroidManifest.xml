@@ -26,11 +26,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <activity
-            android:name=".ui.TextEditorActivity"
-            android:exported="false"
-            android:theme="@style/Theme.ColorFeatureEnhance" />
     </application>
 
 </manifest>

@@ -108,13 +108,4 @@ object AppVersionManager {
                 "当前版本：v${versionInfo.versionName}"
         }
     }
-    
-    /**
-     * 重置版本信息（用于测试）
-     */
-    fun resetVersionInfo() {
-        val prefs = app.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        prefs.edit().clear().apply()
-        CLog.i(TAG, "版本信息已重置")
-    }
 }

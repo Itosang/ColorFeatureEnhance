@@ -84,15 +84,10 @@
     <string name="module_auto_update_success">Module updated for app version %1$s</string>
     <string name="common_ok">OK</string>
     <string name="complex_feature_indicator">(Complex Config)</string>
-    <string name="unavailable_feature_indicator">(Unavailable)</string>
 
     <!-- New internationalization strings -->
-    <string name="back">Back</string>
-    <string name="config_content">Config content</string>
     <string name="config_value">Value</string>
     <string name="complex_feature_edit_restriction">Complex features cannot be edited through this dialog. Please use an external editor to modify the configuration file</string>
-    <string name="save_and_sync_success">Saved and synced to the module</string>
-    <string name="save_success_sync_failed">Saved, but syncing to the module failed</string>
 
     <!-- Patch status related -->
     <string name="feature_builtin_tag">Built-in</string>
@@ -320,6 +315,4 @@
     <string name="module_update_unknown">Module update status unknown</string>
     <string name="module_update_error">Module update error: %1$s</string>
     <string name="feature_args_hint">Value (leave empty for no args)</string>
-    <string name="save">Save</string>
-    <string name="save_failed_detail">Save failed: %1$s</string>
 </resources>

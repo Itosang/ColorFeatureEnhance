@@ -13,12 +13,7 @@ data class FeatureGroup(
      * 组内是否所有特性都已启用
      */
     val isEnabled: Boolean get() = features.all { it.enabled }
-    
-    /**
-     * 组内是否有任一特性已启用
-     */
-    val isPartiallyEnabled: Boolean get() = features.any { it.enabled } && !isEnabled
-    
+
     /**
      * 根据开启状态创建新的分组
      */

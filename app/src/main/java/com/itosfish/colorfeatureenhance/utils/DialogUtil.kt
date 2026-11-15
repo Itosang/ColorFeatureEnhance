@@ -119,8 +119,6 @@ fun AddFeatureDialog(
                             )
                         }
                     }
-                } else {
-                    featureEnabled = true // 保持启用状态，无 args 默认为启用
                 }
             }
         },
@@ -173,7 +171,6 @@ fun AddFeatureDialog(
                                     featureEnabled,
                                     if (argValue.isBlank()) null else argValue
                                 )
-                                // 不要在这里关闭对话框，因为showPresetMatchDialog=true时需要继续显示
                             }
                         } else {
                             onConfirm(
@@ -325,9 +322,6 @@ fun EditFeatureDialog(
                             label = { Text(stringResource(R.string.config_value)) },
                             modifier = Modifier.fillMaxWidth()
                         )
-                        featureEnabled = true
-                    } else {
-                        featureEnabled = true
                     }
                 }
             }

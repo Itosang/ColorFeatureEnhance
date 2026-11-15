@@ -151,37 +151,25 @@ object CSU {
         val output = StringBuilder()
         var exitCode = -1
         try {
-            CLog.i("APP_SHELL", "准备以root权限执行命令: $cmd")
-            // 启动 su 进程
-            val process = Runtime.getRuntime().exec("su")
+            val commandPreview = if (cmd.length > 300) "${cmd.take(300)}..." else cmd
+            CLog.i("APP_SHELL", "执行命令: $commandPreview")
+            val process = ProcessBuilder("su").redirectErrorStream(true).start()
 
-            // 向 su 进程发送命令
             runShellScript(process, cmd)
 
-            // 读取标准输出
             BufferedReader(InputStreamReader(process.inputStream)).use { reader ->
                 var line: String?
                 while (reader.readLine().also { line = it } != null) {
-                    CLog.d("APP_SHELL_OUTPUT", line!!)
                     output.append(line).append("\n")
                 }
             }
 
-            // 可选：读取错误输出
-            BufferedReader(InputStreamReader(process.errorStream)).use { reader ->
-                var line: String?
-                while (reader.readLine().also { line = it } != null) {
-                    CLog.e("APP_SHELL_ERROR", line!!)
-                }
-            }
-
-            // 等待进程结束
             exitCode = process.waitFor()
-            CLog.i("APP_SHELL", "命令执行结束，退出码: $exitCode")
+            val preview = if (output.length > 200) "${output.take(200)}..." else output.toString()
+            CLog.d("APP_SHELL", "退出码: $exitCode, 输出: $preview")
         } catch (e: Exception) {
-            CLog.e("APP_SHELL", "执行 Shell 命令失败: ${e.message}")
+            CLog.e("APP_SHELL", "执行 Shell 命令失败", e)
         }
-        CLog.i("APP_SHELL", "命令输出: $output")
         return ShellResult(output = output.toString(), exitCode = exitCode)
     }
 
@@ -215,15 +203,13 @@ object CSU {
     private fun runShellScript(process: Process, cmd: String) {
         try {
             DataOutputStream(process.outputStream).use { outputStream ->
-                CLog.i("APP_SHELL", "Cmd :$cmd")
-                // 写入命令，可以包含多个命令，用分号或换行符分隔
                 outputStream.writeBytes("$cmd\n")
-                // 写入 exit 命令以结束 su 会话
                 outputStream.writeBytes("exit\n")
                 outputStream.flush()
             }
         } catch (e: Exception) {
-            CLog.e("APP_SHELL", "运行 Shell 脚本失败，错误信息: ${e.message}")
+            CLog.e("APP_SHELL", "写入 Shell 命令失败", e)
+            process.destroy()
         }
     }
 }

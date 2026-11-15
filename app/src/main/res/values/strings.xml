@@ -83,15 +83,10 @@
     <string name="module_auto_update_success">模块已同步更新 (应用版本: %1$s)</string>
     <string name="common_ok">确定</string>
     <string name="complex_feature_indicator">(复杂配置)</string>
-    <string name="unavailable_feature_indicator">(不可用)</string>
 
     <!-- 新增的国际化字符串 -->
-    <string name="back">返回</string>
-    <string name="config_content">配置内容</string>
     <string name="config_value">配置值</string>
     <string name="complex_feature_edit_restriction">复杂特性无法通过此对话框编辑，请使用外部编辑器修改配置文件</string>
-    <string name="save_and_sync_success">已保存并同步到模块</string>
-    <string name="save_success_sync_failed">已保存，但同步到模块失败</string>
 
     <!-- 补丁状态相关 -->
     <string name="feature_builtin_tag">内置</string>
@@ -326,8 +321,6 @@
     <string name="module_update_unknown">模块更新状态未知</string>
     <string name="module_update_error">模块更新异常：%1$s</string>
     <string name="feature_args_hint">配置值（留空表示无 args）</string>
-    <string name="save">保存</string>
-    <string name="save_failed_detail">保存失败：%1$s</string>
 
     <!-- 新增 App 特性中文描述 (20250712) -->
     <string name="feature_fullscreen_panoramic_aod">全天候全景息屏</string>

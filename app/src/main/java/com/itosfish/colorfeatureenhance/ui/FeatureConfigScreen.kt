@@ -595,7 +595,6 @@ private fun FeatureGroupItem(
 
             val feature = group.features.first()
             val isComplex = feature.isComplex
-            val isUnavailable = currentMode != FeatureMode.APP && feature.args == "unavailable"
             val trailingModifier = Modifier.padding(start = 8.dp)
 
             if (currentMode != FeatureMode.APP) {
@@ -609,13 +608,6 @@ private fun FeatureGroupItem(
                     text = stringResource(id = R.string.complex_feature_indicator),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.tertiary,
-                    modifier = trailingModifier
-                )
-            } else if (isUnavailable) {
-                Text(
-                    text = stringResource(id = R.string.unavailable_feature_indicator),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.error,
                     modifier = trailingModifier
                 )
             }

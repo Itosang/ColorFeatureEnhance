@@ -27,13 +27,15 @@ class XmlOplusFeatureRepository(
             parseXmlFeatures(xml).toMutableList()
         }
 
-        OriginalNames.getOrInit(mode, features.map { it.name }.toSet())
+        if (ModuleConfig.isInstalled()) {
+            OriginalNames.getOrInit(mode, features.map { it.name }.toSet())
 
-        val existingNames = features.mapTo(mutableSetOf()) { it.name }
-        OplusFeatureMappings.getInstance().getBuiltInNames()
-            .filterNot { it in existingNames }
-            .sorted()
-            .forEach { name -> features.add(AppFeature(name, enabled = false)) }
+            val existingNames = features.mapTo(mutableSetOf()) { it.name }
+            OplusFeatureMappings.getInstance().getBuiltInNames()
+                .filterNot { it in existingNames }
+                .sorted()
+                .forEach { name -> features.add(AppFeature(name, enabled = false)) }
+        }
 
         features
     }

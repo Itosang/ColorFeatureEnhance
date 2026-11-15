@@ -17,7 +17,9 @@ class XmlFeatureRepository : FeatureRepository {
     override suspend fun loadFeatures(configPath: String): List<AppFeature> = withContext(Dispatchers.IO) {
         val xml = ModuleConfig.readText(FeatureMode.APP)
         val features = if (xml.isBlank()) emptyList() else parseXmlFeatures(xml)
-        OriginalNames.getOrInit(FeatureMode.APP, features.map { it.name }.toSet())
+        if (ModuleConfig.isInstalled()) {
+            OriginalNames.getOrInit(FeatureMode.APP, features.map { it.name }.toSet())
+        }
         features
     }
 

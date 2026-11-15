@@ -27,7 +27,8 @@ object ModuleConfig {
     fun isInstalled(): Boolean = CSU.fileExists("$MODULE_DIR/module.prop")
 
     fun readText(mode: FeatureMode): String {
-        return CSU.runWithSu("cat \"${file(mode)}\"").output
+        val result = CSU.runWithSu("cat \"${file(mode)}\"")
+        return if (result.exitCode == 0) result.output else ""
     }
 
     fun writeText(mode: FeatureMode, text: String): Boolean {

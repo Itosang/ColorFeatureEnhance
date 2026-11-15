@@ -9,7 +9,6 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import java.util.Locale
 import java.util.concurrent.TimeUnit
 
 /**
@@ -225,55 +224,5 @@ class RemoteConfigManager private constructor(private val context: Context) {
         
         CLog.d(TAG, "配置验证完成: ${mappings.size} -> ${validMappings.size}")
         return validMappings
-    }
-    
-    /**
-     * 获取当前设备的语言代码
-     * @return 语言代码（如 "zh", "en"）
-     */
-    fun getCurrentLanguage(): String {
-        val locale = Locale.getDefault()
-        return when (locale.language.lowercase()) {
-            "zh" -> "zh"
-            "en" -> "en"
-            else -> "en" // 默认英文
-        }
-    }
-    
-    /**
-     * 获取云端配置统计信息
-     * @return 统计信息字符串
-     */
-    fun getConfigStats(): String {
-        val mappingCount = cloudMappings.getMappingCount()
-        val remoteVersion = cloudMappings.getRemoteVersion()
-        val versionInfo = if (remoteVersion != null) {
-            try {
-                val timestamp = remoteVersion.toLong()
-                val date = java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault())
-                    .format(java.util.Date(timestamp))
-                "更新时间: $date"
-            } catch (e: Exception) {
-                "版本: $remoteVersion"
-            }
-        } else {
-            "未更新"
-        }
-        
-        return "云端配置: $mappingCount 个特性, $versionInfo"
-    }
-    
-    /**
-     * 清除云端配置缓存
-     */
-    suspend fun clearCache(): Boolean = withContext(Dispatchers.IO) {
-        try {
-            cloudMappings.clearAllMappings()
-            CLog.i(TAG, "云端配置缓存已清除")
-            true
-        } catch (e: Exception) {
-            CLog.e(TAG, "清除云端配置缓存失败", e)
-            false
-        }
     }
 }

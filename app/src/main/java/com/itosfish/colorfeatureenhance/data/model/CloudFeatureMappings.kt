@@ -50,23 +50,6 @@ class CloudFeatureMappings private constructor(context: Context) {
     )
     
     /**
-     * 保存特性的多语言描述映射
-     * @param featureName 特性名称
-     * @param description 多语言描述对象
-     */
-    fun saveMapping(featureName: String, description: MultiLanguageDescription) {
-        try {
-            val jsonString = json.encodeToString(description)
-            prefs.edit(commit = true) {
-                putString(featureName, jsonString)
-            }
-            CLog.d(TAG, "保存云端映射: $featureName -> $jsonString")
-        } catch (e: Exception) {
-            CLog.e(TAG, "保存云端映射失败: $featureName", e)
-        }
-    }
-    
-    /**
      * 批量保存特性映射
      * @param mappings 特性名称到多语言描述的映射
      */
@@ -125,29 +108,6 @@ class CloudFeatureMappings private constructor(context: Context) {
     }
     
     /**
-     * 获取所有云端映射
-     * @return 特性名称到多语言描述的映射
-     */
-    fun getAllMappings(): Map<String, MultiLanguageDescription> {
-        val result = mutableMapOf<String, MultiLanguageDescription>()
-        try {
-            prefs.all.forEach { (key, value) ->
-                if (key != KEY_REMOTE_VERSION && value is String) {
-                    try {
-                        val description = json.decodeFromString<MultiLanguageDescription>(value)
-                        result[key] = description
-                    } catch (e: Exception) {
-                        CLog.w(TAG, "解析云端映射失败: $key", e)
-                    }
-                }
-            }
-        } catch (e: Exception) {
-            CLog.e(TAG, "获取所有云端映射失败", e)
-        }
-        return result
-    }
-    
-    /**
      * 检查特性是否存在云端映射
      * @param featureName 特性名称
      * @return 是否存在映射
@@ -168,20 +128,6 @@ class CloudFeatureMappings private constructor(context: Context) {
     }
     
     /**
-     * 清空所有云端映射（保留版本信息）
-     */
-    fun clearAllMappings() {
-        val remoteVersion = getRemoteVersion()
-        prefs.edit(commit = true) {
-            clear()
-            if (remoteVersion != null) {
-                putString(KEY_REMOTE_VERSION, remoteVersion)
-            }
-        }
-        CLog.i(TAG, "清空所有云端映射")
-    }
-    
-    /**
      * 保存远程配置版本
      * @param version 版本字符串
      */
@@ -190,21 +136,5 @@ class CloudFeatureMappings private constructor(context: Context) {
             putString(KEY_REMOTE_VERSION, version)
         }
         CLog.d(TAG, "保存远程版本: $version")
-    }
-    
-    /**
-     * 获取远程配置版本
-     * @return 版本字符串，如果不存在则返回null
-     */
-    fun getRemoteVersion(): String? {
-        return prefs.getString(KEY_REMOTE_VERSION, null)
-    }
-    
-    /**
-     * 获取云端映射数量
-     * @return 映射数量
-     */
-    fun getMappingCount(): Int {
-        return prefs.all.size - if (prefs.contains(KEY_REMOTE_VERSION)) 1 else 0
     }
 }

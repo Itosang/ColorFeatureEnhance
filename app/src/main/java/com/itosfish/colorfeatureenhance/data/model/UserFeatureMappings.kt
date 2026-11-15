@@ -31,34 +31,11 @@ class UserFeatureMappings(context: Context) {
     }
     
     /**
-     * 获取所有映射
-     */
-    fun getAllMappings(): Map<String, String> {
-        return prefs.all.filterValues { it is String }.mapValues { it.value as String }
-    }
-    
-    /**
-     * 检查特性名称是否存在映射
-     */
-    fun hasMapping(name: String): Boolean {
-        return prefs.contains(name)
-    }
-    
-    /**
      * 删除特性映射
      */
     fun removeMapping(name: String) {
         prefs.edit(commit = true) {
             remove(name)
-        }
-    }
-    
-    /**
-     * 清空所有映射
-     */
-    fun clear() {
-        prefs.edit(commit = true) {
-            clear()
         }
     }
     
