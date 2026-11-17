@@ -53,8 +53,6 @@ class AppFeatureMappings private constructor() {
         "oplus.power.wirelesschgwhenwired.support" to R.string.feature_wireless_charge_support,
         "os.charge.settings.wirelesschargingcoil.position" to R.string.feature_wireless_coil_position,
         "os.charge.settings.wirelesscharging.power" to R.string.feature_wireless_charge_power,
-        "com.oplus.battery.whitelist_vowifi" to R.string.feature_vowifi_battery_whitelist,
-        "com.oplus.battery.autostart_limit_num" to R.string.feature_autostart_limit_num,
         "feature.support.game.AI_PLAY_version3" to R.string.feature_game_ai_v3,
         "feature.support.game.AI_PLAY_version4" to R.string.feature_game_ai_v4,
         "feature.support.game.AI_PLAY_version4_mlbb" to R.string.feature_game_ai_v4,
