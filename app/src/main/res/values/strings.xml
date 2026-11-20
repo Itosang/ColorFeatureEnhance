@@ -4,25 +4,11 @@
     <string name="about">关于</string>
     <string name="config">配置</string>
     <string name="app_title">特性补全</string>
-    <string name="feature_ai_chat_scene">AI聊天场景</string>
     <string name="feature_live_assistant">直播助手</string>
-    <string name="feature_tap_to_wake_screen">点击屏幕唤醒息屏</string>
     <string name="feature_livephoto_lock_screen">实况照片支持设置锁屏图片</string>
     <string name="feature_global_aod">全局AOD</string>
-    <string name="feature_qs_icon_deformable">分离样式通控面板图标可变形</string>
     <string name="feature_area_record">区域录屏</string>
-    <string name="feature_game_ai_v3">AI游戏辅助 3.0</string>
-    <string name="feature_game_ai_v4">AI游戏辅助 4.0</string>
-    <string name="feature_game_assist_key">游戏助手辅助</string>
-    <string name="feature_game_4d_vibration">游戏4D震动模式</string>
-    <string name="feature_phone_touch_share">电话触摸分享与屏幕共享</string>
-    <string name="feature_game_bypass_charging">游戏助手旁路供电</string>
-    <string name="feature_sidebar_audio_split_assistant">侧边栏声音分轨助手</string>
-    <string name="feature_game_fan_power_mode">游戏在开启风扇模式下火力模式</string>
     <string name="feature_all_scene_bypass_charging">全场景旁路供电</string>
-    <string name="feature_reverse_charging">反向充电</string>
-    <string name="feature_wechat_video_call_enhance">微信视频通话功能增强</string>
-    <string name="feature_keyboard_nfc_ios_share">键盘NFC分享IOS控制中心界面</string>
     <string name="feature_unknown">待确认</string>
     <string name="delete_confirm_title">删除特性</string>
     <string name="delete_confirm_message">确定删除 %1$s 及其全部配置吗？</string>
@@ -41,26 +27,16 @@
     <!-- Cloud configuration related strings -->
     <!-- Oplus features preset descriptions -->
     <string name="oplus_feature_compatibility_code">[软] 适配性代码</string>
-    <string name="oplus_feature_ai_eye_protect">AI护眼</string>
-    <string name="oplus_feature_satellite_network">[软] 卫星网络</string>
     <string name="oplus_feature_game_acceleration">[软] 游戏加速</string>
-    <string name="oplus_feature_hyper_engine">[软] Hyper模式性能引擎</string>
     <string name="oplus_feature_touch_optimization">[软] 触摸优化</string>
-    <string name="oplus_feature_game_color_button">[软] 独立游戏助手色彩按钮</string>
     <string name="oplus_feature_eyeprotect_reminder">[软] 护眼提醒</string>
     <string name="oplus_feature_reduce_white_point">[软] 无障碍屏幕白点减少</string>
     <string name="oplus_feature_genshin_shoulder_key">[软] 原神肩键</string>
     <string name="oplus_feature_min_brightness_expand">[软] 屏幕最小亮度拓展</string>
-    <string name="oplus_feature_low_brightness_flicker">[硬] 低亮度屏闪</string>
-    <string name="oplus_feature_game_ifs">[软] 游戏助手IFS画面</string>
-    <string name="oplus_feature_video_volume_enhance">视频音量增强</string>
-    <string name="oplus_feature_sidebar_video_assistant">[软] 侧边栏视频助手</string>
     <string name="oplus_feature_cooling_fan">散热风扇</string>
     <string name="oplus_feature_pick_color_optimization">[软] 小横条拾取颜色优化</string>
     <string name="oplus_feature_live_scene_acceleration">[软] 直播场景加速</string>
-    <string name="oplus_feature_sound_focus_record">[软] 录音声音焦点支持</string>
     <string name="oplus_feature_low_lux_anti_shake">低Lux去晃动拓展支持</string>
-    <string name="oplus_feature_foreground_preload">[软] 前台预加载</string>
     <string name="oplus_feature_gcstring">[软] GCString支持</string>
     <string name="search_feature">搜索特性</string>
     <string name="search_hint">搜索名称或描述…</string>
@@ -95,8 +71,6 @@
     <string name="oplus_feature_finger_flashnotes">[软] 小布记忆</string>
     <string name="oplus_feature_icon_blur">桌面图标模糊效果</string>
     <string name="oplus_feature_game_htfi_high_temp">[软] 游戏助手高温框架</string>
-    <string name="oplus_feature_pwm_dimming">[硬] PWM调光</string>
-    <string name="oplus_feature_full_brightness_dc">[硬] 全亮度DC调光</string>
     <string name="oplus_feature_super_volume_4x">[软] 超级音量（4倍）</string>
     <string name="oplus_feature_voice_isolation">[硬] 人声凸显</string>
     <string name="oplus_feature_speaker_spatializer">[软] 扬声器空间音频</string>
@@ -111,11 +85,8 @@
     <string name="oplus_feature_aisdr2hdr">[软] AISDR2 HDR</string>
     <string name="oplus_feature_genshin_vibration">[软] 原神振动效果</string>
     <string name="oplus_feature_screenshot_wave_vibration">[软] 截图振动波形效果</string>
-    <string name="oplus_feature_smart_loop_drag">[软] 智能循环拖拽功能</string>
     <string name="oplus_feature_screenon_before_camera">[软] 唤醒屏幕</string>
     <string name="oplus_feature_underwater_camera">水下相机功能</string>
-    <string name="oplus_feature_ultrasonic_underwater_shutter">[软] 超声波指纹水下快门</string>
-    <string name="oplus_feature_floatwindow_hide_alert_notification">[软] 浮动窗口隐藏警报窗口通知</string>
     <string name="oplus_feature_tv_connect">[软] 视频通话电视投屏</string>
     <string name="oplus_feature_tv_videocall">[软] 电视视频通话</string>
     <string name="oplus_feature_flexible_freeform">[软] 小窗自由大小</string>
@@ -127,17 +98,11 @@
     <string name="oplus_feature_zoom_center_exit">[软] 中心退出小窗优化</string>
 
     <!-- App 新特性中文描述 -->
-    <string name="feature_wireless_charge_support">无线充电支持</string>
     <string name="feature_onwireless_charge">无线充电器充电支持</string>
     <string name="feature_wireless_charge_when_wired">有线时无线充电支持</string>
-    <string name="feature_no_guide_dialog">不显示引导对话框</string>
-    <string name="feature_wireless_coil_position">无线充电线圈位置</string>
-    <string name="feature_wireless_charge_power">无线充电功率</string>
-    <string name="feature_ptc_nfc_settings">一碰即联NFC设置</string>
     <string name="feature_vowifi_battery_whitelist">VoWiFi电池白名单</string>
     <string name="feature_skip_remove_recent_task">跳过最近任务移除</string>
     <string name="feature_disallow_run_apps">禁止运行的应用列表</string>
-    <string name="feature_colordirectservice_enable">ColorOS直达服务管理启用</string>
     <string name="feature_tencent_meeting_turbo">腾讯会议媒体加速</string>
     <string name="feature_network_access_permission">网络访问权限设置</string>
     <string name="feature_autostart_limit_num">自启动应用数量限制</string>
@@ -172,10 +137,7 @@
     <string name="oplus_feature_radio_sim_detect_check_support">[软] SIM热插拔检测支持</string>
     <string name="oplus_feature_radio_apn_recovery">[软] APN配置自动恢复</string>
     <string name="oplus_feature_radio_qoe_network_recovery">[软] 网络QoE自动修复</string>
-    <string name="oplus_feature_radio_smart5g_thermal_nr_deprio">[软] 发热触发5G降级</string>
     <string name="oplus_feature_radio_qct_smart_data_flow">[软] 高通智能数据流控</string>
-    <string name="oplus_feature_radio_sido_airplane_mode_low_power_opt">[软] 飞行模式关闭射频</string>
-    <string name="oplus_feature_radio_sido_sim_tag_opt">[软] SIM卡标签识别优化</string>
     <string name="oplus_feature_radio_sido_mmr_reg_req_stuck_opt">[软] 网络位置更新卡死修复</string>
     <string name="oplus_feature_radio_nsa_signal_optim">[软] 5G NSA信号优化</string>
     <string name="oplus_feature_radio_disable_5g_nr_5gdump">[软] 关闭5G调试转储</string>
@@ -192,24 +154,20 @@
     <string name="oplus_feature_radio_tcp_congest_control">[软] TCP拥塞控制优化</string>
     <string name="oplus_feature_radio_enable_sido_rollback">[软] 启用双卡回滚策略</string>
     <string name="oplus_feature_radio_use_customized_thresholds">[软] 使用自定义网络阈值</string>
-    <string name="oplus_feature_radio_sido_roaming_fast_search_opt">[软] 双卡漫游快速搜网</string>
     <string name="oplus_feature_radio_sido_fence">[软] 双卡地理围栏优化</string>
     <string name="oplus_feature_radio_sido_lte_fast_return_to_nr_opt">[软] LTE快速返回5G优化</string>
-    <string name="oplus_feature_radio_nwpower_power_recovery_switch_enable">[软] 功耗模式自动恢复策略</string>
     <string name="oplus_feature_radio_nwpower_app_network_monitor_switch_enable">[软] 应用网络功耗监控</string>
     <string name="oplus_feature_radio_sido_lte_nr_pingpong_mitigation">[软] 减少4G/5G频繁切换</string>
     <string name="oplus_feature_radio_nwpower_proc_net_control_switch_enable">[软] 进程网络功耗限制</string>
     <string name="oplus_feature_radio_dual_ps">[软] 双卡同时数据信令支持</string>
     <string name="oplus_feature_radio_find_phone">[软] 查找手机</string>
     <string name="oplus_feature_radio_low_latency">[软] 网络低延迟支持</string>
-    <string name="oplus_feature_radio_low_latency_mode_de3">[软] 低延迟模式DE3</string>
     <string name="oplus_feature_radio_data_eval3">[软] 数据评估算法V3</string>
     <string name="oplus_feature_radio_data_eval4">[软] 数据评估算法V4</string>
     <string name="oplus_feature_radio_smart_data_eval">[软] 智能数据评估</string>
     <string name="oplus_feature_radio_stuck_analyse">[软] 网络卡顿分析</string>
     <string name="oplus_feature_radio_smart_commu">[软] 智能通信策略</string>
     <string name="oplus_feature_radio_pull_wifi_cell">[软] 拉取WiFi小区信息</string>
-    <string name="oplus_feature_radio_subway_slow_recovery">[软] 地铁弱网快速恢复</string>
     <string name="oplus_feature_radio_virtualmodem_support">[软] 虚拟Modem支持</string>
     <string name="oplus_feature_radio_ignore_stk_display_text">[软] 阻止运营商弹窗提升体验</string>
     <string name="oplus_feature_radio_air_interface_detect_support">[软] 空口接口检测支持</string>
@@ -231,12 +189,10 @@
     <string name="oplus_feature_radio_nwpower_network_disable_white_list">[软] 网络禁用白名单</string>
     <string name="oplus_feature_radio_custom_ecclist_writable">[软] 自定义紧急号码可写</string>
     <string name="oplus_feature_radio_disabled_cached_uid">[软] 禁止缓存UID列表</string>
-    <string name="oplus_feature_radio_sa_call_control_disabled">[软] SA语音呼叫控制禁用</string>
     <string name="oplus_feature_radio_vonr_city_control">[软] 城市级VoNR控制</string>
     <string name="oplus_feature_radio_silent_redial_supported">[软] 静默重拨支持</string>
     <string name="oplus_feature_radio_dds_switch">[软] 默认数据卡切换</string>
     <string name="oplus_feature_radio_vowifi_city_control">[软] 城市级VoWiFi控制</string>
-    <string name="oplus_feature_radio_update_dcdc_sleep_state">[软] 电源管理芯片休眠</string>
     <string name="oplus_feature_radio_link_evaluation">[软] 链路质量评估</string>
     <string name="oplus_feature_logkit_ocloud_support">[软] OppoCloud日志采集支持</string>
     <string name="oplus_feature_radio_vendor_diag">[软] 厂商诊断通道</string>
@@ -244,11 +200,8 @@
     <string name="oplus_feature_audio_voice_wakeup_xbxb_support">[软] 语音唤醒功能</string>
     <string name="oplus_feature_speechassist_oneshot_support">[软] 语音助手一键直达</string>
     <string name="oplus_feature_radio_hyper_uplink_mode_enable">[软] 超级上行模式</string>
-    <string name="oplus_feature_support_quick_launchapp">[软] 快速启动应用</string>
     <string name="oplus_feature_radio_cybersense_residence_v2_enabled">[软] CyberSense驻留优化V2</string>
     <string name="oplus_feature_radio_multi_task_multi_link_schedule">[软] 多任务多链路调度</string>
-    <string name="oplus_feature_support_blockable_animation">[软] 可屏蔽动画开关支持</string>
-    <string name="oplus_feature_velocitytracker_strategy_support">[软] 跟手性优化</string>
     <string name="oplus_feature_charge_endurance_mode_support">[OS] 长续航充电模式支持</string>
     <string name="oplus_feature_aon_distance_detection_enable">[软] AON距离检测启用</string>
     <string name="oplus_feature_aon_phone_camera_gesture_recognition">[软] AON相机手势识别</string>
@@ -261,7 +214,6 @@
     <string name="oplus_feature_aon_pay_qrcode_enable">[软] AON快捷支付码</string>
     <string name="oplus_feature_aon_sensorhub_enable">[软] AON SensorHub启用</string>
     <string name="oplus_feature_vibrator_kill_program_wave_support">[软] 结束进程振动支持</string>
-    <string name="oplus_feature_preload_camera">[软] 相机预加载</string>
     <string name="oplus_feature_joystick_game_joystick_support">[软] 游戏摇杆模式支持</string>
     <string name="oplus_feature_radio_smart_nw_data_low_latency">[软] 智能低延迟数据网络</string>
     <string name="oplus_feature_radio_nwpower_amc_mdwakeup_control">[软] Modem唤醒功耗控制</string>
@@ -273,28 +225,21 @@
     <string name="oplus_feature_radio_power_save_dual_network_control">[软] 双网络省电控制</string>
     <string name="oplus_feature_radio_wifi_data_control">[软] WiFi数据调度控制</string>
     <string name="oplus_feature_radio_wifi_force_rel_dual_data">[软] WiFi强制释放双数据</string>
-    <string name="oplus_feature_hardware_display_low_blue_light">[硬] 硬件级低蓝光模式</string>
-    <string name="oplus_feature_hardware_display_ultra_tr_diamond_screen">[硬] 超感钻石屏技术</string>
     <string name="oplus_feature_radio_concert_detect_service">[软] 演唱会网络优化</string>
     <string name="oplus_feature_radio_qoe_game_cell_suggest">[软] 游戏场景小区建议</string>
-    <string name="oplus_feature_hardware_display_no_classic_low_freq_strobe">[硬] 无低频闪烁屏幕</string>
     <string name="oplus_feature_display_adfr_v32_lp">[软] 自适应刷新率v32低功耗</string>
     <string name="oplus_feature_radio_enable_ct_network_scan">[软] 启用电信网络扫描</string>
     <string name="oplus_feature_hardware_pwd_attestation_locksettings">[硬] 密码认证安全锁</string>
     <string name="oplus_feature_radio_subsystem_camera_service">[软] 相机子系统网络服务</string>
-    <string name="oplus_feature_radio_engnw_vsim_support">[软] 工程网络vSIM支持</string>
     <string name="oplus_feature_radio_virtualmodem_cellinfo">[软] 虚拟Modem小区信息</string>
     <string name="oplus_feature_radio_car_sharing_network">[软] 车载共享网络</string>
     <string name="oplus_feature_radio_network_vip_task">[软] 网络VIP任务优先</string>
     <string name="oplus_feature_radio_enable_cmcc_nitz">[软] 启用移动NITZ同步</string>
     <string name="oplus_feature_wlan_qoe_estimate">[软] WLAN QoE评估</string>
-    <string name="oplus_feature_radio_smart5g_game_latency_check">[软] 游戏时延检测5G</string>
     <string name="oplus_feature_radio_network_time_slice">[软] 网络时间片调度</string>
     <!-- Oplus批量映射自动生成结束 -->
 
     <!-- 20241007 新增特性 -->
-    <string name="oplus_feature_app_resolution_auto">[软] 应用分辨率自动切换支持</string>
-    <string name="oplus_feature_camera_volume_quick_launch">[软] 音量键快速启动相机</string>
     <string name="oplus_feature_gsa_refresh">[软] GSA 刷新机制</string>
     <string name="oplus_feature_radio_networkless_support">[软] 无网通信支持</string>
     <string name="oplus_feature_radio_pcdr_high_speed_move">[软] 高速移动场景搜网优化</string>
@@ -307,7 +252,6 @@
     <string name="oplus_feature_radio_ul_priority_foreground">[软] 前台应用上行带宽优先策略</string>
     <string name="oplus_feature_touch_preload">[软] 触摸预加载</string>
     <string name="oplus_feature_view_rgbnormalize">[软] 屏幕RGB色彩一致性优化</string>
-    <string name="oplus_feature_view_spring_over_scroller">[软] 列表弹性滑动阻尼效果</string>
 
     <!-- 新增的日志导出和更多菜单相关字符串 -->
     <string name="more_menu">更多</string>
@@ -326,18 +270,11 @@
     <string name="feature_fullscreen_panoramic_aod">全天候全景息屏</string>
     <string name="feature_gallery_gif_optimization">相册动图优化</string>
     <string name="feature_jianying_asset_optimization">剪影素材优化</string>
-    <string name="feature_douyin_live_beauty">抖音直播美颜</string>
     <string name="feature_game_assistant_body_sensation">游戏助手姿态调整</string>
     <string name="feature_new_tips_page">新版使用技巧</string>
     <string name="feature_launcher_breeeno_entry_indicator">系统桌面小布提示</string>
     <string name="feature_hide_screenon_battery_stats">电池详情隐藏屏幕使用</string>
     <!-- 新增 Oplus 特性中文描述 (20250712) -->
-    <string name="oplus_feature_radio_show_5g_nr_mode">[软] 5G网络模式切换</string>
-    <string name="oplus_feature_eyeprotect_paper_texture_support">[软] 纸质护眼</string>
-    <string name="oplus_feature_zoom_multi_mode">[软] 双小窗特性</string>
-    <string name="oplus_feature_dynamic_screen_bar_support">[软] 调整亮度条范围（开发者选项）</string>
-    <string name="oplus_feature_rhythm_eyeprotect_2_0_support">[软] 单扫护眼</string>
-    <string name="oplus_feature_super_volume_5x">[软] 超级音量（5×）</string>
 
     <!-- Edit feature dialog related strings -->
 
@@ -365,4 +302,14 @@
     <string name="section_system_features">系统自带</string>
     <string name="section_app_added_features">应用新增</string>
     <string name="section_feature_count">%1$d 项</string>
+    <string name="feature_aiwriter_input_entrance">AI 帮写输入法入口</string>
+    <string name="feature_settings_resolution_auto">屏幕分辨率自适应</string>
+    <string name="feature_mediaturbo_transcoding">多媒体硬件转码加速</string>
+    <string name="feature_gallery_collage_livephoto">相册实况照片拼图支持</string>
+    <string name="feature_preload_camera_launcher">桌面预热相机</string>
+    <string name="feature_card_datamining_support">泛在服务卡片数据挖掘</string>
+    <string name="feature_cast_game_mode">无线投屏游戏模式</string>
+    <string name="feature_3d_wallpaper">3D 壁纸支持</string>
+    <string name="feature_game_settings_support">游戏助手专属设置</string>
+    <string name="feature_mediaturbo_window_mode_notify">小窗模式多媒体通知</string>
 </resources>
