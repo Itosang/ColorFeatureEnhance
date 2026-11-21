@@ -15,16 +15,33 @@ object ModuleConfig {
     private const val OPLUS_FILE = "my_product/etc/extension/com.oplus.oplus-feature.xml"
     private const val REGION_FILE = "my_region/etc/extension/com.oplus.oplus-feature.xml"
 
-    fun file(mode: FeatureMode): String {
-        val relative = when (mode) {
-            FeatureMode.APP -> APP_FILE
-            FeatureMode.OPLUS -> OPLUS_FILE
-            FeatureMode.REGION -> REGION_FILE
-        }
-        return "$MODULE_DIR/$relative"
+    private fun relative(mode: FeatureMode): String = when (mode) {
+        FeatureMode.APP -> APP_FILE
+        FeatureMode.OPLUS -> OPLUS_FILE
+        FeatureMode.REGION -> REGION_FILE
     }
 
+    fun file(mode: FeatureMode): String = "$MODULE_DIR/${relative(mode)}"
+
+    fun deviceFile(mode: FeatureMode): String = "/${relative(mode)}"
+
     fun isInstalled(): Boolean = CSU.fileExists("$MODULE_DIR/module.prop")
+
+    /**
+     * 读用户设备上的当前配置（已挂载时读到的是上次保存的内容）。
+     */
+    fun readDevice(mode: FeatureMode): String {
+        val result = CSU.runWithSu("cat \"${deviceFile(mode)}\"")
+        return if (result.exitCode == 0) result.output else ""
+    }
+
+    /**
+     * 读当前生效的配置：模块目录里的文件安装时从设备拷来、保存时更新，
+     * 是设备配置的编辑副本；没有则直接读设备路径。
+     */
+    fun readEffective(mode: FeatureMode): String {
+        return if (CSU.fileExists(file(mode))) readText(mode) else readDevice(mode)
+    }
 
     fun readText(mode: FeatureMode): String {
         val result = CSU.runWithSu("cat \"${file(mode)}\"")

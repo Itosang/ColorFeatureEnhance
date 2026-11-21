@@ -139,21 +139,8 @@ fun AddFeatureDialog(
                                 )
                             }
 
-                            val hasCloudConfig = if (currentMode == FeatureMode.APP) {
-                                AppFeatureMappings.getInstance().isMatchingCloudDescription(context, featureName)
-                            } else {
-                                OplusFeatureMappings.isMatchingCloudDescription(context, featureName)
-                            }
-
                             if (isPresetMatch) {
                                 showPresetMatchDialog = true
-                            } else if (hasCloudConfig) {
-                                onConfirm(
-                                    featureName,
-                                    featureDescription,
-                                    featureEnabled,
-                                    if (argValue.isBlank()) null else argValue
-                                )
                             } else {
                                 if (currentMode == FeatureMode.APP) {
                                     AppFeatureMappings.getInstance()
@@ -251,13 +238,7 @@ fun EditFeatureDialog(
         OplusFeatureMappings.isMatchingPresetDescription(context, originalName, originalDescription)
     }
 
-    val hasCloudDesc = if (currentMode == FeatureMode.APP) {
-        AppFeatureMappings.getInstance().isMatchingCloudDescription(context, originalName)
-    } else {
-        OplusFeatureMappings.isMatchingCloudDescription(context, originalName)
-    }
-
-    val isDescriptionDisabled = isPresetDesc || hasCloudDesc
+    val isDescriptionDisabled = isPresetDesc
 
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -346,13 +327,7 @@ fun EditFeatureDialog(
                         )
                     }
 
-                    val hasCloudConfig = if (currentMode == FeatureMode.APP) {
-                        AppFeatureMappings.getInstance().isMatchingCloudDescription(context, featureName)
-                    } else {
-                        OplusFeatureMappings.isMatchingCloudDescription(context, featureName)
-                    }
-
-                    if (!matchPreset && !hasCloudConfig) {
+                    if (!matchPreset) {
                         if (currentMode == FeatureMode.APP) {
                             AppFeatureMappings.getInstance()
                                 .saveUserMapping(context, featureName, featureDescription)

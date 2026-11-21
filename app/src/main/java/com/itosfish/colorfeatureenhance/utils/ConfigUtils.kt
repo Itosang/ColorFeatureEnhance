@@ -9,7 +9,7 @@ import java.io.FileOutputStream
  * 模块安装与版本查询。
  */
 object ConfigUtils {
-    const val LATEST_MODULE_VERSION = 22
+    const val LATEST_MODULE_VERSION = 23
 
     private const val TAG = "ConfigUtils"
 

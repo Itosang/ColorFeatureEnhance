@@ -4,8 +4,13 @@ package com.itosfish.colorfeatureenhance.ui.components
 
 import android.app.Activity
 import android.widget.Toast
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.MoreVert
@@ -17,16 +22,17 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MediumFlexibleTopAppBar
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
@@ -53,13 +59,11 @@ fun ColorOSTopAppBar(
     currentMode: FeatureMode,
     onModeChange: (FeatureMode) -> Unit,
     isSearchActive: Boolean = false,
-    onSearchClick: (() -> Unit)? = null,
-    onRefresh: (() -> Unit)? = null
+    onSearchClick: (() -> Unit)? = null
 ) {
     val context = LocalContext.current
     var showMoreMenu by remember { mutableStateOf(false) }
 
-    // 动态计算菜单宽度：半屏宽度 + 10dp
     val windowInfo = LocalWindowInfo.current
     val density = LocalDensity.current
     val menuWidth = remember(windowInfo.containerSize.width) {
@@ -75,28 +79,49 @@ fun ColorOSTopAppBar(
     }
 
     MediumFlexibleTopAppBar(
-        title = { Text(title) },
-        subtitle = { Text(stringResource(id = modeLabelRes)) },
+        title = {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.titleLarge
+            )
+        },
         actions = {
-            // 模式切换按钮
-            TextButton(onClick = {
-                val next = when (currentMode) {
-                    FeatureMode.APP -> FeatureMode.OPLUS
-                    FeatureMode.OPLUS -> FeatureMode.REGION
-                    FeatureMode.REGION -> FeatureMode.APP
+            // 模式切换胶囊按钮（带背景与图标，不再与副标题重复）
+            Surface(
+                modifier = Modifier
+                    .padding(end = 4.dp)
+                    .clip(CircleShape)
+                    .clickable {
+                        val next = when (currentMode) {
+                            FeatureMode.APP -> FeatureMode.OPLUS
+                            FeatureMode.OPLUS -> FeatureMode.REGION
+                            FeatureMode.REGION -> FeatureMode.APP
+                        }
+                        onModeChange(next)
+                    },
+                shape = CircleShape,
+                color = MaterialTheme.colorScheme.secondaryContainer
+            ) {
+                Row(
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(id = modeLabelRes),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        modifier = Modifier.padding(horizontal = 4.dp)
+                    )
                 }
-                onModeChange(next)
-            }) {
-                Text(text = stringResource(id = modeLabelRes))
             }
 
-            // 搜索按钮（可选）
+            // 搜索按钮
             if (onSearchClick != null) {
                 IconButton(onClick = onSearchClick) {
                     Icon(
                         imageVector = Icons.Filled.Search,
                         contentDescription = stringResource(id = R.string.search_feature),
-                        tint = if (isSearchActive) MaterialTheme.colorScheme.secondary else MaterialTheme.colorScheme.onSurface
+                        tint = if (isSearchActive) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -110,23 +135,21 @@ fun ColorOSTopAppBar(
                     )
                 }
 
-                // 下拉菜单 - 覆盖TopAppBar
                 DropdownMenu(
                     expanded = showMoreMenu,
                     onDismissRequest = { showMoreMenu = false },
                     offset = DpOffset(
                         x = 0.dp,
                         y = -TopAppBarDefaults.TopAppBarExpandedHeight
-                    ), // 向上偏移TopAppBar高度
-                    shape = RoundedCornerShape(8.dp), // 增大圆角
-                    modifier = Modifier.width(menuWidth) // 动态菜单宽度：半屏+10dp
+                    ),
+                    shape = RoundedCornerShape(12.dp),
+                    modifier = Modifier.width(menuWidth)
                 ) {
-                    // 强制更新模块选项
                     DropdownMenuItem(
                         text = {
                             Text(
                                 text = stringResource(R.string.update_modules),
-                                style = MaterialTheme.typography.bodyLarge
+                                style = MaterialTheme.typography.bodyMedium
                             )
                         },
                         onClick = {
@@ -135,12 +158,11 @@ fun ColorOSTopAppBar(
                         }
                     )
 
-                    // 导出日志选项
                     DropdownMenuItem(
                         text = {
                             Text(
                                 text = stringResource(R.string.export_logs),
-                                style = MaterialTheme.typography.bodyLarge
+                                style = MaterialTheme.typography.bodyMedium
                             )
                         },
                         onClick = {
@@ -149,12 +171,11 @@ fun ColorOSTopAppBar(
                         }
                     )
 
-                    // 关于选项
                     DropdownMenuItem(
                         text = {
                             Text(
                                 text = stringResource(id = R.string.about),
-                                style = MaterialTheme.typography.bodyLarge
+                                style = MaterialTheme.typography.bodyMedium
                             )
                         },
                         onClick = {
@@ -165,13 +186,12 @@ fun ColorOSTopAppBar(
                 }
             }
         },
-        colors = TopAppBarDefaults.topAppBarColors()
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        )
     )
 }
 
-/**
- * 强制更新模块功能
- */
 private fun forceUpdateModule(activity: Activity) {
     CoroutineScope(Dispatchers.Main).launch {
         try {
@@ -207,9 +227,6 @@ private fun forceUpdateModule(activity: Activity) {
     }
 }
 
-/**
- * 导出日志功能 - 使用shell写入/sdcard/
- */
 private fun exportLogs(activity: Activity) {
     try {
         val logs = CLog.getFormattedLogs()

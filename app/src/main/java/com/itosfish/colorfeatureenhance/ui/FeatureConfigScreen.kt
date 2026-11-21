@@ -15,10 +15,10 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -47,10 +47,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.itosfish.colorfeatureenhance.FeatureMode
@@ -58,6 +60,7 @@ import com.itosfish.colorfeatureenhance.MainActivity.Companion.app
 import com.itosfish.colorfeatureenhance.R
 import com.itosfish.colorfeatureenhance.data.model.AppFeature
 import com.itosfish.colorfeatureenhance.data.model.AppFeatureMappings
+import com.itosfish.colorfeatureenhance.data.model.AppendPresets
 import com.itosfish.colorfeatureenhance.data.model.FeatureGroup
 import com.itosfish.colorfeatureenhance.data.model.OplusFeatureMappings
 import com.itosfish.colorfeatureenhance.data.repository.XmlFeatureRepository
@@ -68,15 +71,22 @@ import com.itosfish.colorfeatureenhance.ui.components.SearchBar
 import com.itosfish.colorfeatureenhance.ui.search.SearchLogic
 import com.itosfish.colorfeatureenhance.utils.AddFeatureDialog
 import com.itosfish.colorfeatureenhance.utils.EditFeatureDialog
+import com.itosfish.colorfeatureenhance.utils.FeatureCatalog
 import com.itosfish.colorfeatureenhance.utils.OriginalNames
 import kotlinx.coroutines.launch
 
-private enum class FeatureSection { SYSTEM, APP_ADDED }
+private enum class FeatureSection { ENHANCED, SYSTEM }
 
 private sealed interface FeatureListEntry {
     data class Header(val section: FeatureSection, val count: Int) : FeatureListEntry
     data class Group(val group: FeatureGroup) : FeatureListEntry
 }
+
+private data class EditingTarget(
+    val feature: AppFeature,
+    val description: String,
+    val parentGroup: FeatureGroup? = null
+)
 
 @Composable
 fun FeatureConfigScreen(
@@ -92,7 +102,7 @@ fun FeatureConfigScreen(
     val context = LocalContext.current
 
     var groupToDelete by remember { mutableStateOf<FeatureGroup?>(null) }
-    var featureToEdit by remember { mutableStateOf<Pair<AppFeature, String>?>(null) }
+    var editingTarget by remember { mutableStateOf<EditingTarget?>(null) }
     var chooseFromGroup by remember { mutableStateOf<FeatureGroup?>(null) }
     var showAddDialog by remember { mutableStateOf(false) }
 
@@ -100,7 +110,7 @@ fun FeatureConfigScreen(
     var searchQuery by remember { mutableStateOf("") }
 
     var isSystemSectionExpanded by remember { mutableStateOf(false) }
-    var isAppSectionExpanded by remember { mutableStateOf(false) }
+    var isEnhancedSectionExpanded by remember { mutableStateOf(true) }
 
     BackHandler(enabled = isSearchActive) {
         isSearchActive = false
@@ -113,6 +123,18 @@ fun FeatureConfigScreen(
             repository.saveFeatures(configPath, updated)
             features = repository.loadFeatures(configPath)
         }
+    }
+
+    fun toggleGroupEnabled(group: FeatureGroup, targetEnabled: Boolean) {
+        val targetNames = group.features.map { it.name }.toSet()
+        val updated = features.map { feature ->
+            if (feature.name in targetNames) {
+                feature.copy(enabled = targetEnabled)
+            } else {
+                feature
+            }
+        }
+        save(updated)
     }
 
     LaunchedEffect(configPath, currentMode) {
@@ -168,19 +190,13 @@ fun FeatureConfigScreen(
 
     val isSearching = searchQuery.isNotBlank()
 
-    val builtInFeatureNames = remember(features, currentMode) {
-        features.map { it.name }.filterTo(mutableSetOf()) { name ->
-            if (currentMode == FeatureMode.APP) {
-                AppFeatureMappings.getInstance().isBuiltInFeature(name)
-            } else {
-                OplusFeatureMappings.getInstance().isBuiltInFeature(name)
-            }
-        }
-    }
-
-    val (appAddedGroups, systemGroups) = remember(displayedFeatureGroups, originalNames) {
+    val (enhancedGroups, systemGroups) = remember(displayedFeatureGroups, originalNames, currentMode) {
         displayedFeatureGroups.partition { group ->
-            group.features.none { it.name in originalNames }
+            group.features.any { feature ->
+                AppendPresets.isPresetFeature(feature.name) ||
+                    FeatureCatalog.isCustomAdded(currentMode, feature.name) ||
+                    feature.name !in originalNames
+            }
         }
     }
 
@@ -199,23 +215,27 @@ fun FeatureConfigScreen(
     }
 
     val listEntries: List<FeatureListEntry> = remember(
+        enhancedGroups,
         systemGroups,
-        appAddedGroups,
+        isEnhancedSectionExpanded,
         isSystemSectionExpanded,
-        isAppSectionExpanded,
         isSearching
     ) {
         buildList {
-            if (systemGroups.isEmpty() && appAddedGroups.isEmpty()) return@buildList
+            if (enhancedGroups.isEmpty() && systemGroups.isEmpty()) return@buildList
 
-            add(FeatureListEntry.Header(FeatureSection.SYSTEM, systemGroups.size))
-            if (isSystemSectionExpanded || isSearching) {
-                systemGroups.forEach { add(FeatureListEntry.Group(it)) }
+            if (enhancedGroups.isNotEmpty()) {
+                add(FeatureListEntry.Header(FeatureSection.ENHANCED, enhancedGroups.size))
+                if (isEnhancedSectionExpanded || isSearching) {
+                    enhancedGroups.forEach { add(FeatureListEntry.Group(it)) }
+                }
             }
 
-            add(FeatureListEntry.Header(FeatureSection.APP_ADDED, appAddedGroups.size))
-            if (isAppSectionExpanded || isSearching) {
-                appAddedGroups.forEach { add(FeatureListEntry.Group(it)) }
+            if (systemGroups.isNotEmpty()) {
+                add(FeatureListEntry.Header(FeatureSection.SYSTEM, systemGroups.size))
+                if (isSystemSectionExpanded || isSearching) {
+                    systemGroups.forEach { add(FeatureListEntry.Group(it)) }
+                }
             }
         }
     }
@@ -245,8 +265,8 @@ fun FeatureConfigScreen(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = { showAddDialog = true },
-                containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.onSurface,
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.windowInsetsPadding(WindowInsets.navigationBars)
             ) {
                 Icon(
@@ -259,8 +279,8 @@ fun FeatureConfigScreen(
     ) { innerPadding ->
         LazyColumn(
             modifier = Modifier.padding(innerPadding),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 16.dp)
+            verticalArrangement = Arrangement.spacedBy(10.dp),
+            contentPadding = PaddingValues(horizontal = 16.dp, vertical = 12.dp)
         ) {
             items(listEntries, key = { entry ->
                 when (entry) {
@@ -272,19 +292,19 @@ fun FeatureConfigScreen(
                     is FeatureListEntry.Header -> FeatureSectionHeader(
                         title = stringResource(
                             id = when (entry.section) {
+                                FeatureSection.ENHANCED -> R.string.section_enhanced_features
                                 FeatureSection.SYSTEM -> R.string.section_system_features
-                                FeatureSection.APP_ADDED -> R.string.section_app_added_features
                             }
                         ),
                         count = entry.count,
                         isExpanded = when (entry.section) {
+                            FeatureSection.ENHANCED -> isEnhancedSectionExpanded || isSearching
                             FeatureSection.SYSTEM -> isSystemSectionExpanded || isSearching
-                            FeatureSection.APP_ADDED -> isAppSectionExpanded || isSearching
                         },
                         onToggle = {
                             when (entry.section) {
+                                FeatureSection.ENHANCED -> isEnhancedSectionExpanded = !isEnhancedSectionExpanded
                                 FeatureSection.SYSTEM -> isSystemSectionExpanded = !isSystemSectionExpanded
-                                FeatureSection.APP_ADDED -> isAppSectionExpanded = !isAppSectionExpanded
                             }
                         },
                         modifier = Modifier.animateItem()
@@ -292,31 +312,29 @@ fun FeatureConfigScreen(
 
                     is FeatureListEntry.Group -> {
                         val group = entry.group
-                        FeatureGroupItem(
+                        val firstFeature = group.features.first()
+                        val isPreset = AppendPresets.isPresetFeature(firstFeature.name)
+                        val isCustom = FeatureCatalog.isCustomAdded(currentMode, firstFeature.name)
+
+                        FeatureGroupCard(
                             currentMode = currentMode,
                             group = group,
                             searchQuery = searchQuery,
-                            isBuiltIn = group.features.all { it.name in builtInFeatureNames },
-                            onToggle = { updatedGroup ->
-                                save(
-                                    features.map { feature ->
-                                        if (updatedGroup.features.any { it.name == feature.name }) {
-                                            feature.copy(enabled = updatedGroup.isEnabled)
-                                        } else {
-                                            feature
-                                        }
-                                    }
-                                )
+                            isPreset = isPreset,
+                            isCustom = isCustom,
+                            onToggle = { targetGroup, targetEnabled ->
+                                toggleGroupEnabled(targetGroup, targetEnabled)
                             },
                             onLongPress = { groupToDelete = group },
                             onClick = {
                                 if (group.features.size == 1) {
                                     val feature = group.features.first()
-                                    featureToEdit = feature to if (currentMode == FeatureMode.APP) {
+                                    val description = if (currentMode == FeatureMode.APP) {
                                         AppFeatureMappings.getLocalizedDescription(context, feature.name)
                                     } else {
                                         OplusFeatureMappings.getLocalizedDescription(context, feature.name)
                                     }
+                                    editingTarget = EditingTarget(feature, description, group)
                                 } else {
                                     chooseFromGroup = group
                                 }
@@ -337,15 +355,17 @@ fun FeatureConfigScreen(
                         },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(vertical = 32.dp),
+                            .padding(vertical = 48.dp),
                         textAlign = TextAlign.Center,
-                        style = MaterialTheme.typography.bodyLarge
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
                 }
             }
 
+            // 预留底部足够高度，避免浮动按钮（FAB）挡住最底部的开关卡片
             item {
-                Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+                Spacer(modifier = Modifier.height(88.dp))
             }
         }
 
@@ -355,8 +375,9 @@ fun FeatureConfigScreen(
                 context = context,
                 currentMode = currentMode,
                 onConfirm = { name, _, enabled, args ->
+                    FeatureCatalog.markCustomAdded(currentMode, name)
                     save(features + AppFeature(name, enabled, args))
-                    isAppSectionExpanded = true
+                    isEnhancedSectionExpanded = true
                     showAddDialog = false
                 }
             )
@@ -376,6 +397,7 @@ fun FeatureConfigScreen(
                 text = { Text(text = stringResource(id = R.string.delete_confirm_message, label)) },
                 confirmButton = {
                     TextButton(onClick = {
+                        FeatureCatalog.remove(currentMode, namesToDelete)
                         save(features.filterNot { it.name in namesToDelete })
                         groupToDelete = null
                     }) {
@@ -395,51 +417,92 @@ fun FeatureConfigScreen(
                 onDismissRequest = { chooseFromGroup = null },
                 title = { Text(text = stringResource(id = R.string.select_feature_to_edit)) },
                 text = {
-                    Column {
+                    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
                         group.features.forEach { feature ->
-                            TextButton(onClick = {
-                                featureToEdit = feature to if (currentMode == FeatureMode.APP) {
-                                    AppFeatureMappings.getLocalizedDescription(context, feature.name)
-                                } else {
-                                    OplusFeatureMappings.getLocalizedDescription(context, feature.name)
-                                }
-                                chooseFromGroup = null
-                            }) {
-                                Text(text = feature.name)
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clip(MaterialTheme.shapes.medium)
+                                    .clickable {
+                                        val description = if (currentMode == FeatureMode.APP) {
+                                            AppFeatureMappings.getLocalizedDescription(context, feature.name)
+                                        } else {
+                                            OplusFeatureMappings.getLocalizedDescription(context, feature.name)
+                                        }
+                                        editingTarget = EditingTarget(feature, description, group)
+                                        chooseFromGroup = null
+                                    }
+                                    .padding(horizontal = 8.dp, vertical = 6.dp),
+                                horizontalArrangement = Arrangement.SpaceBetween,
+                                verticalAlignment = Alignment.CenterVertically
+                            ) {
+                                Text(
+                                    text = feature.name,
+                                    modifier = Modifier.weight(1f).padding(end = 8.dp),
+                                    style = MaterialTheme.typography.bodyMedium,
+                                    maxLines = 1,
+                                    overflow = TextOverflow.Ellipsis
+                                )
+                                Switch(
+                                    checked = feature.enabled,
+                                    onCheckedChange = { isChecked ->
+                                        save(
+                                            features.map {
+                                                if (it.name == feature.name) it.copy(enabled = isChecked) else it
+                                            }
+                                        )
+                                    }
+                                )
                             }
                         }
                     }
                 },
-                confirmButton = {},
+                confirmButton = {
+                    TextButton(onClick = {
+                        toggleGroupEnabled(group, false)
+                        chooseFromGroup = null
+                    }) {
+                        Text(text = stringResource(id = R.string.group_disable_all))
+                    }
+                },
                 dismissButton = {
-                    TextButton(onClick = { chooseFromGroup = null }) {
-                        Text(text = stringResource(id = android.R.string.cancel))
+                    TextButton(onClick = {
+                        toggleGroupEnabled(group, true)
+                        chooseFromGroup = null
+                    }) {
+                        Text(text = stringResource(id = R.string.group_enable_all))
                     }
                 }
             )
         }
 
-        featureToEdit?.let { (feature, description) ->
+        editingTarget?.let { target ->
+            val feature = target.feature
             EditFeatureDialog(
-                onDismiss = { featureToEdit = null },
+                onDismiss = { editingTarget = null },
                 context = context,
                 originalName = feature.name,
-                originalDescription = if (description == feature.name) "" else description,
+                originalDescription = if (target.description == feature.name) "" else target.description,
                 originalEnabled = feature.enabled,
                 originalArgs = feature.args,
                 originalSubNodes = feature.subNodes,
                 currentMode = currentMode,
                 onConfirm = { newName, _, newEnabled, newArgs ->
+                    val relatedNames = target.parentGroup?.features?.map { it.name }?.toSet()
+                        ?: setOf(feature.name)
+
                     save(
                         features.map {
                             if (it.name == feature.name) {
                                 it.copy(name = newName, enabled = newEnabled, args = newArgs)
+                            } else if (it.name in relatedNames && it.enabled != newEnabled) {
+                                it.copy(enabled = newEnabled)
                             } else {
                                 it
                             }
                         }
                     )
-                    featureToEdit = null
+                    editingTarget = null
                 }
             )
         }
@@ -458,7 +521,7 @@ private fun FeatureSectionHeader(
     val isPressed by interactionSource.collectIsPressedAsState()
     val motion = MaterialTheme.motionScheme
     val scale by animateFloatAsState(
-        targetValue = if (isPressed) 0.97f else 1f,
+        targetValue = if (isPressed) 0.98f else 1f,
         animationSpec = motion.fastSpatialSpec(),
         label = "sectionScale"
     )
@@ -475,39 +538,46 @@ private fun FeatureSectionHeader(
                 scaleX = scale
                 scaleY = scale
             }
+            .clip(MaterialTheme.shapes.large)
             .clickable(
                 interactionSource = interactionSource,
                 indication = null,
                 onClick = onToggle
             ),
-        color = MaterialTheme.colorScheme.surfaceContainerHigh,
-        shape = MaterialTheme.shapes.extraLargeIncreased
+        color = MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.6f),
+        shape = MaterialTheme.shapes.large
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp, vertical = 16.dp),
+                .padding(horizontal = 16.dp, vertical = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = title,
-                style = MaterialTheme.typography.titleMediumEmphasized,
+                style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.onSurface
             )
 
             Row(verticalAlignment = Alignment.CenterVertically) {
-                Text(
-                    text = stringResource(R.string.section_feature_count, count),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f)
-                )
+                Surface(
+                    shape = CircleShape,
+                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.7f)
+                ) {
+                    Text(
+                        text = stringResource(R.string.section_feature_count, count),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp)
+                    )
+                }
                 Icon(
                     imageVector = Icons.Filled.KeyboardArrowDown,
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier
-                        .padding(start = 8.dp)
+                        .padding(start = 6.dp)
                         .graphicsLayer { rotationZ = arrowRotation }
                 )
             }
@@ -516,29 +586,35 @@ private fun FeatureSectionHeader(
 }
 
 @Composable
-private fun FeatureTag(text: String, modifier: Modifier = Modifier) {
+private fun FeatureTag(
+    text: String,
+    containerColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.primaryContainer,
+    contentColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.onPrimaryContainer,
+    modifier: Modifier = Modifier
+) {
     Text(
         text = text,
         style = MaterialTheme.typography.labelSmall,
-        color = MaterialTheme.colorScheme.primary,
+        color = contentColor,
         modifier = modifier
-            .background(
-                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
-                shape = CircleShape
-            )
+            .background(color = containerColor, shape = CircleShape)
             .padding(horizontal = 8.dp, vertical = 2.dp)
     )
 }
 
+/**
+ * 现代 Material 3 Expressive 卡片式特性条目
+ */
 @Composable
-private fun FeatureGroupItem(
+private fun FeatureGroupCard(
     currentMode: FeatureMode,
     group: FeatureGroup,
-    onToggle: (FeatureGroup) -> Unit,
+    onToggle: (FeatureGroup, Boolean) -> Unit,
     onLongPress: () -> Unit,
     onClick: () -> Unit,
     searchQuery: String = "",
-    isBuiltIn: Boolean = false,
+    isPreset: Boolean = false,
+    isCustom: Boolean = false,
     modifier: Modifier = Modifier
 ) {
     val feature = group.features.first()
@@ -553,50 +629,72 @@ private fun FeatureGroupItem(
         description
     }
 
-    SegmentedListItem(
-        onClick = onClick,
-        shapes = ListItemDefaults.shapes(shape = MaterialTheme.shapes.largeIncreased),
-        modifier = modifier.fillMaxWidth(),
-        onLongClick = onLongPress,
-        supportingContent = {
-            if (group.features.size == 1) {
+    // 独立圆角卡片容器
+    Surface(
+        modifier = modifier
+            .fillMaxWidth()
+            .clip(MaterialTheme.shapes.extraLarge),
+        shape = MaterialTheme.shapes.extraLarge,
+        color = MaterialTheme.colorScheme.surfaceContainer,
+        tonalElevation = 1.dp
+    ) {
+        SegmentedListItem(
+            onClick = onClick,
+            shapes = ListItemDefaults.shapes(shape = MaterialTheme.shapes.extraLarge),
+            colors = ListItemDefaults.segmentedColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainer
+            ),
+            modifier = Modifier.fillMaxWidth(),
+            onLongClick = onLongPress,
+            supportingContent = {
                 Text(
                     text = feature.name,
                     style = MaterialTheme.typography.bodySmall,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
-            }
-        },
-        trailingContent = {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                if (isBuiltIn) {
-                    FeatureTag(text = stringResource(R.string.feature_builtin_tag))
-                }
+            },
+            trailingContent = {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    if (isPreset) {
+                        FeatureTag(
+                            text = stringResource(R.string.feature_tag_preset),
+                            containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
+                            contentColor = MaterialTheme.colorScheme.primary
+                        )
+                    } else if (isCustom) {
+                        FeatureTag(
+                            text = stringResource(R.string.feature_tag_custom),
+                            containerColor = MaterialTheme.colorScheme.tertiary.copy(alpha = 0.12f),
+                            contentColor = MaterialTheme.colorScheme.tertiary
+                        )
+                    }
 
-                if (currentMode != FeatureMode.APP) {
+                    if (feature.isComplex) {
+                        Text(
+                            text = stringResource(id = R.string.complex_feature_indicator),
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.error,
+                            modifier = Modifier.padding(start = 6.dp)
+                        )
+                    }
                     Switch(
                         checked = group.isEnabled,
-                        onCheckedChange = { onToggle(group.withEnabled(it)) },
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
-                } else if (feature.isComplex) {
-                    Text(
-                        text = stringResource(id = R.string.complex_feature_indicator),
-                        style = MaterialTheme.typography.bodySmall,
-                        color = MaterialTheme.colorScheme.tertiary,
-                        modifier = Modifier.padding(start = 8.dp)
+                        onCheckedChange = { isChecked -> onToggle(group, isChecked) },
+                        modifier = Modifier.padding(start = 10.dp)
                     )
                 }
+            },
+            content = {
+                HighlightedText(
+                    text = displayText,
+                    query = searchQuery,
+                    style = MaterialTheme.typography.titleMedium
+                )
             }
-        },
-        content = {
-            HighlightedText(
-                text = displayText,
-                query = searchQuery,
-                style = MaterialTheme.typography.bodyLarge
-            )
-        }
-    )
+        )
+    }
 }
 
 @Preview(showBackground = true)
