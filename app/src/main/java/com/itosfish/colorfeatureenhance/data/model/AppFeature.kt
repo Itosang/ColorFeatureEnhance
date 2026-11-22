@@ -12,6 +12,7 @@ data class FeatureSubNode(
     val args: String   // 如 "com.xxx.yyy"
 )
 
+@Serializable
 data class AppFeature(
     val name: String,
     val enabled: Boolean = true,

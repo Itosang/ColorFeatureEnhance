@@ -10,6 +10,12 @@
     <string name="feature_area_record">区域录屏</string>
     <string name="feature_all_scene_bypass_charging">全场景旁路供电</string>
     <string name="feature_unknown">待确认</string>
+    <string name="preset_3d_wallpaper">3D 壁纸</string>
+    <string name="preset_all_day_aod">全天候息屏显示</string>
+    <string name="preset_kernel_build_time">关于本机显示内核构建时间</string>
+    <string name="preset_hummingbird_kernel">风驰游戏内核入口</string>
+    <string name="preset_shanhai_comm">山海通信网络引擎</string>
+    <string name="preset_breeno_memory">小布记忆</string>
     <string name="delete_confirm_title">删除特性</string>
     <string name="delete_confirm_message">确定删除 %1$s 及其全部配置吗？</string>
     <string name="add_feature">添加特性</string>
@@ -298,9 +304,21 @@
     <string name="oplus_feature_misc_fan_extra_v3_support">风扇 v3（红魔灯效 UI）</string>
     <string name="oplus_feature_misc_fan_fanservice_v2_support">风扇服务 v2</string>
 
+    <!-- 预设增强特性名称 -->
+    <string name="preset_feel_adjust_v2">手感调节 v2</string>
+    <string name="preset_pad_resolution">平板分辨率</string>
+    <string name="preset_frame_stable">稳帧率</string>
+    <string name="preset_wlan_game_chip">游戏网卡芯片</string>
+    <string name="preset_esports_network">电竞网络增强</string>
+    <string name="preset_panorama_workstation">全景工作站</string>
+    <string name="preset_game_support_vulkan">游戏支持 Vulkan</string>
+    <string name="preset_mlbb_sensitivity">MLBB 触控灵敏度</string>
+    <string name="preset_touch_display_sync">触控和显卡同步</string>
+
     <!-- 特性分区 -->
-    <string name="section_system_features">系统自带</string>
-    <string name="section_app_added_features">应用新增</string>
+    <string name="section_enhanced_features">推荐与增强特性</string>
+    <string name="section_system_features">系统原生特性</string>
+    <string name="section_app_added_features">推荐与增强特性</string>
     <string name="section_feature_count">%1$d 项</string>
     <string name="feature_aiwriter_input_entrance">AI 帮写输入法入口</string>
     <string name="feature_settings_resolution_auto">屏幕分辨率自适应</string>

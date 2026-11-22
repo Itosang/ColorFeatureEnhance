@@ -11,6 +11,12 @@
     <string name="feature_area_record">Area Screen Recording</string>
     <string name="feature_all_scene_bypass_charging">All Scene Bypass Charging</string>
     <string name="feature_unknown">Unknown</string>
+    <string name="preset_3d_wallpaper">3D Wallpaper</string>
+    <string name="preset_all_day_aod">All-day Always-on Display</string>
+    <string name="preset_kernel_build_time">Show Kernel Build Time in About</string>
+    <string name="preset_hummingbird_kernel">Hummingbird Game Kernel</string>
+    <string name="preset_shanhai_comm">Shanhai Communication Engine</string>
+    <string name="preset_breeno_memory">Breeno Memory</string>
     <string name="delete_confirm_title">Delete Feature</string>
     <string name="delete_confirm_message">Delete %1$s and all of its settings?</string>
     <string name="add_feature">Add Feature</string>
@@ -248,9 +254,14 @@
     <string name="oplus_feature_misc_fan_fanservice_v2_support">Fan service v2</string>
 
     <!-- Feature sections -->
-    <string name="section_system_features">System defaults</string>
-    <string name="section_app_added_features">Added by app</string>
+    <string name="section_enhanced_features">Recommended &amp; Enhanced</string>
+    <string name="section_system_features">System Native Features</string>
+    <string name="section_app_added_features">Recommended &amp; Enhanced</string>
     <string name="section_feature_count">%1$d items</string>
+    <string name="feature_tag_preset">Preset</string>
+    <string name="feature_tag_custom">Custom</string>
+    <string name="group_enable_all">Enable all</string>
+    <string name="group_disable_all">Disable all</string>
 
     <string name="more_menu">More</string>
     <string name="export_logs">Export logs</string>

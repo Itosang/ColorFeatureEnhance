@@ -13,7 +13,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.itosfish.colorfeatureenhance.data.remote.RemoteConfigManager
 import com.itosfish.colorfeatureenhance.data.repository.XmlFeatureRepository
 import com.itosfish.colorfeatureenhance.data.repository.XmlOplusFeatureRepository
 import com.itosfish.colorfeatureenhance.domain.FeatureRepository
@@ -120,28 +119,6 @@ class MainActivity : ComponentActivity() {
                 CLog.i("MainActivity", "模块已安装")
             } else {
                 CLog.w("MainActivity", "模块未安装，请先安装模块")
-            }
-        }
-
-        // 云端描述映射更新，不阻塞主流程
-        CoroutineScope(Dispatchers.IO).launch {
-            try {
-                val remoteConfigManager = RemoteConfigManager.getInstance(this@MainActivity)
-                when (val updateResult = remoteConfigManager.checkAndUpdateConfig()) {
-                    is RemoteConfigManager.UpdateResult.Success -> {
-                        CLog.i("MainActivity", "云端配置更新成功")
-                    }
-
-                    is RemoteConfigManager.UpdateResult.NoUpdate -> {
-                        CLog.d("MainActivity", "云端配置无需更新")
-                    }
-
-                    is RemoteConfigManager.UpdateResult.Error -> {
-                        CLog.w("MainActivity", "云端配置更新失败: ${updateResult.message}")
-                    }
-                }
-            } catch (e: Exception) {
-                CLog.w("MainActivity", "云端配置更新过程中发生异常", e)
             }
         }
     }
