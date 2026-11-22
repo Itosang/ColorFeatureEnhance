@@ -5,25 +5,11 @@
     <string name="about">About</string>
     <string name="config">Settings</string>
     <string name="app_title">Feature Enhancer</string>
-    <string name="feature_ai_chat_scene">AI Chat Scene</string>
     <string name="feature_live_assistant">Live Assistant</string>
-    <string name="feature_tap_to_wake_screen">Tap to wake screen</string>
     <string name="feature_livephoto_lock_screen">Live Photo lock screen wallpaper</string>
     <string name="feature_global_aod">Global AOD</string>
-    <string name="feature_qs_icon_deformable">QS Icon Deformable</string>
     <string name="feature_area_record">Area Screen Recording</string>
-    <string name="feature_game_ai_v3">Game AI 3.0</string>
-    <string name="feature_game_ai_v4">Game AI 4.0</string>
-    <string name="feature_game_assist_key">Game Assist Key</string>
-    <string name="feature_game_4d_vibration">Game 4D Vibration</string>
-    <string name="feature_phone_touch_share">Phone Touch Share &amp; Screen Share</string>
-    <string name="feature_game_bypass_charging">Game Bypass Charging</string>
-    <string name="feature_sidebar_audio_split_assistant">Sidebar Audio Split Assistant</string>
-    <string name="feature_game_fan_power_mode">Game Fan Power Mode</string>
     <string name="feature_all_scene_bypass_charging">All Scene Bypass Charging</string>
-    <string name="feature_reverse_charging">Reverse Charging</string>
-    <string name="feature_wechat_video_call_enhance">WeChat video call enhancements</string>
-    <string name="feature_keyboard_nfc_ios_share">Keyboard NFC share with iOS Control Center</string>
     <string name="feature_unknown">Unknown</string>
     <string name="preset_3d_wallpaper">3D Wallpaper</string>
     <string name="preset_all_day_aod">All-day Always-on Display</string>
@@ -48,26 +34,16 @@
     <!-- Cloud configuration related strings -->
     <!-- Oplus features preset descriptions -->
     <string name="oplus_feature_compatibility_code">Compatibility code</string>
-    <string name="oplus_feature_ai_eye_protect">AI Eye Protect</string>
-    <string name="oplus_feature_satellite_network">Satellite Network</string>
     <string name="oplus_feature_game_acceleration">Game Acceleration</string>
-    <string name="oplus_feature_hyper_engine">Hyper Mode Performance Engine</string>
     <string name="oplus_feature_touch_optimization">Touch Optimization</string>
-    <string name="oplus_feature_game_color_button">Game Assistant color button</string>
     <string name="oplus_feature_eyeprotect_reminder">Eye-protection Reminder</string>
     <string name="oplus_feature_reduce_white_point">Reduce White Point</string>
     <string name="oplus_feature_genshin_shoulder_key">Genshin Shoulder Key</string>
     <string name="oplus_feature_min_brightness_expand">Minimum brightness extension</string>
-    <string name="oplus_feature_low_brightness_flicker">Low-brightness flicker</string>
-    <string name="oplus_feature_game_ifs">Game Assistant IFS</string>
-    <string name="oplus_feature_video_volume_enhance">Video Volume Enhancement</string>
-    <string name="oplus_feature_sidebar_video_assistant">Sidebar Video Assistant</string>
     <string name="oplus_feature_cooling_fan">Cooling Fan</string>
     <string name="oplus_feature_pick_color_optimization">Navigation bar color picking optimization</string>
     <string name="oplus_feature_live_scene_acceleration">Live streaming acceleration</string>
-    <string name="oplus_feature_sound_focus_record">Recording Sound Focus</string>
     <string name="oplus_feature_low_lux_anti_shake">Low-light anti-shake</string>
-    <string name="oplus_feature_foreground_preload">Foreground preload</string>
     <string name="oplus_feature_gcstring">GCString support</string>
     <string name="search_feature">Search Feature</string>
     <string name="search_hint">Search name or description…</string>
@@ -128,10 +104,7 @@
     <string name="oplus_feature_radio_sim_detect_check_support">SIM hot swap detection support</string>
     <string name="oplus_feature_radio_apn_recovery">APN auto recovery</string>
     <string name="oplus_feature_radio_qoe_network_recovery">Network QoE auto repair</string>
-    <string name="oplus_feature_radio_smart5g_thermal_nr_deprio">Thermal triggered 5G downgrade</string>
     <string name="oplus_feature_radio_qct_smart_data_flow">Qualcomm smart data flow control</string>
-    <string name="oplus_feature_radio_sido_airplane_mode_low_power_opt">Airplane mode disables RF</string>
-    <string name="oplus_feature_radio_sido_sim_tag_opt">SIM tag recognition optimization</string>
     <string name="oplus_feature_radio_sido_mmr_reg_req_stuck_opt">Network location update stuck fix</string>
     <string name="oplus_feature_radio_nsa_signal_optim">5G NSA signal optimization</string>
     <string name="oplus_feature_radio_disable_5g_nr_5gdump">Disable 5G debug dump</string>
@@ -148,24 +121,20 @@
     <string name="oplus_feature_radio_tcp_congest_control">TCP congestion control optimization</string>
     <string name="oplus_feature_radio_enable_sido_rollback">Enable dual SIM rollback strategy</string>
     <string name="oplus_feature_radio_use_customized_thresholds">Use custom network thresholds</string>
-    <string name="oplus_feature_radio_sido_roaming_fast_search_opt">Dual SIM fast roaming search</string>
     <string name="oplus_feature_radio_sido_fence">Dual SIM geofence optimization</string>
     <string name="oplus_feature_radio_sido_lte_fast_return_to_nr_opt">LTE fast return to 5G optimization</string>
-    <string name="oplus_feature_radio_nwpower_power_recovery_switch_enable">Power mode auto recovery strategy</string>
     <string name="oplus_feature_radio_nwpower_app_network_monitor_switch_enable">App network power monitoring</string>
     <string name="oplus_feature_radio_sido_lte_nr_pingpong_mitigation">Reduce frequent 4G/5G switching</string>
     <string name="oplus_feature_radio_nwpower_proc_net_control_switch_enable">Process network power limit</string>
     <string name="oplus_feature_radio_dual_ps">Dual SIM simultaneous data signaling support</string>
     <string name="oplus_feature_radio_find_phone">Find phone</string>
     <string name="oplus_feature_radio_low_latency">Network low latency support</string>
-    <string name="oplus_feature_radio_low_latency_mode_de3">Low latency mode DE3</string>
     <string name="oplus_feature_radio_data_eval3">Data evaluation algorithm V3</string>
     <string name="oplus_feature_radio_data_eval4">Data evaluation algorithm V4</string>
     <string name="oplus_feature_radio_smart_data_eval">Smart data evaluation</string>
     <string name="oplus_feature_radio_stuck_analyse">Network stutter analysis</string>
     <string name="oplus_feature_radio_smart_commu">Smart communication strategy</string>
     <string name="oplus_feature_radio_pull_wifi_cell">Pull WiFi cell info</string>
-    <string name="oplus_feature_radio_subway_slow_recovery">Subway weak network fast recovery</string>
     <string name="oplus_feature_radio_virtualmodem_support">Virtual modem support</string>
     <string name="oplus_feature_radio_ignore_stk_display_text">Block carrier STK popups</string>
     <string name="oplus_feature_radio_air_interface_detect_support">Air interface detection support</string>
@@ -187,12 +156,10 @@
     <string name="oplus_feature_radio_nwpower_network_disable_white_list">Network disable whitelist</string>
     <string name="oplus_feature_radio_custom_ecclist_writable">Custom emergency number writable</string>
     <string name="oplus_feature_radio_disabled_cached_uid">Disable cached UID list</string>
-    <string name="oplus_feature_radio_sa_call_control_disabled">SA voice call control disabled</string>
     <string name="oplus_feature_radio_vonr_city_control">City-level VoNR control</string>
     <string name="oplus_feature_radio_silent_redial_supported">Silent redial support</string>
     <string name="oplus_feature_radio_dds_switch">Default data card switch</string>
     <string name="oplus_feature_radio_vowifi_city_control">City-level VoWiFi control</string>
-    <string name="oplus_feature_radio_update_dcdc_sleep_state">Power management chip sleep</string>
     <string name="oplus_feature_radio_link_evaluation">Link quality evaluation</string>
     <string name="oplus_feature_logkit_ocloud_support">OppoCloud log collection support</string>
     <string name="oplus_feature_radio_vendor_diag">Vendor diagnostic channel</string>
@@ -200,11 +167,8 @@
     <string name="oplus_feature_audio_voice_wakeup_xbxb_support">Voice wakeup function</string>
     <string name="oplus_feature_speechassist_oneshot_support">Voice assistant one-shot</string>
     <string name="oplus_feature_radio_hyper_uplink_mode_enable">Super uplink mode</string>
-    <string name="oplus_feature_support_quick_launchapp">Quick launch app</string>
     <string name="oplus_feature_radio_cybersense_residence_v2_enabled">CyberSense residence optimization V2</string>
     <string name="oplus_feature_radio_multi_task_multi_link_schedule">Multi-task multi-link scheduling</string>
-    <string name="oplus_feature_support_blockable_animation">Blockable animation switch support</string>
-    <string name="oplus_feature_velocitytracker_strategy_support">Touch tracking optimization</string>
     <string name="oplus_feature_charge_endurance_mode_support">Long endurance charging mode</string>
     <string name="oplus_feature_aon_distance_detection_enable">AON distance detection enabled</string>
     <string name="oplus_feature_aon_phone_camera_gesture_recognition">AON camera gesture recognition</string>
@@ -217,7 +181,6 @@
     <string name="oplus_feature_aon_pay_qrcode_enable">AON quick payment code</string>
     <string name="oplus_feature_aon_sensorhub_enable">AON SensorHub enabled</string>
     <string name="oplus_feature_vibrator_kill_program_wave_support">End process vibration support</string>
-    <string name="oplus_feature_preload_camera">Camera preload</string>
     <string name="oplus_feature_joystick_game_joystick_support">Game joystick mode support</string>
     <string name="oplus_feature_radio_smart_nw_data_low_latency">Smart low latency data network</string>
     <string name="oplus_feature_radio_nwpower_amc_mdwakeup_control">Modem wakeup power control</string>
@@ -229,28 +192,21 @@
     <string name="oplus_feature_radio_power_save_dual_network_control">Dual network power saving control</string>
     <string name="oplus_feature_radio_wifi_data_control">WiFi data scheduling control</string>
     <string name="oplus_feature_radio_wifi_force_rel_dual_data">WiFi force release dual data</string>
-    <string name="oplus_feature_hardware_display_low_blue_light">Hardware-level low blue light mode</string>
-    <string name="oplus_feature_hardware_display_ultra_tr_diamond_screen">Ultra diamond screen technology</string>
     <string name="oplus_feature_radio_concert_detect_service">Concert network optimization</string>
     <string name="oplus_feature_radio_qoe_game_cell_suggest">Game scene cell suggestion</string>
-    <string name="oplus_feature_hardware_display_no_classic_low_freq_strobe">No low frequency strobe screen</string>
     <string name="oplus_feature_display_adfr_v32_lp">Adaptive refresh rate V32 low-power</string>
     <string name="oplus_feature_radio_enable_ct_network_scan">Enable China Telecom network scan</string>
     <string name="oplus_feature_hardware_pwd_attestation_locksettings">Password attestation security lock</string>
     <string name="oplus_feature_radio_subsystem_camera_service">Camera subsystem network service</string>
-    <string name="oplus_feature_radio_engnw_vsim_support">Engineering network vSIM support</string>
     <string name="oplus_feature_radio_virtualmodem_cellinfo">Virtual modem cell info</string>
     <string name="oplus_feature_radio_car_sharing_network">Car sharing network</string>
     <string name="oplus_feature_radio_network_vip_task">Network VIP task priority</string>
     <string name="oplus_feature_radio_enable_cmcc_nitz">Enable China Mobile NITZ sync</string>
     <string name="oplus_feature_wlan_qoe_estimate">WLAN QoE estimation</string>
-    <string name="oplus_feature_radio_smart5g_game_latency_check">Game latency detection 5G</string>
     <string name="oplus_feature_radio_network_time_slice">Network time slice scheduling</string>
     <!-- Oplus batch mapping auto-generated end -->
 
     <!-- 20241007 New Features -->
-    <string name="oplus_feature_app_resolution_auto">[Soft] Auto app resolution switching support</string>
-    <string name="oplus_feature_camera_volume_quick_launch">[Soft] Quick launch camera with volume key</string>
     <string name="oplus_feature_gsa_refresh">[Soft] GSA refresh mechanism</string>
     <string name="oplus_feature_radio_networkless_support">[Soft] Networkless communication support</string>
     <string name="oplus_feature_radio_pcdr_high_speed_move">[Soft] High-speed movement network search optimization</string>
@@ -263,24 +219,16 @@
     <string name="oplus_feature_radio_ul_priority_foreground">[Soft] Foreground app uplink priority policy</string>
     <string name="oplus_feature_touch_preload">[Soft] Touch preload</string>
     <string name="oplus_feature_view_rgbnormalize">[Soft] Screen RGB color consistency optimization</string>
-    <string name="oplus_feature_view_spring_over_scroller">[Soft] List spring over-scroller effect</string>
 
     <!-- New App feature descriptions (20250712) -->
     <string name="feature_fullscreen_panoramic_aod">All-day panoramic AOD</string>
     <string name="feature_gallery_gif_optimization">Gallery GIF optimization</string>
     <string name="feature_jianying_asset_optimization">CapCut (Jianying) asset optimization</string>
-    <string name="feature_douyin_live_beauty">Douyin live beauty</string>
     <string name="feature_game_assistant_body_sensation">Game Assistant posture control</string>
     <string name="feature_new_tips_page">New tips page</string>
     <string name="feature_launcher_breeeno_entry_indicator">Breeno launcher entry hint</string>
     <string name="feature_hide_screenon_battery_stats">Hide screen-on stats in battery details</string>
     <!-- New Oplus feature descriptions (20250712) -->
-    <string name="oplus_feature_radio_show_5g_nr_mode">[Soft] 5G NR mode switch</string>
-    <string name="oplus_feature_eyeprotect_paper_texture_support">[Soft] Paper-like eye-protection</string>
-    <string name="oplus_feature_zoom_multi_mode">[Soft] Dual floating-window feature</string>
-    <string name="oplus_feature_dynamic_screen_bar_support">[Soft] Dynamic brightness-bar range (Dev Options)</string>
-    <string name="oplus_feature_rhythm_eyeprotect_2_0_support">[Soft] One-swipe eye-protection 2.0</string>
-    <string name="oplus_feature_super_volume_5x">[Soft] Super volume (5×)</string>
 
     <!-- Edit feature dialog related strings -->
 
@@ -326,4 +274,50 @@
     <string name="module_update_unknown">Module update status unknown</string>
     <string name="module_update_error">Module update error: %1$s</string>
     <string name="feature_args_hint">Value (leave empty for no args)</string>
+
+    <!-- Ace 6T / ColorOS Features -->
+    <string name="feature_vowifi_battery_whitelist">VoWiFi Battery Whitelist</string>
+    <string name="feature_skip_remove_recent_task">Skip Remove from Recent Tasks</string>
+    <string name="feature_disallow_run_apps">Disallowed Background Apps List</string>
+    <string name="feature_tencent_meeting_turbo">Tencent Meeting Media Acceleration</string>
+    <string name="feature_network_access_permission">Network Access Permission Control</string>
+    <string name="feature_autostart_limit_num">Auto-start App Limit Count</string>
+    <string name="feature_recent_lock_limit_num">Recent Tasks Lock Limit Count</string>
+    <string name="oplus_feature_finger_flashnotes">[Soft] Breeno Memory Flash Notes</string>
+    <string name="oplus_feature_icon_blur">Desktop Icon Blur Effect</string>
+    <string name="oplus_feature_game_htfi_high_temp">[Soft] Game Assistant High-Temp Framework</string>
+    <string name="oplus_feature_voice_isolation">[Hard] Voice Isolation</string>
+    <string name="oplus_feature_speaker_spatializer">[Soft] Speaker Spatial Audio</string>
+    <string name="oplus_feature_5g_support">[Soft] 5G Network Support</string>
+    <string name="oplus_feature_dual_nr">[Soft] Dual NR Support</string>
+    <string name="oplus_feature_nr_always_sa_pre">[Soft] Prefer SA Mode Always</string>
+    <string name="oplus_feature_smart5g_sa">[Soft] Smart 5G SA Mode</string>
+    <string name="oplus_feature_game_accelerate_concert">[Soft] Concert Network Acceleration</string>
+    <string name="oplus_feature_meeting_accelerate">[Soft] Meeting Scene Acceleration</string>
+    <string name="oplus_feature_data_concert_accelerate">[Soft] Concert Data Acceleration</string>
+    <string name="oplus_feature_aipq">[Soft] AIPQ Engine</string>
+    <string name="oplus_feature_aisdr2hdr">[Soft] AISDR to HDR</string>
+    <string name="oplus_feature_genshin_vibration">[Soft] Genshin Impact Custom Vibration</string>
+    <string name="oplus_feature_screenshot_wave_vibration">[Soft] Screenshot Waveform Haptic</string>
+    <string name="oplus_feature_screenon_before_camera">[Soft] Screen On Before Open Camera</string>
+    <string name="oplus_feature_underwater_camera">Underwater Camera Mode</string>
+    <string name="oplus_feature_tv_connect">[Soft] Video Call TV Screencast</string>
+    <string name="oplus_feature_tv_videocall">[Soft] TV Video Call</string>
+    <string name="oplus_feature_flexible_freeform">[Soft] Flexible Freeform Window Size</string>
+    <string name="oplus_feature_magicvoice_loopback">[Soft] Game Voice Changer Loopback</string>
+    <string name="oplus_feature_game_support_vulkan">[Soft] Game Vulkan Rendering Support</string>
+    <string name="oplus_feature_game_color_enhance_2">[Soft] Game Color Enhancement 2.0</string>
+    <string name="oplus_feature_game_dark_eyeprotect">[Soft] Game Night Eye Protection</string>
+    <string name="oplus_feature_zoom_game_enter">[Soft] Game Window Mode Entry Optimization</string>
+    <string name="oplus_feature_zoom_center_exit">[Soft] Center Exit Floating Window Optimization</string>
+    <string name="feature_aiwriter_input_entrance">AI Writer Input Entrance</string>
+    <string name="feature_settings_resolution_auto">Screen Resolution Auto Adjustment</string>
+    <string name="feature_mediaturbo_transcoding">MediaTurbo Hardware Transcoding</string>
+    <string name="feature_gallery_collage_livephoto">Gallery Live Photo Collage Support</string>
+    <string name="feature_preload_camera_launcher">Preload Camera from Launcher</string>
+    <string name="feature_card_datamining_support">Ubiquitous Card Data Mining Support</string>
+    <string name="feature_cast_game_mode">Wireless Screencast Game Mode</string>
+    <string name="feature_3d_wallpaper">3D Wallpaper Support</string>
+    <string name="feature_game_settings_support">Game Settings Support</string>
+    <string name="feature_mediaturbo_window_mode_notify">MediaTurbo Window Mode Notification</string>
 </resources>

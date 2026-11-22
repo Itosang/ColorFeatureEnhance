@@ -12,43 +12,36 @@ class AppFeatureMappings private constructor() {
      * App feature name -> string resId
      */
     val NAME_TO_RES_ID: Map<String, Int> = mapOf(
-        // WLAN / WiFi
         "oplus.software.wlan.wifi6" to R.string.oplus_feature_wlan_wifi6,
         "oplus.software.wlan.game_chip" to R.string.oplus_feature_wlan_game_chip,
         "oplus.software.wlan.dual_sta" to R.string.oplus_feature_wlan_dual_sta,
         "oplus.software.wlan.assistant" to R.string.oplus_feature_wlan_assistant,
         "oplus.software.wlan.dbs" to R.string.oplus_feature_wlan_dbs,
-
-        // 音频
         "oplus.software.audio.super_volume_4x" to R.string.oplus_feature_super_volume_4x,
-
-        // 预加载
+        "com.oplus.mediaturbo.transcoding" to R.string.feature_mediaturbo_transcoding,
+        "com.oplus.mediaturbo.game_live" to R.string.feature_live_assistant,
+        "com.oplus.mediaturbo.tencent_meeting" to R.string.feature_tencent_meeting_turbo,
+        "com.oplus.mediaturbo.window_mode_notify" to R.string.feature_mediaturbo_window_mode_notify,
         "oplus.software.vip_preload" to R.string.oplus_feature_vip_preload,
-
-        // 散热风扇
+        "pre.open.camera.from.launcher" to R.string.feature_preload_camera_launcher,
         "oplus.misc.fan.support" to R.string.oplus_feature_misc_fan_support,
         "oplus.misc.fan.extra_v3.support" to R.string.oplus_feature_misc_fan_extra_v3_support,
         "oplus.misc.fan.fanservice_v2.support" to R.string.oplus_feature_misc_fan_fanservice_v2_support,
-
-        // 3D 壁纸
-        "com.oplus.wallpapers.3d_wallpaper" to R.string.preset_3d_wallpaper,
-        "com.oplus.wallpapers.ai_camera_movement_for_products_before_15" to R.string.preset_3d_wallpaper,
-
-        // 全天候息屏显示
-        "oplus.software.disable_aod_all_day_mode" to R.string.preset_all_day_aod,
-        "com.oplus.systemui.panoramic_aod_all_day_default_open.enable" to R.string.preset_all_day_aod,
-        "com.oplus.systemui.panoramic_aod_all_day.enable" to R.string.preset_all_day_aod,
-        "oplus_keyguard_panoramic_aod_all_day_support" to R.string.preset_all_day_aod,
-
-        // 新增推荐与增强特性
-        "business.module.feeladjust.v2.FeelAdjustV2Feature" to R.string.preset_feel_adjust_v2,
-        "business.padresolution.PadResolutionFeature" to R.string.preset_pad_resolution,
-        "business.module.frameinsert.FrameStableFeature" to R.string.preset_frame_stable,
-        "oplus.software.radio.game_assistant_esports_network_enhancement" to R.string.preset_esports_network,
-        "oplus.software.wms.panorama_work_station" to R.string.preset_panorama_workstation,
-        "oplus.software.display.game.support_vulkan" to R.string.preset_game_support_vulkan,
-        "oplus.software.touchpanel.mlbb_player_sensitivity" to R.string.preset_mlbb_sensitivity,
-        "oplus.touchdisplay.synchronization.support" to R.string.preset_touch_display_sync
+        "com.oplus.aiwriter.input_entrance_enabled" to R.string.feature_aiwriter_input_entrance,
+        "os.graphic.gallery.collage.livephoto" to R.string.feature_gallery_collage_livephoto,
+        "com.oplus.systemui.panoramic_aod.enable" to R.string.feature_global_aod,
+        "com.oplus.wallpapers.livephoto_wallpaper" to R.string.feature_livephoto_lock_screen,
+        "com.oplus.wallpapers.3d_wallpaper" to R.string.feature_3d_wallpaper,
+        "com.oplus.fullscene_plc_charge.support" to R.string.feature_all_scene_bypass_charging,
+        "com.coloros.gamesettings.support" to R.string.feature_game_settings_support,
+        "com.oplus.cast.support_game_mode" to R.string.feature_cast_game_mode,
+        "com.android.settings.resolution_auto" to R.string.feature_settings_resolution_auto,
+        "com.android.settings.network_access_permission" to R.string.feature_network_access_permission,
+        "com.oplus.persona.card_datamining_support" to R.string.feature_card_datamining_support,
+        "com.android.launcher.recent_lock_limit_num" to R.string.feature_recent_lock_limit_num,
+        "oplus_disallow_run_apps" to R.string.feature_disallow_run_apps,
+        "oplus_skip_remove_recent_task" to R.string.feature_skip_remove_recent_task,
+        "com.oplus.screenrecorder.area_record" to R.string.feature_area_record,
     )
 
     companion object {
